@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.gluonhq</groupId>
+  <artifactId>charm-glisten</artifactId>
+  <version>4.4.1</version>
+  <name>Gluon Charm/glisten</name>
+  <description>Gluon Charm/glisten library</description>
+  <url>https://gluonhq.com/products/mobile/</url>
+  <organization>
+    <name>Gluon</name>
+    <url>https://gluonhq.com</url>
+  </organization>
+  <dependencies>
+    <dependency>
+      <groupId>com.gluonhq</groupId>
+      <artifactId>charm-down-plugin-display</artifactId>
+      <version>3.6.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.gluonhq</groupId>
+      <artifactId>charm-down-plugin-lifecycle</artifactId>
+      <version>3.6.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.gluonhq</groupId>
+      <artifactId>charm-down-plugin-statusbar</artifactId>
+      <version>3.6.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.gluonhq</groupId>
+      <artifactId>charm-down-plugin-storage</artifactId>
+      <version>3.6.0</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>

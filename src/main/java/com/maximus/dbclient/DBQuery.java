@@ -6,13 +6,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+
 public class DBQuery {
 
     private ResultSet result;
     private String lastError;
     private Connection connection;
     private String queryFileName;
-    private String[] params;
+    private DBParam[] params;
 
 
     public DBQuery(Connection con, String name) {
@@ -21,14 +22,15 @@ public class DBQuery {
     }
 
     private String loadFromFile () {
-        String query = null;
-        String fileName = Utils.getApplicationPath() + queryFileName;
+        String query = "";
+        String fileName = Utils.getApplicationPath() + "../../etc/" + queryFileName;
         try {
             BufferedReader buffReader = new BufferedReader(new FileReader(fileName));
             while (buffReader.ready())
             {
                 query += buffReader.readLine();
             }
+            buffReader.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -42,7 +44,7 @@ public class DBQuery {
     public ResultSet getResult() {
         return result;
     }
-    public void setParams(String[] params) {
+    public void setParams(DBParam[] params) {
         this.params = params;
     }
     public String getLastError() {
@@ -57,16 +59,29 @@ public class DBQuery {
         try {
             st = connection.prepareStatement(query);
 
+            for (int i = 0; i < params.length; i++){
+                if(params[i].getType() == DBValueType.DB_CHARACTER)
+                    st.setString(i+1, params[i].toString());
+                else if(params[i].getType() == DBValueType.DB_INT)
+                    st.setInt(i+1, params[i].toInt());
+                else if(params[i].getType() == DBValueType.DB_DOUBLE)
+                    st.setDouble(i+1, params[i].toDouble());
+                else if(params[i].getType() == DBValueType.DB_BOOLEAN)
+                    st.setBoolean(i+1, params[i].toBoolean());
+                else if(params[i].getType() == DBValueType.DB_DATE)
+                    st.setDate(i+1, Date.valueOf(params[i].toDate()));
 
-            //st.set
-
-
-            //result = st.executeUpdate();
+            }
+            result = st.executeQuery();
+            st.close();
             return true;
         }catch (SQLException ex ) {
+            lastError = "SQL query exception: " + ex.toString();
+            System.out.println(lastError);
             ex.printStackTrace();
         }
         return false;
     }
 
 }
+

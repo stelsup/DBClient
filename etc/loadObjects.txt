@@ -1,0 +1,1 @@
+SELECT objects_nameid FROM public.objects where payer_name = ?

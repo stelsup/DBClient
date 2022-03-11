@@ -33,7 +33,7 @@ public class DBController {
         propConnection = new Properties();
 
         try{
-            String path = Utils.getApplicationPath() + propsFileName;
+            String path = Utils.getApplicationPath() + "../../etc/" + propsFileName;
             //String decodedPath = URLDecoder.decode(path, "UTF-8");
             fileIn = new FileInputStream(path);
             propConnection.load(fileIn);
@@ -45,9 +45,8 @@ public class DBController {
                 && propConnection.getProperty(propsPassword) != null) {
                 return true;
             }
-
-
         }catch(IOException ex) {
+            System.out.println("Config file 'connection.properties' not loaded properly!");
             ex.printStackTrace();
         }
         return false;
@@ -58,34 +57,48 @@ public class DBController {
         String url = "jdbc:postgresql://" + propConnection.getProperty(propsHostName) + ":" +
                 propConnection.getProperty(propsPort) + "/" + propConnection.getProperty(propsDBName);
         try {
-            Class.forName("com.postgresql.jdbc.Driver");
-            connection = DriverManager.getConnection(url, propConnection);
+            //Class.forName("org.postgresql.Driver");
+            //Class.forName("org.postgresql.jdbc.Driver");
+            //Class.forName("org.postgresql.jdbc");
+            connection = DriverManager.getConnection(url, propConnection.getProperty(propsUserName),
+                                                         propConnection.getProperty(propsPassword));
+            System.out.println("Connected to DB.");
             return true;
         } catch (SQLException e) {
+            System.out.println("Connection to DB failed: " + e.toString());
             e.printStackTrace();
         }
-        catch (ClassNotFoundException e) {
-            System.out.println("PostgreSQL JDBC driver not found!");
-            e.printStackTrace();
-        }
+//        catch (ClassNotFoundException e) {
+//            System.out.println("PostgreSQL JDBC driver not found!");
+//            e.printStackTrace();
+//        }
         return false;
     }
 
-    public ResultSet loadPaymentCategories(String person)
+    public ResultSet getFromDB (String queryFileName, DBParam[] params)
     {
         ResultSet res = null;
-//        DBQuery qry = new DBQuery_loadswjhwsikjhf(connection);
-        DBQuery qry = new DBQuery(connection, "loadCategories.sql");
-        //qry.setParams(person);
+        DBQuery qry = new DBQuery(connection, queryFileName);
+        qry.setParams(params);
         if(qry.exec())
         {
             res = qry.getResult();
         }
         else
         {
-            ///qry.getLastError();
+            System.out.println(qry.getLastError());
         }
         return res;
+    }
+
+    public void disconnect() {
+        if(connection != null){
+            try{
+                connection.close();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
     }
 
 }

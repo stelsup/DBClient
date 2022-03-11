@@ -5,6 +5,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+//import org.postgresql.jdbc;
 
 public class ApplicationMain extends javafx.application.Application {
     @Override
@@ -21,6 +25,27 @@ public class ApplicationMain extends javafx.application.Application {
     }
 
     public static void main(String[] args) {
+        DBController controller = new DBController();
+        ////test/////
+        DBParam[] user = new DBParam[1];
+        user[0] = new  DBParam("Максимов Максим Николаевич");
+        ResultSet res = controller.getFromDB("loadObjects.txt",user);
+
+        String result = "";
+        try {
+            while(res.next())
+            {
+                result += res.getString(1);
+                res.
+                result += "\n";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        System.out.println(result);
+
         launch();
     }
 }

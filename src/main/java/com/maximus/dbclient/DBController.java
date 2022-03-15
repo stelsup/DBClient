@@ -33,8 +33,7 @@ public class DBController {
         propConnection = new Properties();
 
         try{
-            String path = Utils.getApplicationPath() + "../../etc/" + propsFileName;
-            //String decodedPath = URLDecoder.decode(path, "UTF-8");
+            String path = Utils.getEtcPath()+ propsFileName;
             fileIn = new FileInputStream(path);
             propConnection.load(fileIn);
 
@@ -75,9 +74,9 @@ public class DBController {
         return false;
     }
 
-    public ResultSet getFromDB (String queryFileName, DBParam[] params)
+    public DBResult getFromDB (String queryFileName, DBParam[] params)
     {
-        ResultSet res = null;
+        DBResult res = null;
         DBQuery qry = new DBQuery(connection, queryFileName);
         qry.setParams(params);
         if(qry.exec())

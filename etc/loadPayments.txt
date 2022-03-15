@@ -1,0 +1,1 @@
+select * from public.? where obj_element = ? order by date_payment ASC limit 50

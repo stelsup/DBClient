@@ -1,1 +1,1 @@
-SELECT objects_nameid FROM public.objects where payer_name = ?
+SELECT objects_nameid, objects_type FROM public.objects where payer_name = ? order by objects_nameid asc limit 20

@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class DBQuery {
 
-    private ResultSet result;
+    private DBResult result;
     private String lastError;
     private Connection connection;
     private String queryFileName;
@@ -23,7 +23,7 @@ public class DBQuery {
 
     private String loadFromFile () {
         String query = "";
-        String fileName = Utils.getApplicationPath() + "../../etc/" + queryFileName;
+        String fileName = Utils.getEtcPath() + queryFileName;
         try {
             BufferedReader buffReader = new BufferedReader(new FileReader(fileName));
             while (buffReader.ready())
@@ -41,7 +41,7 @@ public class DBQuery {
         return query;
     }
 
-    public ResultSet getResult() {
+    public DBResult getResult() {
         return result;
     }
     public void setParams(DBParam[] params) {
@@ -72,7 +72,7 @@ public class DBQuery {
                     st.setDate(i+1, Date.valueOf(params[i].toDate()));
 
             }
-            result = st.executeQuery();
+            result = new DBResult(st.executeQuery());
             st.close();
             return true;
         }catch (SQLException ex ) {

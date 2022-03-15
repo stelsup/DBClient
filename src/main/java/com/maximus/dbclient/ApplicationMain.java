@@ -7,8 +7,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
-//import org.postgresql.jdbc;
+
 
 public class ApplicationMain extends javafx.application.Application {
     @Override
@@ -27,25 +29,19 @@ public class ApplicationMain extends javafx.application.Application {
     public static void main(String[] args) {
         DBController controller = new DBController();
         ////test/////
-        DBParam[] user = new DBParam[1];
-        user[0] = new  DBParam("Максимов Максим Николаевич");
-        ResultSet res = controller.getFromDB("loadObjects.txt",user);
+        DBParam[] user = new DBParam[2];
+        user[0] = new  DBParam("easy_nalog");
+        user[1] = new DBParam("ОЗАЛРЯ52");
+        DBResult res = controller.getFromDB("loadPayments.txt",user);
 
-        String result = "";
-        try {
-            while(res.next())
-            {
-                result += res.getString(1);
-                res.
-                result += "\n";
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        List<Map<String, String>> r = res.getAllResult();
+
+        for(Map element : r){
+            System.out.println(element);
+            System.out.println("///////////////////////////");
         }
 
-
-        System.out.println(result);
-
-        launch();
+    ///////////////////////////////
+      //  launch();
     }
 }

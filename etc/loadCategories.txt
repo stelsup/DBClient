@@ -1,0 +1,1 @@
+select invoice_type from public.invoices where object_id = ? order by invoice_type asc limit 20

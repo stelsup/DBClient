@@ -79,7 +79,7 @@ public class DBController {
         DBResult res = null;
         DBQuery qry = new DBQuery(connection, queryFileName);
         qry.setParams(params);
-        if(qry.exec())
+        if(qry.execFrom())
         {
             res = qry.getResult();
         }
@@ -90,11 +90,50 @@ public class DBController {
         return res;
     }
 
+    public DBResult getFromDB (String queryFileName, DBParam[] params, String prefix)
+    {
+        DBResult res = null;
+        DBQuery qry = new DBQuery(connection, queryFileName);
+        qry.setParams(params);
+        qry.setPrefix(prefix);
+        if(qry.execFrom())
+        {
+            res = qry.getResult();
+        }
+        else
+        {
+            System.out.println(qry.getLastError());
+        }
+        return res;
+    }
+
+    public boolean setToDB (String queryFileName, DBParam[] params) {
+        DBQuery qry = new DBQuery(connection, queryFileName);
+        qry.setParams(params);
+        if(qry.execTo())
+        {
+            System.out.println("Add confirm!");
+            return true;
+        }
+        else
+        {
+            System.out.println(qry.getLastError());
+        }
+        return false;
+    }
+
+
+
+
+
+
     public void disconnect() {
         if(connection != null){
             try{
                 connection.close();
+                System.out.println("Disconnected to DB.");
             }catch (SQLException e){
+                System.out.println("Disconnection to DB failed: " + e.toString());
                 e.printStackTrace();
             }
         }

@@ -1,1 +1,1 @@
-select * from public.? where obj_element = ? and date_payment = ?
+ where obj_element = ? and date_payment = ?

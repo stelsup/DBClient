@@ -1,0 +1,60 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.gluonhq",
+    "module": "charm-glisten",
+    "version": "6.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "charm-glisten-6.1.0.jar",
+          "url": "charm-glisten-6.1.0.jar",
+          "size": 968840,
+          "sha512": "4b2d38be7d34dc89fe169ed872151b05c716034ad11620b5d3f79de7802150ffb286d5b1e9a6aa5f27777240aac0bc47a6c87734a5046e46d7ef06fe8653ab26",
+          "sha256": "021dbe1415a36d3d8dd0d26fc5a7caa16d3e9ebbaaa51c445598497628b42642",
+          "sha1": "4dfa98e7b5b194ead05b729d2eadda046888d62d",
+          "md5": "6b1ff156a9e7daea96fdf6a522435190"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "charm-glisten-6.1.0.jar",
+          "url": "charm-glisten-6.1.0.jar",
+          "size": 968840,
+          "sha512": "4b2d38be7d34dc89fe169ed872151b05c716034ad11620b5d3f79de7802150ffb286d5b1e9a6aa5f27777240aac0bc47a6c87734a5046e46d7ef06fe8653ab26",
+          "sha256": "021dbe1415a36d3d8dd0d26fc5a7caa16d3e9ebbaaa51c445598497628b42642",
+          "sha1": "4dfa98e7b5b194ead05b729d2eadda046888d62d",
+          "md5": "6b1ff156a9e7daea96fdf6a522435190"
+        }
+      ]
+    }
+  ]
+}

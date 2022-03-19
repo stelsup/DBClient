@@ -12,6 +12,7 @@ import java.util.Properties;
 
 
 public class DBController {
+    private static DBController single_instance = null;
 
     private final String propsFileName = "connection.properties";
     private final String propsHostName = "hostname";
@@ -22,8 +23,14 @@ public class DBController {
     Properties propConnection;
     Connection connection;
 
+    public static DBController getInstance()
+    {
+        if (single_instance == null)
+            single_instance = new DBController();
+        return single_instance;
+    }
 
-    public DBController(){
+    private DBController(){
         loadProperties();
         connect();
     }

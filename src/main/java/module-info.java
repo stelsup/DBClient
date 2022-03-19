@@ -9,6 +9,9 @@ module com.maximus.dbclient {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires java.sql;
+    //requires com.gluonhq.charm.glisten;
+
+
 
     opens com.maximus.dbclient to javafx.fxml;
     exports com.maximus.dbclient;

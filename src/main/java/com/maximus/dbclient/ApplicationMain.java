@@ -1,15 +1,12 @@
 package com.maximus.dbclient;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import com.maximus.dbclient.DB.DBController;
+import com.maximus.dbclient.DB.DBResult;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +24,8 @@ public class ApplicationMain extends javafx.application.Application {
         DBController dbController = DBController.getInstance();
         Controller controller = Controller.getInstance();
 
-        //try {
-            GUIWindow wndLoginDialog = showWindow("LoginDialog.fxml",
+
+        GUIWindow wndLoginDialog = showWindow("LoginDialog.fxml",
                     new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT));
 
         LoginDialog loginDialog = (LoginDialog)wndLoginDialog.getController();
@@ -43,16 +40,7 @@ public class ApplicationMain extends javafx.application.Application {
 
         MainWindow mainWindow = (MainWindow)wndMain.getController();
 
-//        System.out.println("**********User**********");
-//        System.out.println(loginDialog.strCredentials[0]);
-//        System.out.println("**********Password**********");
-//        System.out.println(loginDialog.strCredentials[1]);
 
-        //} catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        finally {
-//        }
 
     }
 

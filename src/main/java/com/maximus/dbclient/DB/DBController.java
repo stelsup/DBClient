@@ -1,12 +1,10 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.DB;
+import com.maximus.dbclient.Utils;
+
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -63,9 +61,6 @@ public class DBController {
         String url = "jdbc:postgresql://" + propConnection.getProperty(propsHostName) + ":" +
                 propConnection.getProperty(propsPort) + "/" + propConnection.getProperty(propsDBName);
         try {
-            //Class.forName("org.postgresql.Driver");
-            //Class.forName("org.postgresql.jdbc.Driver");
-            //Class.forName("org.postgresql.jdbc");
             connection = DriverManager.getConnection(url, propConnection.getProperty(propsUserName),
                                                          propConnection.getProperty(propsPassword));
             System.out.println("Connected to DB.");
@@ -74,19 +69,16 @@ public class DBController {
             System.out.println("Connection to DB failed: " + e.toString());
             e.printStackTrace();
         }
-//        catch (ClassNotFoundException e) {
-//            System.out.println("PostgreSQL JDBC driver not found!");
-//            e.printStackTrace();
-//        }
         return false;
     }
 
-    public DBResult getFromDB (String queryFileName, DBParam[] params)
+    public DBResult getFromDB (String querySQL, DBParam[] params)
     {
         DBResult res = null;
-        DBQuery qry = new DBQuery(connection, queryFileName);
-        qry.setParams(params);
-        if(qry.execFrom())
+        DBQuery qry = new DBQuery(connection, querySQL);
+        if (params != null)
+            qry.setParams(params);
+        if(qry.exec(execType.SELECT))
         {
             res = qry.getResult();
         }
@@ -97,27 +89,10 @@ public class DBController {
         return res;
     }
 
-    public DBResult getFromDB (String queryFileName, DBParam[] params, String prefix)
-    {
-        DBResult res = null;
-        DBQuery qry = new DBQuery(connection, queryFileName);
+    public boolean setToDB (String querySQL, DBParam[] params) {
+        DBQuery qry = new DBQuery(connection, querySQL);
         qry.setParams(params);
-        qry.setPrefix(prefix);
-        if(qry.execFrom())
-        {
-            res = qry.getResult();
-        }
-        else
-        {
-            System.out.println(qry.getLastError());
-        }
-        return res;
-    }
-
-    public boolean setToDB (String queryFileName, DBParam[] params) {
-        DBQuery qry = new DBQuery(connection, queryFileName);
-        qry.setParams(params);
-        if(qry.execTo())
+        if(qry.exec(execType.INSERT))
         {
             System.out.println("Add confirm!");
             return true;
@@ -129,11 +104,6 @@ public class DBController {
         return false;
     }
 
-
-
-
-
-
     public void disconnect() {
         if(connection != null){
             try{
@@ -144,6 +114,12 @@ public class DBController {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    public enum execType {
+        SELECT,
+        INSERT
     }
 
 }

@@ -9,6 +9,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class Utils {
@@ -63,5 +66,31 @@ public class Utils {
         alert.showAndWait();
         return alert.getResult();
     }
+
+    public static String loadFromFile(String fileName) {
+        String query = "";
+        String path = Utils.getEtcPath() + fileName;
+        try {
+            BufferedReader buffReader = new BufferedReader(new FileReader(path));
+            while (buffReader.ready())
+            {
+                query += buffReader.readLine();
+            }
+            buffReader.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return query;
+    }
+
+    public static String trimSpaces(String input) {
+        return input.replaceAll(" ","");
+    }
+
+
 }
 

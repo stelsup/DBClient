@@ -1,4 +1,6 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.DB;
+
+import com.maximus.dbclient.Utils;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -54,12 +56,16 @@ public class DBResult {
         return objArray;
     }
 
-    public  Map<String, String> getRow (int index) {
-        return results.get(index);
-    }
-
     public List<Map<String, String>> getAllResult () {
         return results;
+    }
+
+    public Object[] getValues (String columnName) {
+        Object[] values = new Object[results.size()];
+        for(int i = 0; i < results.size(); i++){
+            values[i] = results.get(i).get(columnName);
+        }
+        return values;
     }
 
 

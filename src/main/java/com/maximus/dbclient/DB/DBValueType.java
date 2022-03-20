@@ -1,4 +1,4 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.DB;
 
 public enum DBValueType {
     DB_BOOLEAN,

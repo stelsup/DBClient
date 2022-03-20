@@ -1,4 +1,4 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.DB;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -10,11 +10,11 @@ public class DBParam {
 
     public DBValueType getType()    { return type;}
 
-    DBParam(String val) { type = DBValueType.DB_CHARACTER; value = val; }
-    DBParam(Integer val) { type = DBValueType.DB_INT; value = Integer.toString(val); }
-    DBParam(Double val) { type = DBValueType.DB_DOUBLE; value = Double.toString(val); }
-    DBParam(Boolean val) { type = DBValueType.DB_BOOLEAN; value = Boolean.toString(val); }
-    DBParam(LocalDate val) {
+    public DBParam(String val) { type = DBValueType.DB_CHARACTER; value = val; }
+    public DBParam(Integer val) { type = DBValueType.DB_INT; value = Integer.toString(val); }
+    public DBParam(Double val) { type = DBValueType.DB_DOUBLE; value = Double.toString(val); }
+    public DBParam(Boolean val) { type = DBValueType.DB_BOOLEAN; value = Boolean.toString(val); }
+    public DBParam(LocalDate val) {
         type = DBValueType.DB_DATE;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");
         value = val.format(formatter);

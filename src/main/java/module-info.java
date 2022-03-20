@@ -15,4 +15,6 @@ module com.maximus.dbclient {
 
     opens com.maximus.dbclient to javafx.fxml;
     exports com.maximus.dbclient;
+    exports com.maximus.dbclient.DB;
+    opens com.maximus.dbclient.DB to javafx.fxml;
 }

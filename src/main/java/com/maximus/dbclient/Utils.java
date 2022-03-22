@@ -1,5 +1,6 @@
 package com.maximus.dbclient;
 
+import com.maximus.dbclient.DB.DBParam;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class Utils {
 
@@ -58,12 +60,13 @@ public class Utils {
         alert.setTitle(title);
         //alert.setHeaderText("Look, an Information Dialog");
         alert.setContentText(text);
-//        alert.showAndWait().ifPresent(rs -> {
-//            if (rs == ButtonType.OK) {
-//                System.out.println("Pressed OK.");
-//            }
-//        });
-        alert.showAndWait();
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                alert.close();
+            }else{
+                alert.close();
+            }
+        });
         return alert.getResult();
     }
 
@@ -89,6 +92,24 @@ public class Utils {
 
     public static String trimSpaces(String input) {
         return input.replaceAll(" ","");
+    }
+
+    public static DBParam[] addDBParams (Object ... param) {
+        DBParam[] params = new DBParam[param.length];
+        for (int i = 0; i < params.length; i++) {
+            if(param[i] instanceof String){
+                params[i] = new DBParam((String)param[i]);
+            }else if(param[i] instanceof Integer){
+                params[i] = new DBParam((Integer) param[i]);
+            }else if(param[i] instanceof Double){
+                params[i] = new DBParam((Double) param[i]);
+            }else if(param[i] instanceof Boolean){
+                params[i] = new DBParam((Boolean) param[i]);
+            }else if(param[i] instanceof LocalDate){
+                params[i] = new DBParam((LocalDate) param[i]);
+            }
+        }
+        return params;
     }
 
 

@@ -4,22 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dffe2a03-ae76-48d0-84e0-666e0f41142a" name="Changes" comment="new: gui window wrapper&#10;new: loginDialog logic&#10;new: controller&#10;new: mainWindow controller">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/BuilderSQL.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBQuery.java" afterDir="false" />
+    <list default="true" id="dffe2a03-ae76-48d0-84e0-666e0f41142a" name="Changes" comment="new: BuilderSQL&#10;new: SQL logic&#10;new: loginDialog checking&#10;new: controller methods&#10;new: Utils methods">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/CategoriesItemInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/PaymentsItemInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/ApplicationMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DBParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBParam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DBQuery.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DBResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DBValueType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBValueType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBResult.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/LoginDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/LoginDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/MainWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/ApplicationMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/ApplicationMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DBResult.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/MainWindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/MainWindow.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DBController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DBParam.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DBQuery.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DBValueType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/LoginDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/LoginDialog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/MainWindow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/MainWindow.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/Utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/Utils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +72,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/charm-glisten-6.1.0.jar" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.4229885" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
@@ -156,7 +159,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647653464250</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="new: BuilderSQL&#10;new: SQL logic&#10;new: loginDialog checking&#10;new: controller methods&#10;new: Utils methods">
+      <created>1647818762544</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1647818762544</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -168,17 +178,6 @@
               <option name="CUSTOM_BOOLEAN_PROPERTIES">
                 <map>
                   <entry key="Show.Git.Branches" value="true" />
-                </map>
-              </option>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="master" />
-                      </list>
-                    </value>
-                  </entry>
                 </map>
               </option>
             </State>
@@ -193,7 +192,8 @@
     <MESSAGE value="Third commit" />
     <MESSAGE value="Fourth commit" />
     <MESSAGE value="new: gui window wrapper&#10;new: loginDialog logic&#10;new: controller&#10;new: mainWindow controller" />
-    <option name="LAST_COMMIT_MESSAGE" value="new: gui window wrapper&#10;new: loginDialog logic&#10;new: controller&#10;new: mainWindow controller" />
+    <MESSAGE value="new: BuilderSQL&#10;new: SQL logic&#10;new: loginDialog checking&#10;new: controller methods&#10;new: Utils methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="new: BuilderSQL&#10;new: SQL logic&#10;new: loginDialog checking&#10;new: controller methods&#10;new: Utils methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -207,11 +207,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/maximus/dbclient/ApplicationMain.java</url>
           <line>92</line>
           <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/maximus/dbclient/GUIWindow.java</url>
-          <line>17</line>
-          <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

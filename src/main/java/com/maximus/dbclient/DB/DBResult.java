@@ -9,7 +9,8 @@ import java.util.*;
 
 public class DBResult {
     private List<Map<String, String>> results = new ArrayList<Map<String, String>>();
-    private int numColumns;  // кол-во столбцов
+    private int numColumns;// кол-во столбцов
+    //private String[] nameColumns; // название столбцов
     private int lastOffset;  // возможно не нужное поле на этом уровне реализации
 
     public DBResult(ResultSet rs) {
@@ -18,7 +19,7 @@ public class DBResult {
                 ResultSetMetaData meta = rs.getMetaData();
                 numColumns = meta.getColumnCount();
                 while (rs.next()) {
-                    Map<String, String> row = new HashMap<>();
+                    Map<String, String> row = new LinkedHashMap<>();
                     for (int i = 1; i <= numColumns; ++i) {
                         String name = meta.getColumnName(i);
                         String value = rs.getString(i);
@@ -51,13 +52,17 @@ public class DBResult {
         return results.get(row).get(nameColumn);
     }
 
+    public List<Map<String, String>> getAllResult () {
+        return results;
+    }
+
+    public Map<String, String> getRow (int row) {
+        return results.get(row);
+    }
+
     public Object[] getValues (int row ) {
         Object[] objArray = results.get(row).values().toArray();
         return objArray;
-    }
-
-    public List<Map<String, String>> getAllResult () {
-        return results;
     }
 
     public Object[] getValues (String columnName) {
@@ -67,6 +72,11 @@ public class DBResult {
         }
         return values;
     }
+
+
+
+
+
 
 
 

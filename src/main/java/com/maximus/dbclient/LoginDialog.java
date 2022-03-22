@@ -46,20 +46,13 @@ public class LoginDialog extends GUIController{
             btnResult = ButtonType.OK;
             this.closeWindow();
         }else {
-
+            ButtonType[] buttons = new ButtonType[2];
+            buttons[0] = ButtonType.OK;
+            buttons[1] = ButtonType.CANCEL;
+            Utils.MessageBox(4, "Ошибка", "Пользователь или пароль введены неверно!",
+                    Alert.AlertType.WARNING, buttons);
         }
 
-//        if(usera netu)
-//        {
-//            ButtonType[] buttons = new ButtonType[2];
-//            buttons[0] = ButtonType.OK;
-//            buttons[1] = ButtonType.CANCEL;
-//            Utils.MessageBox(4, "Ошибка", "Такого пользователя не существует!",
-//                    Alert.AlertType.WARNING, buttons);
-//        }
-        //else {
-
-        //}
     }
     @FXML
     private void btnCancelCLick(ActionEvent event) {
@@ -73,9 +66,12 @@ public class LoginDialog extends GUIController{
 
 
     private boolean checkCredentials() {
-        boolean name = checkName(Controller.getInstance().getPayersList());
-        boolean checkPass = checkPass(Controller.getInstance().getPassword(userName));
-        return (name && checkPass);
+
+        if (!checkName(Controller.getInstance().getPayersList())){
+            return false;
+        }
+        return checkPass(Controller.getInstance().getPassword(userName));
+
     }
 
 

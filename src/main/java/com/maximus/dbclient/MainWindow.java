@@ -1,9 +1,14 @@
 package com.maximus.dbclient;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 
@@ -23,6 +28,8 @@ public class MainWindow extends GUIController {
  */
 
         composeObjectsList();
+        composeCategoriesList();
+         composePaymentsTable();
     }
 
     public void composeObjectsList()
@@ -36,20 +43,33 @@ public class MainWindow extends GUIController {
         }
 
 
-
-        /*
-            foreach(elem: objects)
-            {
-                 Button but1 = new Button();
-
-            }
-
-         */
-
     }
 
     public void composeCategoriesList()
     {
-        //
+        ArrayList<CategoriesItemInfo> categoties = Controller.getInstance().getCategories();
+
+        listviewCategories.setEditable(false);
+
+        for(CategoriesItemInfo category : categoties) {
+            listviewCategories.getItems().add(category.getName());
+        }
     }
+
+    public void composePaymentsTable()
+    {
+        ArrayList<PaymentsItemInfo> payments = Controller.getInstance().getPayments();
+        ObservableList<PaymentsItemInfo> people = FXCollections.observableArrayList(payments);
+
+        tableviewPayments.setEditable(false);
+
+        for (String columnName : Controller.getInstance().getColumnNames()) {
+            TableColumn<PaymentsItemInfo, String> column = new TableColumn<>(columnName);
+            //column.setCellValueFactory(new SimpleStringProperty(payments.get()));
+            tableviewPayments.getColumns().add(column);
+        }
+
+    }
+
+
 }

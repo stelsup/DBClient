@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,14 +22,15 @@ public class LoginDialog extends GUIController{
     private TextField txtName;
     @FXML
     //private com.gluonhq.charm.glisten.control.TextField txtPass;
-    private TextField txtPass;
+    private PasswordField txtPass;
 
     public ButtonType btnResult = ButtonType.CANCEL;
     public String[] strCredentials  = new String[2];
     private String userName;
 
     public void onShow() {
-        // todo: че-то там
+        txtName.setPromptText("Имя пользователя");
+        txtPass.setPromptText("Пароль");
     }
 
     @FXML
@@ -44,6 +42,7 @@ public class LoginDialog extends GUIController{
 
         if (checkCredentials()) {
             btnResult = ButtonType.OK;
+            Controller.getInstance().setUserName(userName);
             this.closeWindow();
         }else {
             ButtonType[] buttons = new ButtonType[2];

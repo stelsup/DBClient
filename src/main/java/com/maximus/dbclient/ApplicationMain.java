@@ -32,9 +32,6 @@ public class ApplicationMain extends javafx.application.Application {
         if(loginDialog.getBtnResult() == ButtonType.CANCEL)
             return;
 
-        String[] credentials = loginDialog.strCredentials;
-        controller.setUserName(credentials[0]);
-
         GUIWindow wndMain = showWindow("MainWindow.fxml",
                     new GUIParam(Modality.NONE, null, GUIParam.ShowType.SHOWTYPE_SHOWNORMAL));
 

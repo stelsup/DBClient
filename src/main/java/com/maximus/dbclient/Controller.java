@@ -8,8 +8,8 @@ import java.util.*;
 public class Controller {
     private static Controller single_instance = null;
     private String userName;
-    private String currentObjectName = "ОЗАЛРЯ52уч";
-    private String currentCategory = "public.easy_nalog";
+    private String currentObjectName;// = "ОЗАЛРЯ52уч";
+    private String currentCategory;// = "public.easy_nalog";
     private int countColumns;
     private String[] columnNames;
     private String querySQL;
@@ -27,7 +27,9 @@ public class Controller {
     //------------------------------
     public void setUserName(String name) { this.userName = name; }
     public String getCurrentObjectName() {return this.currentObjectName;}
+    public void setCurrentObjectName(String name) {this.currentObjectName = name;}
     public String getCurrentCategory() {return this.currentCategory;}
+    public void setCurrentCategory(String name) {this.currentCategory = name;}
     public String[] getColumnNames() {return this.columnNames;}
     public int getCountColumns() {return this.countColumns;}
     public String getUserName()  { return this.userName; }
@@ -71,21 +73,21 @@ public class Controller {
     }
 
     public ArrayList<CategoriesItemInfo> getCategories() {
-        querySQL = BuilderSQL.templateSELECT("invoice_type", "public.invoices",
+        querySQL = BuilderSQL.templateSELECT("invoice_type, invoice_view", "public.invoices",
                 "object_id = ?", "invoice_type", 20);
         DBParam[] param = Utils.addDBParams(currentObjectName);
         DBResult res = DBController.getInstance().getFromDB(querySQL, param);
         ArrayList<CategoriesItemInfo> result = new ArrayList<>();
 
         Object[] objs = res.getValues("invoice_type");
+        Object[] objs_tables = res.getValues("invoice_view");
 
-        for(Object object: objs)
+        for(int i = 0; i < objs.length; i++)
         {
-            result.add(new CategoriesItemInfo(String.valueOf(object)));
+            result.add(new CategoriesItemInfo(String.valueOf(objs[i]), String.valueOf(objs_tables[i])));
         }
 
         return result;
-
     }
 
     public ArrayList<PaymentsItemInfo> getPayments() {

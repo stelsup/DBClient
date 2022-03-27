@@ -49,6 +49,12 @@ public class DBQuery {
                 }
             }
 
+            ////
+            System.out.println("--- QUERY START ---");
+            System.out.println(st);
+            System.out.println("--- QUERY END ---");
+            ////
+
             switch (type) {
                 case SELECT -> result = new DBResult(st.executeQuery());
                 case INSERT -> st.executeUpdate();

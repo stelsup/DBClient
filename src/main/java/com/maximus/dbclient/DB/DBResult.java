@@ -10,6 +10,7 @@ import java.util.*;
 public class DBResult {
     private List<Map<String, String>> results = new ArrayList<Map<String, String>>();
     private int numColumns;// кол-во столбцов
+    private String[] columnTypes;
     //private String[] nameColumns; // название столбцов
     private int lastOffset;  // возможно не нужное поле на этом уровне реализации
 
@@ -18,6 +19,7 @@ public class DBResult {
             if (rs != null) {
                 ResultSetMetaData meta = rs.getMetaData();
                 numColumns = meta.getColumnCount();
+                columnTypes = new String[numColumns];
                 while (rs.next()) {
                     Map<String, String> row = new LinkedHashMap<>();
                     for (int i = 1; i <= numColumns; ++i) {
@@ -25,6 +27,8 @@ public class DBResult {
                         String value = rs.getString(i);
                         value = Utils.clearDBData(value);
                         row.put(name, value);
+
+                        columnTypes[i-1] = meta.getColumnTypeName(i);
                     }
                     results.add(row);
                 }
@@ -47,6 +51,8 @@ public class DBResult {
     public int getCountRows () {
         return results.size();
     }
+
+    public String[] getColumnTypes() { return this.columnTypes; }
 
     public Object getValue (int row, String nameColumn) {
         return results.get(row).get(nameColumn);
@@ -72,14 +78,4 @@ public class DBResult {
         }
         return values;
     }
-
-
-
-
-
-
-
-
-
-
 }

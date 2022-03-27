@@ -1,5 +1,6 @@
 package com.maximus.dbclient;
 
+import com.maximus.dbclient.DB.DBController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,8 +12,10 @@ import javafx.scene.control.*;
 import java.util.Arrays;
 import java.util.Collections;
 
-
 public class LoginDialog extends GUIController{
+    //debug
+    public boolean DEBUG = true;
+    //debug
     @FXML
     private Button btnOK;
     @FXML
@@ -31,6 +34,10 @@ public class LoginDialog extends GUIController{
     public void onShow() {
         txtName.setPromptText("Имя пользователя");
         txtPass.setPromptText("Пароль");
+
+        if(DEBUG) {
+
+        }
     }
 
     @FXML
@@ -38,7 +45,6 @@ public class LoginDialog extends GUIController{
 
         strCredentials[0] = txtName.getText();
         strCredentials[1] = txtPass.getText();
-
 
         if (checkCredentials()) {
             btnResult = ButtonType.OK;

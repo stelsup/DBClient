@@ -11,6 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MainWindow extends GUIController {
 
@@ -29,13 +31,12 @@ public class MainWindow extends GUIController {
 /*
     setWindowTitle("Система платежей - [" + userName + "]");
  */
-       // paneRoot.set
-
         listviewObjects.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         listviewCategories.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableviewPayments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         listviewObjects.setEditable(false);
         listviewCategories.setEditable(false);
-
+        tableviewPayments.setEditable(false);
 
         composeObjectsList();
         // выберем какой-то там
@@ -51,7 +52,7 @@ public class MainWindow extends GUIController {
         {
             int selectedIdx = listviewObjects.getSelectionModel().getSelectedIndex();
             //try {
-                if (selectedIdx > 0)
+                //if (selectedIdx > 0)
                     Controller.getInstance().setCurrentObjectName(listviewObjects.getItems().get(selectedIdx).toString());
 //            } catch() {
 //
@@ -68,6 +69,21 @@ public class MainWindow extends GUIController {
         Controller.getInstance().setCurrentCategory(view);
 
         composePaymentsTable();
+    }
+
+    public void onPaymentSelected()
+    {
+        ObservableList selectedItems = tableviewPayments.getSelectionModel().getSelectedItems();
+        if(selectedItems.size() > 0) {
+            PaymentsItemInfo payment = (PaymentsItemInfo)selectedItems.get(0);
+
+            Map<String, String> res = Controller.getInstance().getPaymentDetails(payment);
+
+            String[] strText = res.values().toArray(new String[0]);
+
+            listviewPaymentInfo.getItems().clear();;
+            listviewPaymentInfo.getItems().add(strText);
+        }
     }
 
     public void composeObjectsList()
@@ -102,20 +118,16 @@ public class MainWindow extends GUIController {
 
         tableviewPayments.setEditable(false);
         tableviewPayments.getColumns().clear();
-        int i = 0;
-        for (String columnName : Controller.getInstance().getColumnNames()) {
+
+        String[] colNames = Controller.getInstance().getColumnNames();
+        for(int colIdx = 0; colIdx < colNames.length; colIdx++ ) {
+        String columnName = colNames[colIdx];
             TableColumn<PaymentsItemInfo, String> column = new TableColumn<>(columnName);
-            //column.setCellValueFactory(new SimpleStringProperty(payments.get()));
-            final Integer colNo = i;
-            column.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PaymentsItemInfo, String>, ObservableValue<String>>() {
-                @Override
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<PaymentsItemInfo, String> p) {
-                    return p.getValue().getProperty(colNo)   /*((PaymentsItemInfo)column.getUserData()).getValue(colNo)*/;
-                }
-            });
+            int idx = colIdx;
+            column.setCellValueFactory( cellData ->
+                    cellData.getValue().getProperty(idx)  );
 
             tableviewPayments.getColumns().add(column);
-            i++;
         }
 
         tableviewPayments.setItems(paymentsList);

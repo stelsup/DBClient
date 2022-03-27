@@ -9,6 +9,9 @@ public class DBParam {
     private String value;
 
     public DBValueType getType()    { return type;}
+    //////
+    //public void setType(DBValueType type) { this.type = type; }
+    //////
 
     public DBParam(String val) { type = DBValueType.DB_CHARACTER; value = val; }
     public DBParam(Integer val) { type = DBValueType.DB_INT; value = Integer.toString(val); }

@@ -12,6 +12,8 @@ public class Controller {
     private String currentCategory;// = "public.easy_nalog";
     private int countColumns;
     private String[] columnNames;
+    private String[] columnTypes;
+
     private String querySQL;
 
     private Controller() {
@@ -100,6 +102,7 @@ public class Controller {
         this.countColumns = res.getCountColumns();
         Map<String, String> row = res.getRow(0);
         this.columnNames = row.keySet().toArray(new String[0]);
+        this.columnTypes = res.getColumnTypes();
 
         for(int i = 0; i < res.getCountRows(); i++){
             resultRows.add( new PaymentsItemInfo(res.getRow(i)));
@@ -107,6 +110,26 @@ public class Controller {
 
         return resultRows;
 
+    }
+
+    public Map<String, String> getPaymentDetails(PaymentsItemInfo payment) {
+        String strCondition = "";
+        String[] strParamsArray = new String [columnNames.length];
+        for(int colIdx = 0; colIdx < columnNames.length; colIdx++) {
+            String colName = columnNames[colIdx];
+            strCondition += (colName + (colIdx < (columnNames.length - 1)? " = ? AND " : " = ?"));
+            //strParamsArray[colIdx] = String.valueOf(payment.getProperty(colIdx));
+            strParamsArray[colIdx] = payment.getProperty(colIdx).getValue();
+        }
+
+        querySQL = BuilderSQL.templateSELECT("*", "public.nalog"/*currentCategory*/ ,
+                strCondition, "date_payment");
+        DBParam[] param = Utils.addDBParams(strParamsArray);
+
+        DBResult res = DBController.getInstance().getFromDB(querySQL, param);
+
+        Map<String, String> result = res.getRow(0);
+        return result;
     }
 
 

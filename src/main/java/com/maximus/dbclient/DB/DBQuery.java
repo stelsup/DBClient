@@ -21,7 +21,7 @@ public class DBQuery {
     }
 
     public DBResult getResult() {
-        return result;
+        return result.getCountRows() == 0 ?  null : result;
     }
 
     public String getLastError() {

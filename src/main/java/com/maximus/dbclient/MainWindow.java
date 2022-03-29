@@ -41,24 +41,19 @@ public class MainWindow extends GUIController {
         composeObjectsList();
         // выберем какой-то там
         if(listviewObjects.getItems().size() > 0)
-            listviewObjects.getSelectionModel().select(1); ///!!!!
+            listviewObjects.getSelectionModel().select(0); ///!!!!
 //        composeCategoriesList();
 //         composePaymentsTable();
     }
 
     public void onObjectSelected()
     {
-        if(listviewObjects.getItems().size() > 0)
-        {
-            int selectedIdx = listviewObjects.getSelectionModel().getSelectedIndex();
-            //try {
-                //if (selectedIdx > 0)
-                    Controller.getInstance().setCurrentObjectName(listviewObjects.getItems().get(selectedIdx).toString());
-//            } catch() {
-//
-//            }
-            composeCategoriesList();
-        }
+        int selectedIdx = listviewObjects.getSelectionModel().getSelectedIndex();
+
+        Controller.getInstance().setCurrentObjectName(listviewObjects.getItems().get(selectedIdx).toString());
+
+        composeCategoriesList();
+
     }
 
     public void onCategorySelected()
@@ -81,44 +76,60 @@ public class MainWindow extends GUIController {
 
             String[] strText = res.values().toArray(new String[0]);
 
+            StringBuilder builder = new StringBuilder();
+            for(String s : strText) {
+                builder.append(s);
+                builder.append(" ");
+            }
+
             listviewPaymentInfo.getItems().clear();;
-            listviewPaymentInfo.getItems().add(strText);
+            listviewPaymentInfo.getItems().add(builder.toString());
         }
     }
 
     public void composeObjectsList()
     {
-        ArrayList<ObjectItemInfo> objects = Controller.getInstance().getObjects();
-
-        listviewObjects.setEditable(false);
+        listviewObjects.setDisable(false);
         listviewObjects.getItems().clear();
 
-        for(ObjectItemInfo obj: objects) {
-            listviewObjects.getItems().add(obj.getName());
+        ArrayList<ObjectItemInfo> objects = Controller.getInstance().getObjects();
+        ObservableList<ObjectItemInfo> objs;
+        if (objects == null) {
+            listviewObjects.getItems().clear();
+            listviewObjects.getItems().add("Объекты не найдены");
+            listviewObjects.setDisable(true);
+        }else {
+            objs = FXCollections.<ObjectItemInfo>observableArrayList(objects);
+            listviewObjects.setItems(objs);
         }
     }
 
     public void composeCategoriesList()
     {
-        ArrayList<CategoriesItemInfo> categories = Controller.getInstance().getCategories();
-        ObservableList<CategoriesItemInfo> cats = FXCollections.<CategoriesItemInfo>observableArrayList(categories);
-        listviewCategories.setItems(cats);
+        listviewCategories.setDisable(false);
 
-//        listviewCategories.getItems().clear();
-//
-//        for(CategoriesItemInfo category : categories) {
-//            listviewCategories.getItems().add(category.getName());
-//        }
+        ArrayList<CategoriesItemInfo> categories = Controller.getInstance().getCategories();
+        ObservableList<CategoriesItemInfo> cats;
+        if (categories == null) {
+            listviewCategories.getItems().clear();
+            listviewCategories.getItems().add("Категории не найдены");
+            listviewCategories.setDisable(true);
+        } else {
+            cats = FXCollections.<CategoriesItemInfo>observableArrayList(categories);
+            listviewCategories.setItems(cats);
+        }
     }
 
     public void composePaymentsTable()
     {
         ArrayList<PaymentsItemInfo> payments = Controller.getInstance().getPayments();
-        ObservableList<PaymentsItemInfo> paymentsList = FXCollections.observableArrayList(payments);
+        ObservableList<PaymentsItemInfo> paymentsList;
 
-        tableviewPayments.setEditable(false);
         tableviewPayments.getColumns().clear();
 
+        if (payments == null) return;
+
+        paymentsList = FXCollections.observableArrayList(payments);
         String[] colNames = Controller.getInstance().getColumnNames();
         for(int colIdx = 0; colIdx < colNames.length; colIdx++ ) {
         String columnName = colNames[colIdx];
@@ -132,54 +143,8 @@ public class MainWindow extends GUIController {
 
         tableviewPayments.setItems(paymentsList);
 
-
-        /*
-        for (int i = 0; i < staffArray[0].length; i++) {
-            TableColumn tc = new TableColumn(staffArray[0][i]);
-            final int colNo = i;
-            tc.setCellValueFactory(new Callback<CellDataFeatures<String[], String>, ObservableValue<String>>() {
-                @Override
-                public ObservableValue<String> call(CellDataFeatures<String[], String> p) {
-                    return new SimpleStringProperty((p.getValue()[colNo]));
-                }
-            });
-            tc.setPrefWidth(90);
-            table.getColumns().add(tc);
-        }
-         */
-
-//        for(PaymentsItemInfo payment: payments) {
-//            tableviewPayments.getItems().add(payment);
-//        }
-
     }
 
-    /*
-           StackPane root = new StackPane();
-        String[][] staffArray = {{"nice to ", "have", "titles"},
-                                 {"a", "b", "c"},
-                                 {"d", "e", "f"}};
-        ObservableList<String[]> data = FXCollections.observableArrayList();
-        data.addAll(Arrays.asList(staffArray));
-        data.remove(0);//remove titles from data
-        TableView<String[]> table = new TableView<>();
-        for (int i = 0; i < staffArray[0].length; i++) {
-            TableColumn tc = new TableColumn(staffArray[0][i]);
-            final int colNo = i;
-            tc.setCellValueFactory(new Callback<CellDataFeatures<String[], String>, ObservableValue<String>>() {
-                @Override
-                public ObservableValue<String> call(CellDataFeatures<String[], String> p) {
-                    return new SimpleStringProperty((p.getValue()[colNo]));
-                }
-            });
-            tc.setPrefWidth(90);
-            table.getColumns().add(tc);
-        }
-        table.setItems(data);
-        root.getChildren().add(table);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
-     */
 
 
 }

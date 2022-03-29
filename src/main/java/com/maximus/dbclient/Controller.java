@@ -62,8 +62,10 @@ public class Controller {
                 "payer_name = ?", "objects_nameid", 20);
         DBParam[] param = Utils.addDBParams(userName);
         DBResult res = DBController.getInstance().getFromDB(querySQL, param);
-        ArrayList<ObjectItemInfo> result = new ArrayList<ObjectItemInfo>();
 
+        if (res == null) return null;
+
+        ArrayList<ObjectItemInfo> result = new ArrayList<ObjectItemInfo>();
         Object[] objs = res.getValues("objects_nameid");
 
         for(Object object: objs)
@@ -79,8 +81,10 @@ public class Controller {
                 "object_id = ?", "invoice_type", 20);
         DBParam[] param = Utils.addDBParams(currentObjectName);
         DBResult res = DBController.getInstance().getFromDB(querySQL, param);
-        ArrayList<CategoriesItemInfo> result = new ArrayList<>();
 
+        if (res == null) return null;
+
+        ArrayList<CategoriesItemInfo> result = new ArrayList<>();
         Object[] objs = res.getValues("invoice_type");
         Object[] objs_tables = res.getValues("invoice_view");
 
@@ -97,6 +101,9 @@ public class Controller {
                 "obj_element = ?", "date_payment", 50);
         DBParam[] param = Utils.addDBParams(currentObjectName);
         DBResult res = DBController.getInstance().getFromDB(querySQL, param);
+
+        if (res == null) return null;
+
         ArrayList<PaymentsItemInfo> resultRows = new ArrayList<>();
 
         this.countColumns = res.getCountColumns();
@@ -114,19 +121,16 @@ public class Controller {
 
     public Map<String, String> getPaymentDetails(PaymentsItemInfo payment) {
         String strCondition = "";
-        String[] strParamsArray = new String [columnNames.length];
         for(int colIdx = 0; colIdx < columnNames.length; colIdx++) {
             String colName = columnNames[colIdx];
-            strCondition += (colName + (colIdx < (columnNames.length - 1)? " = ? AND " : " = ?"));
-            //strParamsArray[colIdx] = String.valueOf(payment.getProperty(colIdx));
-            strParamsArray[colIdx] = payment.getProperty(colIdx).getValue();
+            strCondition += colName + " = '" + payment.getProperty(colIdx).getValue() +
+                    (colIdx < (columnNames.length - 1) ? "' AND " : "' ");
         }
 
-        querySQL = BuilderSQL.templateSELECT("*", "public.nalog"/*currentCategory*/ ,
+        querySQL = BuilderSQL.templateSELECT("*", currentCategory ,
                 strCondition, "date_payment");
-        DBParam[] param = Utils.addDBParams(strParamsArray);
 
-        DBResult res = DBController.getInstance().getFromDB(querySQL, param);
+        DBResult res = DBController.getInstance().getFromDB(querySQL, null);
 
         Map<String, String> result = res.getRow(0);
         return result;

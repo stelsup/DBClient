@@ -36,7 +36,8 @@ public class LoginDialog extends GUIController{
         txtPass.setPromptText("Пароль");
 
         if(DEBUG) {
-
+           txtName.setText("Максимов Максим Николаевич");
+           txtPass.setText("c82dpl17");
         }
     }
 

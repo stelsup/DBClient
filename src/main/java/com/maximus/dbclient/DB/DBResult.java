@@ -11,7 +11,6 @@ public class DBResult {
     private List<Map<String, String>> results = new ArrayList<Map<String, String>>();
     private int numColumns;// кол-во столбцов
     private String[] columnTypes;
-    //private String[] nameColumns; // название столбцов
     private int lastOffset;  // возможно не нужное поле на этом уровне реализации
 
     public DBResult(ResultSet rs) {

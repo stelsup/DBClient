@@ -4,23 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dffe2a03-ae76-48d0-84e0-666e0f41142a" name="Changes" comment="feat: display payments table">
+    <list default="true" id="dffe2a03-ae76-48d0-84e0-666e0f41142a" name="Changes" comment="feat: display payments details">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBQuery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBResult.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/LoginDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/LoginDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/ObjectItemInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/ObjectItemInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DB/DBParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DB/DBParam.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DB/DBQuery$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DB/DBQuery$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DB/DBQuery.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DB/DBQuery.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DB/DBResult.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/DB/DBResult.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/LoginDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/LoginDialog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/MainWindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/MainWindow.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/MainWindow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/MainWindow.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/MainWindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/MainWindow.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/PaymentsItemInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/PaymentsItemInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/ObjectItemInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/ObjectItemInfo.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,7 +184,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648424471194</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="feat: display payments details">
+      <created>1648582043664</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1648582043664</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -222,7 +221,8 @@
     <MESSAGE value="new: composeCategory&#10;new: composePayments&#10;new: alert dialogWindow&#10;edit: Utils&#10;edit: Controller" />
     <MESSAGE value="chore: little fixes" />
     <MESSAGE value="feat: display payments table" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: display payments table" />
+    <MESSAGE value="feat: display payments details" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: display payments details" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

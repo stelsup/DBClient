@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Map;
 
 public class Utils {
 
@@ -110,6 +111,19 @@ public class Utils {
             }
         }
         return params;
+    }
+
+    public static StringBuilder buildTextArea (Map<String,String> data) {
+
+        StringBuilder result = new StringBuilder();
+        result.append("Информация: \n\n\n");
+        String str = "";
+        for(Map.Entry<String, String> entry : data.entrySet()) {
+            //result.append( entry.getKey() +" : \t " + entry.getValue() +  "\n");
+            str += String.format("%-40s%-10s%n",entry.getKey(),entry.getValue());
+        }
+        result.append(str);
+        return result;
     }
 
 

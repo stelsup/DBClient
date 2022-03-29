@@ -26,6 +26,8 @@ public class MainWindow extends GUIController {
     private TableView tableviewPayments;
     @FXML
     private ListView listviewPaymentInfo;
+    @FXML
+    private TextArea areaPaymentDetails;
 
     public void onShow() {
 /*
@@ -37,6 +39,7 @@ public class MainWindow extends GUIController {
         listviewObjects.setEditable(false);
         listviewCategories.setEditable(false);
         tableviewPayments.setEditable(false);
+        areaPaymentDetails.setEditable(false);
 
         composeObjectsList();
         // выберем какой-то там
@@ -73,8 +76,9 @@ public class MainWindow extends GUIController {
             PaymentsItemInfo payment = (PaymentsItemInfo)selectedItems.get(0);
 
             Map<String, String> res = Controller.getInstance().getPaymentDetails(payment);
+            StringBuilder builder = Utils.buildTextArea(res);
 
-            String[] strText = res.values().toArray(new String[0]);
+            /*String[] strText = res.values().toArray(new String[0]);
 
             StringBuilder builder = new StringBuilder();
             for(String s : strText) {
@@ -82,8 +86,11 @@ public class MainWindow extends GUIController {
                 builder.append(" ");
             }
 
-            listviewPaymentInfo.getItems().clear();;
-            listviewPaymentInfo.getItems().add(builder.toString());
+            */
+
+            areaPaymentDetails.setText(builder.toString());
+           // listviewPaymentInfo.getItems().clear();;
+           // listviewPaymentInfo.getItems().add(builder.toString());
         }
     }
 

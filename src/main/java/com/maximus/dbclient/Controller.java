@@ -10,9 +10,11 @@ public class Controller {
     private String userName;
     private String currentObjectName;// = "ОЗАЛРЯ52уч";
     private String currentCategory;// = "public.easy_nalog";
+    private String generalCatTable;
     private int countColumns;
     private String[] columnNames;
     private String[] columnTypes;
+    private PaymentsItemInfo currentPayment;
 
     private String querySQL;
 
@@ -32,9 +34,13 @@ public class Controller {
     public void setCurrentObjectName(String name) {this.currentObjectName = name;}
     public String getCurrentCategory() {return this.currentCategory;}
     public void setCurrentCategory(String name) {this.currentCategory = name;}
+    public String getGeneralTable() {return this.generalCatTable;}
+    public void setGeneralTable(String name) {this.generalCatTable = name;}
     public String[] getColumnNames() {return this.columnNames;}
     public int getCountColumns() {return this.countColumns;}
     public String getUserName()  { return this.userName; }
+    public void setCurrentPayment(PaymentsItemInfo payment) {this.currentPayment = payment;}
+    public PaymentsItemInfo getCurrentPayment() {return currentPayment;}
     //------------------------------
 
 
@@ -77,7 +83,7 @@ public class Controller {
     }
 
     public ArrayList<CategoriesItemInfo> getCategories() {
-        querySQL = BuilderSQL.templateSELECT("invoice_type, invoice_view", "public.invoices",
+        querySQL = BuilderSQL.templateSELECT("invoice_type, invoice_view, invoice_table", "public.invoices",
                 "object_id = ?", "invoice_type", 20);
         DBParam[] param = Utils.addDBParams(currentObjectName);
         DBResult res = DBController.getInstance().getFromDB(querySQL, param);
@@ -86,11 +92,12 @@ public class Controller {
 
         ArrayList<CategoriesItemInfo> result = new ArrayList<>();
         Object[] objs = res.getValues("invoice_type");
-        Object[] objs_tables = res.getValues("invoice_view");
+        Object[] objs_view = res.getValues("invoice_view");
+        Object[] objs_table = res.getValues("invoice_table");
 
         for(int i = 0; i < objs.length; i++)
         {
-            result.add(new CategoriesItemInfo(String.valueOf(objs[i]), String.valueOf(objs_tables[i])));
+            result.add(new CategoriesItemInfo(String.valueOf(objs[i]), String.valueOf(objs_view[i]), String.valueOf(objs_table[i])));
         }
 
         return result;
@@ -120,14 +127,16 @@ public class Controller {
     }
 
     public Map<String, String> getPaymentDetails(PaymentsItemInfo payment) {
+
+        this.currentPayment = payment;
         String strCondition = "";
         for(int colIdx = 0; colIdx < columnNames.length; colIdx++) {
             String colName = columnNames[colIdx];
-            strCondition += colName + " = '" + payment.getProperty(colIdx).getValue() +
+            strCondition += colName + " = '" + currentPayment.getProperty(colIdx).getValue() +
                     (colIdx < (columnNames.length - 1) ? "' AND " : "' ");
         }
 
-        querySQL = BuilderSQL.templateSELECT("*", currentCategory ,
+        querySQL = BuilderSQL.templateSELECT("*", generalCatTable ,
                 strCondition, "date_payment");
 
         DBResult res = DBController.getInstance().getFromDB(querySQL, null);
@@ -135,6 +144,30 @@ public class Controller {
         Map<String, String> result = res.getRow(0);
         return result;
     }
+
+    public void  deleteCurrentPayment(){
+
+        if(this.currentPayment == null)
+            return;
+
+        String strCondition = "";
+        for(int colIdx = 0; colIdx < columnNames.length; colIdx++) {
+            String colName = columnNames[colIdx];
+            strCondition += colName + " = '" + this.currentPayment.getProperty(colIdx).getValue() +
+                    (colIdx < (columnNames.length - 1) ? "' AND " : "' ");
+        }
+
+        querySQL = BuilderSQL.templateDELETE(generalCatTable, strCondition);
+        boolean res = DBController.getInstance().setToDB(querySQL, null);
+
+        if(res){
+            this.currentPayment = null;
+        }else {
+            System.out.println("Delete from DB false");
+        }
+    }
+
+
 
 
 }

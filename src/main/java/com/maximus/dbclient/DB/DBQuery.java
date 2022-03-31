@@ -56,8 +56,8 @@ public class DBQuery {
             ////
 
             switch (type) {
-                case SELECT -> result = new DBResult(st.executeQuery());
-                case INSERT -> st.executeUpdate();
+                case GET -> result = new DBResult(st.executeQuery());
+                case SEND -> st.executeUpdate();
             }
             st.close();
 

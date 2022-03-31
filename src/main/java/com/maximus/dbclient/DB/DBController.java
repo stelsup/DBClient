@@ -78,7 +78,7 @@ public class DBController {
         DBQuery qry = new DBQuery(connection, querySQL);
         if (params != null)
             qry.setParams(params);
-        if(qry.exec(execType.SELECT))
+        if(qry.exec(execType.GET))
         {
             res = qry.getResult();
         }
@@ -91,10 +91,11 @@ public class DBController {
 
     public boolean setToDB (String querySQL, DBParam[] params) {
         DBQuery qry = new DBQuery(connection, querySQL);
-        qry.setParams(params);
-        if(qry.exec(execType.INSERT))
+        if (params != null)
+            qry.setParams(params);
+        if(qry.exec(execType.SEND))
         {
-            System.out.println("Add confirm!");
+            System.out.println("Send to DB confirm!");
             return true;
         }
         else
@@ -118,8 +119,8 @@ public class DBController {
 
 
     public enum execType {
-        SELECT,
-        INSERT
+        GET,
+        SEND
     }
 
 }

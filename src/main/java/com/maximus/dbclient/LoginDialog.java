@@ -4,13 +4,10 @@ import com.maximus.dbclient.DB.DBController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.util.Arrays;
-import java.util.Collections;
+
 
 public class LoginDialog extends GUIController{
     //debug
@@ -21,10 +18,8 @@ public class LoginDialog extends GUIController{
     @FXML
     private Button btnCancel;
     @FXML
-    //private com.gluonhq.charm.glisten.control.TextField txtName;
     private TextField txtName;
     @FXML
-    //private com.gluonhq.charm.glisten.control.TextField txtPass;
     private PasswordField txtPass;
 
     public ButtonType btnResult = ButtonType.CANCEL;
@@ -36,7 +31,8 @@ public class LoginDialog extends GUIController{
         txtPass.setPromptText("Пароль");
 
         if(DEBUG) {
-
+            txtName.setText("Максимов Максим Николаевич");
+            txtPass.setText("c82dpl17");
         }
     }
 
@@ -54,7 +50,7 @@ public class LoginDialog extends GUIController{
             ButtonType[] buttons = new ButtonType[2];
             buttons[0] = ButtonType.OK;
             buttons[1] = ButtonType.CANCEL;
-            Utils.MessageBox(4, "Ошибка", "Пользователь или пароль введены неверно!",
+            Utils.MessageBox( "Ошибка", "Ошибка","Пользователь или пароль введены неверно!",
                     Alert.AlertType.WARNING, buttons);
         }
 

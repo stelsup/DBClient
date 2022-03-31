@@ -29,7 +29,7 @@ public class Utils {
         return out;
     }
 
-    public static GUIWindow showWindow(String fxmlName, GUIParam guiParam) throws IOException
+    public static GUIWindow showWindow(String fxmlName, GUIParam guiParam, int minHeight, int minWidth) throws IOException
     {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(ApplicationMain.class.getResource(fxmlName));
@@ -38,9 +38,8 @@ public class Utils {
         stage.initModality(guiParam.modality);
         stage.initOwner(guiParam.ownerParent);
 
-//        if(guiParam.modality == Modality.APPLICATION_MODAL)
-//            stage.hide();
-
+        stage.setMinHeight(minHeight);
+        stage.setMinWidth(minWidth);
         stage.setScene(scene);
 
         GUIController c = fxmlLoader.getController();
@@ -56,11 +55,11 @@ public class Utils {
        return new GUIWindow(stage, fxmlLoader);
     }
 
-    public static ButtonType MessageBox(int hndl, String title, String text, Alert.AlertType type, ButtonType[] buttons) {
+    public static ButtonType MessageBox(String title, String text, String textDetails, Alert.AlertType type, ButtonType[] buttons) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
-        //alert.setHeaderText("Look, an Information Dialog");
-        alert.setContentText(text);
+        alert.setHeaderText(text);
+        alert.setContentText(textDetails);
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
                 alert.close();

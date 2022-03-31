@@ -8,11 +8,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.maximus.dbclient.Utils.showWindow;
 
 public class MainWindow extends GUIController {
 
@@ -25,14 +29,21 @@ public class MainWindow extends GUIController {
     @FXML
     private TableView tableviewPayments;
     @FXML
-    private ListView listviewPaymentInfo;
-    @FXML
     private TextArea areaPaymentDetails;
+    @FXML
+    private Button addButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button editButton;
+    @FXML
+    private TextField searchField;
+
 
     public void onShow() {
-/*
-    setWindowTitle("Система платежей - [" + userName + "]");
- */
+
+        //setWindowTitle("Система платежей");
+
         listviewObjects.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         listviewCategories.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableviewPayments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -40,6 +51,10 @@ public class MainWindow extends GUIController {
         listviewCategories.setEditable(false);
         tableviewPayments.setEditable(false);
         areaPaymentDetails.setEditable(false);
+        addButton.setDisable(true);
+        deleteButton.setDisable(true);
+        editButton.setDisable(true);
+        searchField.setDisable(true);
 
         composeObjectsList();
         // выберем какой-то там
@@ -61,16 +76,24 @@ public class MainWindow extends GUIController {
 
     public void onCategorySelected()
     {
+        addButton.setDisable(false);
+        searchField.setDisable(false);
+
         Object obj = listviewCategories.getItems().get(listviewCategories.getSelectionModel().getSelectedIndex());
         CategoriesItemInfo item = (CategoriesItemInfo)obj;
         String view  = item.getView();
+        String table = item.getTable();
         Controller.getInstance().setCurrentCategory(view);
+        Controller.getInstance().setGeneralTable(table);
 
         composePaymentsTable();
     }
 
     public void onPaymentSelected()
     {
+        editButton.setDisable(false);
+        deleteButton.setDisable(false);
+
         ObservableList selectedItems = tableviewPayments.getSelectionModel().getSelectedItems();
         if(selectedItems.size() > 0) {
             PaymentsItemInfo payment = (PaymentsItemInfo)selectedItems.get(0);
@@ -78,19 +101,10 @@ public class MainWindow extends GUIController {
             Map<String, String> res = Controller.getInstance().getPaymentDetails(payment);
             StringBuilder builder = Utils.buildTextArea(res);
 
-            /*String[] strText = res.values().toArray(new String[0]);
-
-            StringBuilder builder = new StringBuilder();
-            for(String s : strText) {
-                builder.append(s);
-                builder.append(" ");
-            }
-
-            */
-
+            System.out.println(builder);
+            areaPaymentDetails.setPrefRowCount(5);
             areaPaymentDetails.setText(builder.toString());
-           // listviewPaymentInfo.getItems().clear();;
-           // listviewPaymentInfo.getItems().add(builder.toString());
+
         }
     }
 
@@ -152,6 +166,35 @@ public class MainWindow extends GUIController {
 
     }
 
+    public void addPayment() throws IOException {
 
+
+        GUIWindow addPaymentWindow = showWindow("AddPaymentDialog.fxml",
+                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),700,500);
+
+        AddPaymentDialog paymentDialog = (AddPaymentDialog)addPaymentWindow.getController();
+        //if(paymentDialog.getBtnResult() == ButtonType.CANCEL)
+          //  return;
+    }
+
+    public void deletePayment(){
+
+        if(Controller.getInstance().getCurrentPayment() == null)
+            return;
+
+        ButtonType result = Utils.MessageBox( "Предупреждение", "Предупреждение","Вы уверены, что хотите удалить запись?",
+                Alert.AlertType.CONFIRMATION, null);
+        if(result == ButtonType.OK)
+             Controller.getInstance().deleteCurrentPayment();
+        composePaymentsTable();
+    }
+
+    public void editPayment(){
+
+    }
+
+    public void searchPayment(){
+
+    }
 
 }

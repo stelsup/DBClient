@@ -1,9 +1,6 @@
 package com.maximus.dbclient;
 
 public class BuilderSQL {
-    //private String querySQL = "";
-
-
 
 
     public static String templateSELECT(String target, String tableNames, String orderBy) {
@@ -19,6 +16,11 @@ public class BuilderSQL {
     public static String templateSELECT(String target, String tableNames, String condition, String orderBy, int limit)
     {
         String querySQL = "SELECT " + target + " FROM " + tableNames + " WHERE " + condition + " ORDER BY " + orderBy + " ASC LIMIT " + limit;
+        return querySQL;
+    }
+
+    public static String templateDELETE(String tableName, String condition) {
+        String querySQL = "DELETE FROM " + tableName + " WHERE " + condition;
         return querySQL;
     }
 

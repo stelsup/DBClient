@@ -76,6 +76,8 @@ public class MainWindow extends GUIController {
 
     public void onCategorySelected()
     {
+        deleteButton.setDisable(true);
+        editButton.setDisable(true);
         addButton.setDisable(false);
         searchField.setDisable(false);
 
@@ -84,7 +86,7 @@ public class MainWindow extends GUIController {
         String view  = item.getView();
         String table = item.getTable();
         Controller.getInstance().setCurrentCategory(view);
-        Controller.getInstance().setGeneralTable(table);
+        Controller.getInstance().setGeneralTableParams(table);
 
         composePaymentsTable();
     }

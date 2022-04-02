@@ -8,12 +8,14 @@ import java.util.*;
 public class Controller {
     private static Controller single_instance = null;
     private String userName;
-    private String currentObjectName;// = "ОЗАЛРЯ52уч";
-    private String currentCategory;// = "public.easy_nalog";
+    private String currentObjectName;
+    private String currentCategory;
     private String generalCatTable;
     private int countColumns;
     private String[] columnNames;
     private String[] columnTypes;
+    private String[] genTableColNames;
+    private String[] genTableColTypes;
     private PaymentsItemInfo currentPayment;
 
     private String querySQL;
@@ -37,6 +39,9 @@ public class Controller {
     public String getGeneralTable() {return this.generalCatTable;}
     public void setGeneralTable(String name) {this.generalCatTable = name;}
     public String[] getColumnNames() {return this.columnNames;}
+    public String[] getColumnTypes() {return this.columnTypes;}
+    public String[] getGenTableColNames() {return  this.genTableColNames;}
+    public String[] getGenTableColTypes() {return  this.genTableColTypes;}
     public int getCountColumns() {return this.countColumns;}
     public String getUserName()  { return this.userName; }
     public void setCurrentPayment(PaymentsItemInfo payment) {this.currentPayment = payment;}
@@ -144,6 +149,23 @@ public class Controller {
         Map<String, String> result = res.getRow(0);
         return result;
     }
+
+
+    public void setGeneralTableParams(String tableName) {
+        this.generalCatTable = tableName;
+
+        querySQL = BuilderSQL.templateSELECT("column_name, data_type",
+                "INFORMATION_SCHEMA.COLUMNS","table_name = ? ",50);
+        DBParam[] param = Utils.addDBParams(generalCatTable);
+        DBResult res = DBController.getInstance().getFromDB(querySQL, param);
+        Object[] obj1  = res.getValues("column_name");
+        Object[] obj2  = res.getValues("data_type");
+        this.genTableColNames = Arrays.copyOf(obj1, obj1.length, String[].class);
+        this.genTableColTypes = Arrays.copyOf(obj2, obj2.length, String[].class);
+
+    }
+
+
 
     public void  deleteCurrentPayment(){
 

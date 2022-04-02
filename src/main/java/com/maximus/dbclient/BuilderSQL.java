@@ -2,11 +2,16 @@ package com.maximus.dbclient;
 
 public class BuilderSQL {
 
-
     public static String templateSELECT(String target, String tableNames, String orderBy) {
         String querySQL = "SELECT " + target + " FROM " + tableNames + " ORDER BY " + orderBy + " ASC ";
         return querySQL;
     }
+
+    public static String templateSELECT(String target, String tableNames, String condition, int limit) {
+        String querySQL = "SELECT " + target + " FROM " + tableNames + " WHERE " + condition + " LIMIT " + limit;
+        return querySQL;
+    }
+
 
     public static String templateSELECT(String target, String tableNames, String condition, String orderBy) {
         String querySQL = "SELECT " + target + " FROM " + tableNames + " WHERE " + condition + " ORDER BY " + orderBy + " ASC ";

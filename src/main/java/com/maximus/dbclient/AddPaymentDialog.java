@@ -24,10 +24,12 @@ public class AddPaymentDialog  extends GUIController {
     @FXML
     private Button addCancel;
 
+    private String objectName;
     private String[] columnNames;
     private String[] columnTypes;
     private Object[] addData;
 
+    private boolean numberOverFlow;
 
 
     @Override
@@ -35,12 +37,13 @@ public class AddPaymentDialog  extends GUIController {
 
         this.columnNames = Controller.getInstance().getGenTableColNames();
         this.columnTypes = Controller.getInstance().getGenTableColTypes();
+        this.objectName = Controller.getInstance().getCurrentObjectName();
 
         dataFields = new Control[columnNames.length];
 
 
         TextField firstField = new TextField();
-        firstField.setText(Controller.getInstance().getCurrentObjectName());
+        firstField.setText(objectName);
         firstField.setEditable(false);
 
 
@@ -117,6 +120,7 @@ public class AddPaymentDialog  extends GUIController {
     }
 
     public void actionCancel(){
+        this.addData = null;
         super.closeWindow();
     }
 
@@ -124,14 +128,30 @@ public class AddPaymentDialog  extends GUIController {
 
         Object[] data = new Object[dataFields.length];
 
-        for(int i = 0; i < dataFields.length; i++){
+        data[0] = this.objectName;
+
+        for(int i = 1; i < dataFields.length; i++){
             if(dataFields[i] instanceof TextField) {
                 TextField texf = (TextField) dataFields[i];
-                if (texf.getTextFormatter().getValue() instanceof Double) {
-                    Double doub = (Double) texf.getTextFormatter().getValue();
-                    data[i] = doub;
-                }else if (texf.getTextFormatter().getValue() instanceof String) {
-                    String str = (String) texf.getTextFormatter().getValue();
+                if (texf.getTextFormatter() != null) {
+                    try {
+                        if(Utils.parseFloatPoint(texf.getText())){
+                            Double doub = Double.parseDouble(texf.getText());
+                            data[i] = doub;
+                        }else if (!texf.getText().equalsIgnoreCase("")){
+                            Integer intg = Integer.parseInt(texf.getText());
+                            data[i] = intg;
+                        }else {
+                            data[i] = null;
+                        }
+                    } catch (NumberFormatException e) {
+                        numFormCheckAddData(i);
+                        data[i] = null;
+                        e.printStackTrace();
+                        return;
+                    }
+                }else {
+                    String str = texf.getText();
                     data[i] = str;
                 }
             }else if(dataFields[i] instanceof DatePicker) {
@@ -139,14 +159,36 @@ public class AddPaymentDialog  extends GUIController {
                 data[i] = date;
             }else if(dataFields[i] instanceof Spinner) {
                 data[i] = ((Spinner<?>) dataFields[i]).getValueFactory().getValue();
+                if (data[i] instanceof String)
+                    data[i] = Boolean.parseBoolean(String.valueOf(data[i]));
             }
         }
 
         this.addData = data;
+        if(notNULLCheckAddData())
+            super.closeWindow();
     }
 
 
     public Object[] getAddData () {return this.addData;}
 
+    public boolean notNULLCheckAddData () {
 
+
+        for(int i = 0; i < addData.length; i++){
+            if(addData[i] == null){
+                ButtonType result = Utils.MessageBox( "Внимание", "Некоторые поля не заполнены!","Заполните поле " + columnNames[i],
+                        Alert.AlertType.WARNING, null);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void numFormCheckAddData (int indexField) {
+
+        ButtonType result = Utils.MessageBox( "Внимание", "Переполнение значения!","Некорректное значение в поле " + columnNames[indexField],
+                Alert.AlertType.WARNING, null);
+
+    }
 }

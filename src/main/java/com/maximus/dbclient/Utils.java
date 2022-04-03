@@ -125,6 +125,9 @@ public class Utils {
         return result;
     }
 
+    public static boolean parseFloatPoint (String s){
+        return s.indexOf('.') != -1;
+    }
 
 }
 

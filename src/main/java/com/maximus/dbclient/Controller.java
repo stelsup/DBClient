@@ -165,7 +165,13 @@ public class Controller {
 
     }
 
+    public void addPayment(Object[] data){
 
+        querySQL = BuilderSQL.templateINSERT(generalCatTable,genTableColNames.length);
+        DBParam[] param = Utils.addDBParams(data);
+        boolean res = DBController.getInstance().setToDB(querySQL,param);
+
+    }
 
     public void  deleteCurrentPayment(){
 
@@ -189,7 +195,16 @@ public class Controller {
         }
     }
 
+    public boolean comparePayments(Object obj, Object date) {
 
+        String condition = genTableColNames[0] + " = ? AND " + genTableColNames[1] + " = ? ";
+        querySQL = BuilderSQL.templateSELECT(genTableColNames[0] + " , " + genTableColNames[1],
+                generalCatTable, condition, genTableColNames[0]);
+        DBParam[] param = Utils.addDBParams(obj,date);
+        DBResult res = DBController.getInstance().getFromDB(querySQL, param);
+
+        return res == null;
+    }
 
 
 }

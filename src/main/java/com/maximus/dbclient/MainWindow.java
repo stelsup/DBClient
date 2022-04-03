@@ -175,8 +175,17 @@ public class MainWindow extends GUIController {
                 new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),700,500);
 
         AddPaymentDialog paymentDialog = (AddPaymentDialog)addPaymentWindow.getController();
-        //if(paymentDialog.getBtnResult() == ButtonType.CANCEL)
-          //  return;
+        Object[] addPayment = paymentDialog.getAddData();
+        if(addPayment != null) {
+            if(Controller.getInstance().comparePayments(addPayment[0],addPayment[1])){
+                Controller.getInstance().addPayment(addPayment);
+                composePaymentsTable();
+            }else {
+                ButtonType result = Utils.MessageBox( "Предупреждение", "Добавление невозможно!","Запись с такими данными уже существует.",
+                        Alert.AlertType.WARNING, null);
+            }
+
+        }
     }
 
     public void deletePayment(){
@@ -186,9 +195,10 @@ public class MainWindow extends GUIController {
 
         ButtonType result = Utils.MessageBox( "Предупреждение", "Предупреждение","Вы уверены, что хотите удалить запись?",
                 Alert.AlertType.CONFIRMATION, null);
-        if(result == ButtonType.OK)
-             Controller.getInstance().deleteCurrentPayment();
-        composePaymentsTable();
+        if(result == ButtonType.OK) {
+            Controller.getInstance().deleteCurrentPayment();
+            composePaymentsTable();
+        }
     }
 
     public void editPayment(){

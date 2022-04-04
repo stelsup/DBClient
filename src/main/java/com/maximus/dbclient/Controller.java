@@ -17,6 +17,7 @@ public class Controller {
     private String[] genTableColNames;
     private String[] genTableColTypes;
     private PaymentsItemInfo currentPayment;
+    private Map<String, String> currentPaymentDetails;
 
     private String querySQL;
 
@@ -46,6 +47,7 @@ public class Controller {
     public String getUserName()  { return this.userName; }
     public void setCurrentPayment(PaymentsItemInfo payment) {this.currentPayment = payment;}
     public PaymentsItemInfo getCurrentPayment() {return currentPayment;}
+    public Map<String, String> getCurrentPaymentDetails() {return currentPaymentDetails;}
     //------------------------------
 
 
@@ -147,6 +149,7 @@ public class Controller {
         DBResult res = DBController.getInstance().getFromDB(querySQL, null);
 
         Map<String, String> result = res.getRow(0);
+        this.currentPaymentDetails = result;
         return result;
     }
 
@@ -193,6 +196,18 @@ public class Controller {
         }else {
             System.out.println("Delete from DB false");
         }
+    }
+
+    public void editCurrentPayment(Object[] data){
+
+        String[] prevPaymentValues = this.currentPaymentDetails.values().toArray(new String[0]);
+        String strCondition = genTableColNames[0] + " = '" + prevPaymentValues[0] + "' AND " + genTableColNames[1] +
+                " = '" + prevPaymentValues[1] +"' ";
+
+        querySQL = BuilderSQL.templateUPDATE(generalCatTable, genTableColNames,strCondition);
+        DBParam[] param = Utils.addDBParams(data);
+        boolean res = DBController.getInstance().setToDB(querySQL,param);
+
     }
 
     public boolean comparePayments(Object obj, Object date) {

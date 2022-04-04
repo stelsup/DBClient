@@ -29,6 +29,18 @@ public class BuilderSQL {
         return querySQL;
     }
 
+    public static String templateUPDATE(String tableName,String[]columnNames,String condition){
+        String querySQL = "UPDATE " + tableName + " SET ";
+
+        for(int i = 0; i < columnNames.length - 1; i++){
+            querySQL += columnNames[i] + " = ?, ";
+        }
+        querySQL += columnNames[columnNames.length-1] + " = ? ";
+
+        querySQL += " WHERE " + condition;
+        return querySQL;
+    }
+
     public static String templateINSERT(String tableNames, int countValues)
     {
         String querySQL = "INSERT INTO " + tableNames + " VALUES ( ";

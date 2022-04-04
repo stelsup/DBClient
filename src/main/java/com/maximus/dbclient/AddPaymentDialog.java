@@ -29,7 +29,8 @@ public class AddPaymentDialog  extends GUIController {
     private String[] columnTypes;
     private Object[] addData;
 
-    private boolean numberOverFlow;
+    private static boolean editMode = false;
+    private String[] changeData;
 
 
     @Override
@@ -61,7 +62,12 @@ public class AddPaymentDialog  extends GUIController {
             addGridPane.add(label,0, i);
             addGridPane.setHalignment(label, HPos.CENTER);
 
-            generateField(i);
+            if(editMode){
+                this.changeData = Controller.getInstance().getCurrentPaymentDetails().values().toArray(new String[0]);
+                generateEditField(i);
+            }else {
+                generateNewField(i);
+            }
 
             if( i == 0){
                 addGridPane.add(firstField, 1, i);
@@ -71,12 +77,10 @@ public class AddPaymentDialog  extends GUIController {
 
         }
 
-        //addGridPane.setGridLinesVisible(true);
-
     }
 
 
-    public void generateField (int index){
+    public void generateNewField (int index){
 
         TextFormatter<Double> INT;
         UnaryOperator<TextFormatter.Change> filter;
@@ -119,6 +123,56 @@ public class AddPaymentDialog  extends GUIController {
 
     }
 
+    public void generateEditField (int index){
+
+        TextFormatter<Double> INT;
+        UnaryOperator<TextFormatter.Change> filter;
+
+
+        switch(columnTypes[index]) {
+            case "numeric" :
+                dataFields[index] = new TextField();
+                filter = change -> {
+                    String str = change.getControlNewText();
+                    if(str.matches("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$")) {
+                        return change;
+                    }
+                    return null;
+                };
+                INT = new TextFormatter<Double>(filter);//можно задать значение по умолчанию
+                TextField text = (TextField) dataFields[index];
+                text.setTextFormatter(INT);
+                text.setPromptText("Введите число");
+                text.setText(changeData[index]);
+                break;
+            case "date" :
+                dataFields[index] = new DatePicker();
+                DatePicker datePick = (DatePicker) dataFields[index];
+                LocalDate dt = LocalDate.parse(changeData[index]);
+                datePick.setValue(dt);
+                break;
+            case "boolean" :
+                ObservableList<String> confirm = FXCollections.<String>observableArrayList("TRUE","FALSE");
+                dataFields[index] = new Spinner<String>(confirm);
+                Spinner<String> spinS = (Spinner<String>)dataFields[index];
+                spinS.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
+                //spinS.getValueFactory().setValue(changeData[index]);
+                break;
+            case "smallint" :
+                dataFields[index] = new Spinner<Integer>(1,12,1);
+                Spinner<Integer> spin = (Spinner<Integer>)dataFields[index];
+                spin.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
+                spin.getValueFactory().setValue(Integer.parseInt(changeData[index]));
+                break;
+            default:
+                dataFields[index] = new TextField();
+                TextField textField = (TextField) dataFields[index];
+                textField.setPromptText("Введите данные");
+                textField.setText(changeData[index]);
+        }
+
+    }
+
     public void actionCancel(){
         this.addData = null;
         super.closeWindow();
@@ -155,7 +209,9 @@ public class AddPaymentDialog  extends GUIController {
                     data[i] = str;
                 }
             }else if(dataFields[i] instanceof DatePicker) {
-                LocalDate date = ((DatePicker) dataFields[i]).getValue();
+                DatePicker datPick = (DatePicker) dataFields[i];
+                datPick.getEditor().commitValue();
+                LocalDate date = datPick.getValue();
                 data[i] = date;
             }else if(dataFields[i] instanceof Spinner) {
                 data[i] = ((Spinner<?>) dataFields[i]).getValueFactory().getValue();
@@ -168,6 +224,13 @@ public class AddPaymentDialog  extends GUIController {
         if(notNULLCheckAddData())
             super.closeWindow();
     }
+
+    public static void setEditMode(boolean value){
+        editMode = value;
+    }
+
+
+
 
 
     public Object[] getAddData () {return this.addData;}

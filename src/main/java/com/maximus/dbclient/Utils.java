@@ -129,5 +129,13 @@ public class Utils {
         return s.indexOf('.') != -1;
     }
 
+    public static boolean compareEditPaymentPKValues (Object[] prevValues, Object[] newValues){
+        String prevValue = prevValues[0].toString();
+        String prevValue1 = prevValues[1].toString();
+        String newValue = newValues[0].toString();
+        String newValue1 = newValues[1].toString();
+        return (prevValue.equals(newValue) && prevValue1.equals(newValue1));
+    }
+
 }
 

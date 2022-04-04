@@ -201,8 +201,29 @@ public class MainWindow extends GUIController {
         }
     }
 
-    public void editPayment(){
+    public void editPayment() throws IOException {
 
+        String[] prevPaymentValues = Controller.getInstance().getCurrentPaymentDetails().values().toArray(new String[0]);
+        AddPaymentDialog.setEditMode(true);
+
+
+        GUIWindow addPaymentWindow = showWindow("AddPaymentDialog.fxml",
+                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),700,500);
+        AddPaymentDialog paymentDialog = (AddPaymentDialog)addPaymentWindow.getController();
+        Object[] addPayment = paymentDialog.getAddData();
+        if(addPayment != null){
+            if(Utils.compareEditPaymentPKValues(prevPaymentValues, addPayment)){
+                Controller.getInstance().editCurrentPayment(addPayment);
+                composePaymentsTable();
+            }else if(Controller.getInstance().comparePayments(addPayment[0],addPayment[1])){
+                Controller.getInstance().editCurrentPayment(addPayment);
+                composePaymentsTable();
+            }else{
+                ButtonType result = Utils.MessageBox( "Предупреждение", "Изменение невозможно!","Запись с такими данными уже существует.",
+                        Alert.AlertType.WARNING, null);
+            }
+        }
+        AddPaymentDialog.setEditMode(false);
     }
 
     public void searchPayment(){

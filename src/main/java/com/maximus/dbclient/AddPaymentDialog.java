@@ -151,7 +151,7 @@ public class AddPaymentDialog  extends GUIController {
                 LocalDate dt = LocalDate.parse(changeData[index]);
                 datePick.setValue(dt);
                 break;
-            case "boolean" :
+            case "boolean", "bool" :
                 ObservableList<String> confirm = FXCollections.<String>observableArrayList("TRUE","FALSE");
                 dataFields[index] = new Spinner<String>(confirm);
                 Spinner<String> spinS = (Spinner<String>)dataFields[index];

@@ -26,14 +26,15 @@ public class ApplicationMain extends javafx.application.Application {
 
 
         GUIWindow wndLoginDialog = showWindow("LoginDialog.fxml",
-                    new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),250,350);
+                    new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),250,350,"Авторизация пользователя");
 
         LoginDialog loginDialog = (LoginDialog)wndLoginDialog.getController();
         if(loginDialog.getBtnResult() == ButtonType.CANCEL)
             return;
 
         GUIWindow wndMain = showWindow("MainWindow.fxml",
-                    new GUIParam(Modality.NONE, null, GUIParam.ShowType.SHOWTYPE_SHOWNORMAL),750,1062);
+                    new GUIParam(Modality.NONE, null, GUIParam.ShowType.SHOWTYPE_SHOWNORMAL),750,1062,"Система платежей [ "
+                        + Controller.getInstance().getUserName() + " ]");
 
         MainWindow mainWindow = (MainWindow)wndMain.getController();
 

@@ -60,12 +60,16 @@ public class MainWindow extends GUIController {
         // выберем какой-то там
         if(listviewObjects.getItems().size() > 0)
             listviewObjects.getSelectionModel().select(0); ///!!!!
-//        composeCategoriesList();
-//         composePaymentsTable();
+
     }
 
     public void onObjectSelected()
     {
+        addButton.setDisable(true);
+        deleteButton.setDisable(true);
+        editButton.setDisable(true);
+        searchField.setDisable(true);
+
         int selectedIdx = listviewObjects.getSelectionModel().getSelectedIndex();
 
         Controller.getInstance().setCurrentObjectName(listviewObjects.getItems().get(selectedIdx).toString());
@@ -172,7 +176,7 @@ public class MainWindow extends GUIController {
 
 
         GUIWindow addPaymentWindow = showWindow("AddPaymentDialog.fxml",
-                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),700,500);
+                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),700,500,"Добавление платежа");
 
         AddPaymentDialog paymentDialog = (AddPaymentDialog)addPaymentWindow.getController();
         Object[] addPayment = paymentDialog.getAddData();
@@ -208,7 +212,7 @@ public class MainWindow extends GUIController {
 
 
         GUIWindow addPaymentWindow = showWindow("AddPaymentDialog.fxml",
-                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),700,500);
+                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),700,500,"Редактирование платежа");
         AddPaymentDialog paymentDialog = (AddPaymentDialog)addPaymentWindow.getController();
         Object[] addPayment = paymentDialog.getAddData();
         if(addPayment != null){
@@ -227,7 +231,32 @@ public class MainWindow extends GUIController {
     }
 
     public void searchPayment(){
+        String strSearch = searchField.getText();
 
+        ArrayList<PaymentsItemInfo> payments = Controller.getInstance().getPayment(strSearch);
+        if (payments == null) {
+            Utils.MessageBox( "Поиск", "Не найдено!","По запросу '" + strSearch + "' ни хуя не найдено!",
+                    Alert.AlertType.WARNING, null);
+            return;
+        }
+        ObservableList<PaymentsItemInfo> paymentsList;
+
+        tableviewPayments.getColumns().clear();
+
+
+        paymentsList = FXCollections.observableArrayList(payments);
+        String[] colNames = Controller.getInstance().getColumnNames();
+        for(int colIdx = 0; colIdx < colNames.length; colIdx++ ) {
+            String columnName = colNames[colIdx];
+            TableColumn<PaymentsItemInfo, String> column = new TableColumn<>(columnName);
+            int idx = colIdx;
+            column.setCellValueFactory( cellData ->
+                    cellData.getValue().getProperty(idx)  );
+
+            tableviewPayments.getColumns().add(column);
+        }
+
+        tableviewPayments.setItems(paymentsList);
     }
 
 }

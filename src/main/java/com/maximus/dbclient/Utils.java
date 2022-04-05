@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -14,6 +15,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.*;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -24,17 +27,24 @@ public class Utils {
         return path + "../../etc/";
     }
 
+    public static String getImagesPath(){
+        String path = Utils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        return path + "../../images/";
+    }
+
     public static String clearDBData(String input) {
         String out = input.trim();
         return out;
     }
 
-    public static GUIWindow showWindow(String fxmlName, GUIParam guiParam, int minHeight, int minWidth) throws IOException
+    public static GUIWindow showWindow(String fxmlName, GUIParam guiParam, int minHeight, int minWidth, String title) throws IOException
     {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(ApplicationMain.class.getResource(fxmlName));
+        stage.setTitle(title);
+
+        stage.getIcons().add(new Image("file://" + getImagesPath() + "general_secur.png"));
         Scene scene = new Scene(fxmlLoader.load()/*, 320, 240*/);
-        //stage.setTitle("Start");
         stage.initModality(guiParam.modality);
         stage.initOwner(guiParam.ownerParent);
 

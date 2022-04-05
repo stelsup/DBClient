@@ -1,6 +1,10 @@
 package com.maximus.dbclient;
 
 import com.maximus.dbclient.DB.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TextField;
 
 
 import java.util.*;
@@ -131,6 +135,47 @@ public class Controller {
 
         return resultRows;
 
+    }
+
+    public ArrayList<PaymentsItemInfo> getPayment(String searchStr) {
+        String strCondition = "";
+        for(int colIdx = 0; colIdx < columnNames.length; colIdx++) {
+            String colName = columnNames[colIdx];
+
+            switch (columnTypes[colIdx])
+            {
+                case "numeric" :
+                    strCondition += "to_char(" + colName + ", 'FM999999999999999999') LIKE '%" + searchStr + "%' OR ";
+                    break;
+                case "date" :
+                    strCondition += "to_char(" + colName + ", 'YYYY-MM-DD') LIKE '%" + searchStr + "%' OR ";
+                    break;
+                case "boolean", "bool" :
+                    break;
+                case "smallint" :
+                    strCondition += "to_char(" + colName + ", '999') LIKE '%" + searchStr + "%' OR ";
+                    break;
+                default:
+                    strCondition += "LOWER(" + colName + ") LIKE LOWER('%" + searchStr + "%') OR ";
+                   break;
+            }
+        }
+        // откусим OR от конца
+        strCondition = strCondition.substring(0, strCondition.length()-3);
+
+        querySQL = BuilderSQL.templateSELECT("*", currentCategory,
+                strCondition, 50);
+
+        DBResult res = DBController.getInstance().getFromDB(querySQL, null);
+
+        if (res == null) return null;
+
+        ArrayList<PaymentsItemInfo> resultRows = new ArrayList<>();
+        for(int i = 0; i < res.getCountRows(); i++){
+            resultRows.add( new PaymentsItemInfo(res.getRow(i)));
+        }
+
+        return resultRows;
     }
 
     public Map<String, String> getPaymentDetails(PaymentsItemInfo payment) {

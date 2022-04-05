@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 
 import java.util.Arrays;
 
@@ -27,6 +28,9 @@ public class LoginDialog extends GUIController{
     private String userName;
 
     public void onShow() {
+
+       // this.scene.sta   stage.getIcons().add(new Image(getClass().getResource(getImagesPath() + "xxx").toExternalForm() ));
+
         txtName.setPromptText("Имя пользователя");
         txtPass.setPromptText("Пароль");
 

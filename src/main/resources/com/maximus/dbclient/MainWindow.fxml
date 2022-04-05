@@ -69,7 +69,7 @@
                                                 <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deletePayment" prefHeight="25.0" prefWidth="100.0" text="Удалить" />
                                                 <Button fx:id="editButton" mnemonicParsing="false" onAction="#editPayment" prefHeight="25.0" prefWidth="100.0" text="Изменить" />
                                                 <Label prefHeight="17.0" prefWidth="76.0" />
-                                                <TextField fx:id="searchField" prefHeight="25.0" prefWidth="211.0" promptText="Поиск">
+                                                <TextField fx:id="searchField" onAction="#searchPayment" prefHeight="25.0" prefWidth="211.0" promptText="Поиск">
                                                    <rotationAxis>
                                                       <Point3D />
                                                    </rotationAxis>

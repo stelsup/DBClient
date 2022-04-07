@@ -5,9 +5,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.util.Callback;
 
@@ -23,9 +29,9 @@ public class MainWindow extends GUIController {
     @FXML
     private AnchorPane paneRoot;
     @FXML
-    private ListView listviewObjects;
+    private VBox vboxObjects;
     @FXML
-    private ListView listviewCategories;
+    private ToolBar toolBarCategory;
     @FXML
     private TableView tableviewPayments;
     @FXML
@@ -38,17 +44,29 @@ public class MainWindow extends GUIController {
     private Button editButton;
     @FXML
     private TextField searchField;
+    @FXML
+    private TextField edtPageNum;
+    @FXML
+    private Button btnPageLeft;
+    @FXML
+    private Button btnPageRight;
+    @FXML
+    private ImageView searchImg;
 
+    private ArrayList<ObjectItemInfo> objects;
+    private ArrayList<CategoriesItemInfo> categories;
+    private ArrayList<PaymentsItemInfo> payments;
 
     public void onShow() {
 
-        //setWindowTitle("Система платежей");
-
-        listviewObjects.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        listviewCategories.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        addButton.setGraphic(Utils.loadTollBarImage(1));
+        addButton.setGraphicTextGap(5.0);
+        deleteButton.setGraphic(Utils.loadTollBarImage(2));
+        deleteButton.setGraphicTextGap(5.0);
+        editButton.setGraphic(Utils.loadTollBarImage(3));
+        editButton.setGraphicTextGap(5.0);
+        searchImg.setImage(new Image("file://" + Utils.getImagesPath() + "search.png"));
         tableviewPayments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        listviewObjects.setEditable(false);
-        listviewCategories.setEditable(false);
         tableviewPayments.setEditable(false);
         areaPaymentDetails.setEditable(false);
         addButton.setDisable(true);
@@ -57,38 +75,36 @@ public class MainWindow extends GUIController {
         searchField.setDisable(true);
 
         composeObjectsList();
-        // выберем какой-то там
-        if(listviewObjects.getItems().size() > 0)
-            listviewObjects.getSelectionModel().select(0); ///!!!!
 
     }
 
-    public void onObjectSelected()
+    public void onObjectSelected(String currentObj)
     {
         addButton.setDisable(true);
         deleteButton.setDisable(true);
         editButton.setDisable(true);
         searchField.setDisable(true);
 
-        int selectedIdx = listviewObjects.getSelectionModel().getSelectedIndex();
-
-        Controller.getInstance().setCurrentObjectName(listviewObjects.getItems().get(selectedIdx).toString());
-
+        Controller.getInstance().setCurrentObjectName(currentObj);
         composeCategoriesList();
 
     }
 
-    public void onCategorySelected()
+    public void onCategorySelected(String currentCat)
     {
         deleteButton.setDisable(true);
         editButton.setDisable(true);
         addButton.setDisable(false);
         searchField.setDisable(false);
 
-        Object obj = listviewCategories.getItems().get(listviewCategories.getSelectionModel().getSelectedIndex());
-        CategoriesItemInfo item = (CategoriesItemInfo)obj;
-        String view  = item.getView();
-        String table = item.getTable();
+        String view = "";
+        String table = "";
+        for(CategoriesItemInfo cat :categories){
+            if(cat.getName().equals(currentCat)){
+                 view  = cat.getView();
+                 table = cat.getTable();
+            }
+        }
         Controller.getInstance().setCurrentCategory(view);
         Controller.getInstance().setGeneralTableParams(table);
 
@@ -116,40 +132,93 @@ public class MainWindow extends GUIController {
 
     public void composeObjectsList()
     {
-        listviewObjects.setDisable(false);
-        listviewObjects.getItems().clear();
+        objects = Controller.getInstance().getObjects();
+        ArrayList<TitledPane> result = new ArrayList<TitledPane>();
+        ImageView picture;
+        Image image;
+        VBox strDetails;
 
-        ArrayList<ObjectItemInfo> objects = Controller.getInstance().getObjects();
-        ObservableList<ObjectItemInfo> objs;
-        if (objects == null) {
-            listviewObjects.getItems().clear();
-            listviewObjects.getItems().add("Объекты не найдены");
-            listviewObjects.setDisable(true);
-        }else {
-            objs = FXCollections.<ObjectItemInfo>observableArrayList(objects);
-            listviewObjects.setItems(objs);
+        if (objects == null){
+            Label nullObject = new Label("Объекты не найдены");
+            vboxObjects.getChildren().add(nullObject);
         }
+
+
+        for(ObjectItemInfo object : objects){
+
+            strDetails = new VBox();
+            strDetails.setPadding(new Insets(5.0));
+            strDetails.setSpacing(5.0);
+            Label type = new Label(object.getTypeView());
+            Label adress = new Label(object.getAdressView());
+            strDetails.getChildren().addAll(type, adress);
+
+            image = Utils.loadObjImage(object.getType());
+            picture = new ImageView(image);
+            picture.setFitWidth(25);
+            picture.setFitHeight(25);
+
+            TitledPane tp = new TitledPane();
+            tp.setText(object.getName());
+            tp.setGraphic(picture);
+            tp.setContent(strDetails);
+            tp.setCollapsible(true);
+            tp.setAnimated(true);
+            tp.setOnMouseClicked(event-> {
+                onObjectSelected(tp.getText());
+            });
+
+            result.add(tp);
+        }
+
+        vboxObjects.getChildren().addAll(result);
     }
 
     public void composeCategoriesList()
     {
-        listviewCategories.setDisable(false);
+        toolBarCategory.getItems().clear();
+        categories = Controller.getInstance().getCategories();
 
-        ArrayList<CategoriesItemInfo> categories = Controller.getInstance().getCategories();
-        ObservableList<CategoriesItemInfo> cats;
-        if (categories == null) {
-            listviewCategories.getItems().clear();
-            listviewCategories.getItems().add("Категории не найдены");
-            listviewCategories.setDisable(true);
-        } else {
-            cats = FXCollections.<CategoriesItemInfo>observableArrayList(categories);
-            listviewCategories.setItems(cats);
+        if (categories == null){
+            Label nullCat = new Label("Категории не найдены");
+            vboxObjects.getChildren().add(nullCat);
         }
+
+        ArrayList<Button> result = new ArrayList<Button>();
+        ImageView picture;
+        Image image;
+
+        for(CategoriesItemInfo cat : categories){
+
+            image = Utils.loadCatImage(cat.getName());
+            picture = new ImageView(image);
+            picture.setFitWidth(40);
+            picture.setFitHeight(40);
+
+            Button bt = new Button(cat.getName());
+            bt.setUserData(cat);
+            bt.setPrefSize(toolBarCategory.getPrefWidth(),80.0);
+            bt.setGraphic(picture);
+            bt.setContentDisplay(ContentDisplay.RIGHT);
+            bt.setTextAlignment(TextAlignment.CENTER);
+            bt.setAlignment(Pos.CENTER_RIGHT);
+            bt.setGraphicTextGap((cat.getName().length() < 10) ? 30.0 :5.0);
+            bt.setOnMouseClicked(event-> {
+                onCategorySelected(bt.getText());
+            });
+            result.add(bt);
+
+        }
+
+        toolBarCategory.getItems().addAll(result);
+
+        // обнулить страницу!
+       // Controller.getInstance().resetPage();
     }
 
     public void composePaymentsTable()
     {
-        ArrayList<PaymentsItemInfo> payments = Controller.getInstance().getPayments();
+        payments = Controller.getInstance().getPayments();
         ObservableList<PaymentsItemInfo> paymentsList;
 
         tableviewPayments.getColumns().clear();
@@ -235,7 +304,7 @@ public class MainWindow extends GUIController {
 
         ArrayList<PaymentsItemInfo> payments = Controller.getInstance().getPayment(strSearch);
         if (payments == null) {
-            Utils.MessageBox( "Поиск", "Не найдено!","По запросу '" + strSearch + "' ни хуя не найдено!",
+            Utils.MessageBox( "Поиск", "Не найдено!","По запросу '" + strSearch + "' ничего не найдено!",
                     Alert.AlertType.WARNING, null);
             return;
         }
@@ -259,4 +328,20 @@ public class MainWindow extends GUIController {
         tableviewPayments.setItems(paymentsList);
     }
 
+    public void updateNavigateBar() {
+        PageArea curPage = Controller.getInstance().getCurrentPageArea();
+
+        edtPageNum.setText(String.valueOf(curPage.getUserPageNum()));
+        btnPageLeft.setDisable(curPage.getOffset() == 0);
+    }
+    public void onPageLeft() {
+        // ...
+
+        updateNavigateBar();
+    }
+    public void onPageRight() {
+        // ...
+
+        updateNavigateBar();
+    }
 }

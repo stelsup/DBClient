@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.Arrays;
 
@@ -22,6 +23,10 @@ public class LoginDialog extends GUIController{
     private TextField txtName;
     @FXML
     private PasswordField txtPass;
+    @FXML
+    private ImageView imgUser;
+    @FXML
+    private ImageView imgPass;
 
     public ButtonType btnResult = ButtonType.CANCEL;
     public String[] strCredentials  = new String[2];
@@ -29,7 +34,11 @@ public class LoginDialog extends GUIController{
 
     public void onShow() {
 
-       // this.scene.sta   stage.getIcons().add(new Image(getClass().getResource(getImagesPath() + "xxx").toExternalForm() ));
+       Image user = new Image("file://" + Utils.getImagesPath() + "user_pluse.png");
+       Image pass = new Image("file://" + Utils.getImagesPath() + "pass_green.png");
+
+       imgUser.setImage(user);
+       imgPass.setImage(pass);
 
         txtName.setPromptText("Имя пользователя");
         txtPass.setPromptText("Пароль");

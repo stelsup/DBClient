@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -33,8 +34,8 @@ public class Utils {
     }
 
     public static String clearDBData(String input) {
-        String out = input.trim();
-        return out;
+
+        return input == null ? "" : input.trim();
     }
 
     public static GUIWindow showWindow(String fxmlName, GUIParam guiParam, int minHeight, int minWidth, String title) throws IOException
@@ -98,6 +99,81 @@ public class Utils {
             e.printStackTrace();
         }
         return query;
+    }
+
+    public static Image loadObjImage(String name){
+        switch(name){
+            case "Квартира":
+                return new Image("file://" + Utils.getImagesPath() + "house.png");
+
+            case "Дом":
+                return new Image("file://" + Utils.getImagesPath() + "cottege.png");
+
+            case "Участок":
+                return new Image("file://" + Utils.getImagesPath() + "zabor.png");
+
+            case "Транспорт":
+                return new Image("file://" + Utils.getImagesPath() + "car.png");
+
+            default:
+                return new Image("file://" + Utils.getImagesPath() + "easy_home.png");
+
+        }
+    }
+
+    public static Image loadCatImage(String name){
+
+        switch (name){
+            case "Налог" :
+                return new Image("file://" + Utils.getImagesPath() + "nalog.png");
+
+            case "Электричество":
+                return new Image("file://" + Utils.getImagesPath() + "energy_yellow.png");
+
+            case "ТКО":
+                return new Image("file://" + Utils.getImagesPath() + "tko.png");
+
+            case "ХВС":
+                return new Image("file://" + Utils.getImagesPath() + "cold_water.png");
+
+            case "Газ":
+                return new Image("file://" + Utils.getImagesPath() + "gas.png");
+
+            case "Кооператив":
+                return new Image("file://" + Utils.getImagesPath() + "cooperative.png");
+
+            case "Охрана", "Охрана2":
+                return new Image("file://" + Utils.getImagesPath() + "general_secur.png");
+
+            default:
+                return new Image("file://" + Utils.getImagesPath() + "inspection.png");
+        }
+    }
+
+    public static ImageView loadTollBarImage(int index){
+        Image image;
+
+        switch(index){
+            case 1:
+                image = new Image("file://" + Utils.getImagesPath() + "add.png");
+                break;
+            case 2:
+                image = new Image("file://" + Utils.getImagesPath() + "delete.png");
+                break;
+            case 3:
+                image = new Image("file://" + Utils.getImagesPath() + "edit.png");
+                break;
+            case 4:
+                image = new Image("file://" + Utils.getImagesPath() + "search.png");
+                break;
+            default:
+                return null;
+
+        }
+        ImageView picture = new ImageView(image);
+        picture.setFitWidth(18.0);
+        picture.setFitHeight(18.0);
+        return picture;
     }
 
     public static String trimSpaces(String input) {

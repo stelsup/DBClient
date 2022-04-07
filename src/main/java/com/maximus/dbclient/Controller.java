@@ -12,6 +12,7 @@ import java.util.*;
 public class Controller {
     private static Controller single_instance = null;
     private String userName;
+    private PageArea currentPageArea;
     private String currentObjectName;
     private String currentCategory;
     private String generalCatTable;
@@ -37,6 +38,7 @@ public class Controller {
     }
     //------------------------------
     public void setUserName(String name) { this.userName = name; }
+    public PageArea getCurrentPageArea() { return this.currentPageArea; }
     public String getCurrentObjectName() {return this.currentObjectName;}
     public void setCurrentObjectName(String name) {this.currentObjectName = name;}
     public String getCurrentCategory() {return this.currentCategory;}
@@ -75,7 +77,7 @@ public class Controller {
     }
 
     public ArrayList<ObjectItemInfo> getObjects() {
-        querySQL = BuilderSQL.templateSELECT("objects_nameid, objects_type", "public.objects",
+        querySQL = BuilderSQL.templateSELECT("objects_nameid, objects_type, objects_adress", "public.objects",
                 "payer_name = ?", "objects_nameid", 20);
         DBParam[] param = Utils.addDBParams(userName);
         DBResult res = DBController.getInstance().getFromDB(querySQL, param);
@@ -83,11 +85,13 @@ public class Controller {
         if (res == null) return null;
 
         ArrayList<ObjectItemInfo> result = new ArrayList<ObjectItemInfo>();
-        Object[] objs = res.getValues("objects_nameid");
+        Object[] objsName = res.getValues("objects_nameid");
+        Object[] objsType = res.getValues("objects_type");
+        Object[] objsAdress = res.getValues("objects_adress");
 
-        for(Object object: objs)
+        for(int i = 0; i < objsName.length; i++)
         {
-            result.add(new ObjectItemInfo(String.valueOf(object)));
+            result.add(new ObjectItemInfo(String.valueOf(objsName[i]), String.valueOf(objsType[i]), String.valueOf(objsAdress[i])));
         }
 
         return result;
@@ -266,5 +270,10 @@ public class Controller {
         return res == null;
     }
 
+    public void resetPage() {
+        this.currentPageArea.setUserPageNum(1);
+        this.currentPageArea.setOffset(0);
+        this.currentPageArea.setLimit(50);
+    }
 
 }

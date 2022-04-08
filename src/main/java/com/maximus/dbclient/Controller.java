@@ -17,6 +17,8 @@ public class Controller {
     private String currentCategory;
     private String generalCatTable;
     private int countColumns;
+    private String[] friendlyViewNames;
+    private String[] friendlyTableNames;
     private String[] columnNames;
     private String[] columnTypes;
     private String[] genTableColNames;
@@ -45,6 +47,10 @@ public class Controller {
     public void setCurrentCategory(String name) {this.currentCategory = name;}
     public String getGeneralTable() {return this.generalCatTable;}
     public void setGeneralTable(String name) {this.generalCatTable = name;}
+    public String[] getFriendlyViewNames() {return this.friendlyViewNames;}
+    public void setFriendlyViewNames(String[] names) {this.friendlyViewNames = names;}
+    public String[] getFriendlyTableNames() {return this.friendlyTableNames;}
+    public void setFriendlyTableNames(String[] names) {this.friendlyTableNames = names;}
     public String[] getColumnNames() {return this.columnNames;}
     public String[] getColumnTypes() {return this.columnTypes;}
     public String[] getGenTableColNames() {return  this.genTableColNames;}
@@ -137,11 +143,12 @@ public class Controller {
             resultRows.add( new PaymentsItemInfo(res.getRow(i)));
         }
 
+
         return resultRows;
 
     }
 
-    public ArrayList<PaymentsItemInfo> getPayment(String searchStr) {
+    public ArrayList<PaymentsItemInfo> searchPayment(String searchStr) {
         String strCondition = "";
         for(int colIdx = 0; colIdx < columnNames.length; colIdx++) {
             String colName = columnNames[colIdx];
@@ -199,6 +206,8 @@ public class Controller {
 
         Map<String, String> result = res.getRow(0);
         this.currentPaymentDetails = result;
+
+
         return result;
     }
 
@@ -259,15 +268,77 @@ public class Controller {
 
     }
 
-    public boolean comparePayments(Object obj, Object date) {
+    public boolean comparePayments(Object[] obj) {
 
-        String condition = genTableColNames[0] + " = ? AND " + genTableColNames[1] + " = ? ";
-        querySQL = BuilderSQL.templateSELECT(genTableColNames[0] + " , " + genTableColNames[1],
-                generalCatTable, condition, genTableColNames[0]);
-        DBParam[] param = Utils.addDBParams(obj,date);
+        String[] PKColumns = getPKColumns();
+        ArrayList<Object> checkObj = new ArrayList<>();
+        String condition1 ="";
+
+        for(int i = 0; i < PKColumns.length; i++){
+            for(int k = 0; k < genTableColNames.length; k++){
+                if(PKColumns[i].equals(genTableColNames[k])){
+                    condition1 += genTableColNames[k] + " = ? AND ";
+                    checkObj.add(obj[k]);
+                }
+            }
+        }
+        condition1 = condition1.substring(0, condition1.length() -4 );
+        querySQL = BuilderSQL.templateSELECT("*",
+                generalCatTable, condition1, 50);
+        DBParam[] param = Utils.addDBParams(checkObj.toArray());
+        DBResult res1 = DBController.getInstance().getFromDB(querySQL, param);
+
+        return res1 == null;
+    }
+
+    public boolean compareEditPaymentPKValues (Object[] prevValues, Object[] newValues){
+        String[] PKColumns = Controller.getInstance().getPKColumns();
+        ArrayList<Boolean> compares = new ArrayList<>();
+
+        for(int i = 0; i < PKColumns.length; i++){
+            for(int k = 0; k < genTableColNames.length; k++){
+                if(PKColumns[i].equals(genTableColNames[k])){
+                    String prevValue = prevValues[k].toString();
+                    String newValue = newValues[k].toString();
+                    compares.add(prevValue.equals(newValue));
+                }
+            }
+        }
+        for(Boolean comp : compares){
+            if(!comp)
+                return false;
+        }
+
+        return true;
+    }
+
+
+
+    public String[] getPKColumns() {
+        String condition = "table_name = '" + generalCatTable + "' AND constraint_name = '" + generalCatTable + "_pkey'";
+        querySQL = BuilderSQL.templateSELECT("column_name","INFORMATION_SCHEMA.KEY_COLUMN_USAGE",
+                condition,50);
+        DBResult res = DBController.getInstance().getFromDB(querySQL, null);
+        Object[] PKColumns = res.getValues("column_name");
+        return Arrays.copyOf(PKColumns, PKColumns.length, String[].class);
+    }
+
+    public String[] getFriendlyColNames(String tableName) {
+        querySQL = BuilderSQL.templateSELECT("*", "friendly_names" ,
+                "tablename = ?",  50);
+        DBParam[] param = Utils.addDBParams(tableName);
         DBResult res = DBController.getInstance().getFromDB(querySQL, param);
-
-        return res == null;
+        Map<String, String> row = res.getRow(0);
+        String[] resFull = row.values().toArray(new String[0]);
+        String[] resNames;
+        for(int i = 1; i < resFull.length; i++){
+            if(resFull[i].equals("")){
+                resNames = Arrays.copyOfRange(resFull, 1, i);
+                return resNames;
+            }
+        }
+        resNames = Arrays.copyOfRange(resFull, 1, resFull.length -1);
+        return resNames;
     }
 
     public void resetPage() {

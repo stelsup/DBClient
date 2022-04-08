@@ -26,6 +26,7 @@ public class AddPaymentDialog  extends GUIController {
 
     private String objectName;
     private String[] columnNames;
+    private String[] friendlyColumnNames;
     private String[] columnTypes;
     private Object[] addData;
 
@@ -37,6 +38,7 @@ public class AddPaymentDialog  extends GUIController {
     public void onShow() {
 
         this.columnNames = Controller.getInstance().getGenTableColNames();
+        this.friendlyColumnNames = Controller.getInstance().getFriendlyTableNames();
         this.columnTypes = Controller.getInstance().getGenTableColTypes();
         this.objectName = Controller.getInstance().getCurrentObjectName();
 
@@ -56,7 +58,7 @@ public class AddPaymentDialog  extends GUIController {
 
         for(int i = 0; i < columnNames.length; i++){
 
-            Label label = new Label(columnNames[i] + " :");
+            Label label = new Label(friendlyColumnNames[i] + " :");
 
             addGridPane.getRowConstraints().add(i,row);
             addGridPane.add(label,0, i);
@@ -240,7 +242,7 @@ public class AddPaymentDialog  extends GUIController {
 
         for(int i = 0; i < addData.length; i++){
             if(addData[i] == null){
-                ButtonType result = Utils.MessageBox( "Внимание", "Некоторые поля не заполнены!","Заполните поле " + columnNames[i],
+                ButtonType result = Utils.MessageBox( "Внимание", "Некоторые поля не заполнены!","Заполните поле " + friendlyColumnNames[i],
                         Alert.AlertType.WARNING, null);
                 return false;
             }
@@ -250,7 +252,7 @@ public class AddPaymentDialog  extends GUIController {
 
     public void numFormCheckAddData (int indexField) {
 
-        ButtonType result = Utils.MessageBox( "Внимание", "Переполнение значения!","Некорректное значение в поле " + columnNames[indexField],
+        ButtonType result = Utils.MessageBox( "Внимание", "Переполнение значения!","Некорректное значение в поле " + friendlyColumnNames[indexField],
                 Alert.AlertType.WARNING, null);
 
     }

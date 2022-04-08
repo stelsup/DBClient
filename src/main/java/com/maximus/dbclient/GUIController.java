@@ -16,4 +16,5 @@ public abstract class GUIController {
         Stage stage = (Stage)scene.getWindow();
         stage.close();
     }
+
 }

@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -53,6 +54,7 @@ public class MainWindow extends GUIController {
     @FXML
     private ImageView searchImg;
 
+    private Stage thisStage;
     private ArrayList<ObjectItemInfo> objects;
     private ArrayList<CategoriesItemInfo> categories;
     private ArrayList<PaymentsItemInfo> payments;
@@ -75,6 +77,17 @@ public class MainWindow extends GUIController {
         searchField.setDisable(true);
 
         composeObjectsList();
+
+        thisStage = (Stage) super.scene.getWindow();
+        thisStage.setOnCloseRequest(windowEvent ->{
+            ButtonType result = Utils.MessageBox( "Предупреждение", "Выход из программы","Вы действительно хотите выйти ?",
+                    Alert.AlertType.CONFIRMATION, null);
+            if(result == ButtonType.OK){
+                super.closeWindow();
+            }else{
+                windowEvent.consume();
+            }
+        });
 
     }
 
@@ -106,7 +119,11 @@ public class MainWindow extends GUIController {
             }
         }
         Controller.getInstance().setCurrentCategory(view);
+        String[] friendlyView = Controller.getInstance().getFriendlyColNames(view);
+        Controller.getInstance().setFriendlyViewNames(friendlyView);
         Controller.getInstance().setGeneralTableParams(table);
+        String[] friendlyTable = Controller.getInstance().getFriendlyColNames(table);
+        Controller.getInstance().setFriendlyTableNames(friendlyTable);
 
         composePaymentsTable();
     }
@@ -121,7 +138,8 @@ public class MainWindow extends GUIController {
             PaymentsItemInfo payment = (PaymentsItemInfo)selectedItems.get(0);
 
             Map<String, String> res = Controller.getInstance().getPaymentDetails(payment);
-            StringBuilder builder = Utils.buildTextArea(res);
+            String[] friendlyColNames = Controller.getInstance().getFriendlyTableNames();
+            StringBuilder builder = Utils.buildTextArea(res, friendlyColNames);
 
             System.out.println(builder);
             areaPaymentDetails.setPrefRowCount(5);
@@ -226,7 +244,7 @@ public class MainWindow extends GUIController {
         if (payments == null) return;
 
         paymentsList = FXCollections.observableArrayList(payments);
-        String[] colNames = Controller.getInstance().getColumnNames();
+        String[] colNames = Controller.getInstance().getFriendlyViewNames(); //!!!
         for(int colIdx = 0; colIdx < colNames.length; colIdx++ ) {
         String columnName = colNames[colIdx];
             TableColumn<PaymentsItemInfo, String> column = new TableColumn<>(columnName);
@@ -250,7 +268,7 @@ public class MainWindow extends GUIController {
         AddPaymentDialog paymentDialog = (AddPaymentDialog)addPaymentWindow.getController();
         Object[] addPayment = paymentDialog.getAddData();
         if(addPayment != null) {
-            if(Controller.getInstance().comparePayments(addPayment[0],addPayment[1])){
+            if(Controller.getInstance().comparePayments(addPayment)){
                 Controller.getInstance().addPayment(addPayment);
                 composePaymentsTable();
             }else {
@@ -272,6 +290,8 @@ public class MainWindow extends GUIController {
             Controller.getInstance().deleteCurrentPayment();
             composePaymentsTable();
         }
+        deleteButton.setDisable(true);
+        editButton.setDisable(true);
     }
 
     public void editPayment() throws IOException {
@@ -285,10 +305,10 @@ public class MainWindow extends GUIController {
         AddPaymentDialog paymentDialog = (AddPaymentDialog)addPaymentWindow.getController();
         Object[] addPayment = paymentDialog.getAddData();
         if(addPayment != null){
-            if(Utils.compareEditPaymentPKValues(prevPaymentValues, addPayment)){
+            if(Controller.getInstance().compareEditPaymentPKValues(prevPaymentValues, addPayment)){
                 Controller.getInstance().editCurrentPayment(addPayment);
                 composePaymentsTable();
-            }else if(Controller.getInstance().comparePayments(addPayment[0],addPayment[1])){
+            }else if(Controller.getInstance().comparePayments(addPayment)){
                 Controller.getInstance().editCurrentPayment(addPayment);
                 composePaymentsTable();
             }else{
@@ -302,7 +322,7 @@ public class MainWindow extends GUIController {
     public void searchPayment(){
         String strSearch = searchField.getText();
 
-        ArrayList<PaymentsItemInfo> payments = Controller.getInstance().getPayment(strSearch);
+        ArrayList<PaymentsItemInfo> payments = Controller.getInstance().searchPayment(strSearch);
         if (payments == null) {
             Utils.MessageBox( "Поиск", "Не найдено!","По запросу '" + strSearch + "' ничего не найдено!",
                     Alert.AlertType.WARNING, null);
@@ -314,7 +334,7 @@ public class MainWindow extends GUIController {
 
 
         paymentsList = FXCollections.observableArrayList(payments);
-        String[] colNames = Controller.getInstance().getColumnNames();
+        String[] colNames = Controller.getInstance().getFriendlyViewNames();
         for(int colIdx = 0; colIdx < colNames.length; colIdx++ ) {
             String columnName = colNames[colIdx];
             TableColumn<PaymentsItemInfo, String> column = new TableColumn<>(columnName);
@@ -334,6 +354,7 @@ public class MainWindow extends GUIController {
         edtPageNum.setText(String.valueOf(curPage.getUserPageNum()));
         btnPageLeft.setDisable(curPage.getOffset() == 0);
     }
+
     public void onPageLeft() {
         // ...
 
@@ -344,4 +365,7 @@ public class MainWindow extends GUIController {
 
         updateNavigateBar();
     }
+
+
+
 }

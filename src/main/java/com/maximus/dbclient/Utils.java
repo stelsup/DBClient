@@ -68,6 +68,8 @@ public class Utils {
 
     public static ButtonType MessageBox(String title, String text, String textDetails, Alert.AlertType type, ButtonType[] buttons) {
         Alert alert = new Alert(type);
+        Stage dialog = (Stage) alert.getDialogPane().getScene().getWindow();
+        dialog.getIcons().add(new Image("file://" + getImagesPath() + "general_secur.png"));
         alert.setTitle(title);
         alert.setHeaderText(text);
         alert.setContentText(textDetails);
@@ -198,14 +200,14 @@ public class Utils {
         return params;
     }
 
-    public static StringBuilder buildTextArea (Map<String,String> data) {
+    public static StringBuilder buildTextArea (Map<String,String> data, String[] friendlyNames) {
 
         StringBuilder result = new StringBuilder();
         result.append("Информация: \n\n\n");
         String str = "";
-        for(Map.Entry<String, String> entry : data.entrySet()) {
-            //result.append( entry.getKey() +" : \t " + entry.getValue() +  "\n");
-            str += String.format("%-40s%-10s%n",entry.getKey(),entry.getValue());
+        String[] dataStr = data.values().toArray(new String[0]);
+        for(int i = 0; i < friendlyNames.length; i++) {
+            str += String.format("%-40s%-10s%n",friendlyNames[i], dataStr[i]);
         }
         result.append(str);
         return result;
@@ -215,13 +217,6 @@ public class Utils {
         return s.indexOf('.') != -1;
     }
 
-    public static boolean compareEditPaymentPKValues (Object[] prevValues, Object[] newValues){
-        String prevValue = prevValues[0].toString();
-        String prevValue1 = prevValues[1].toString();
-        String newValue = newValues[0].toString();
-        String newValue1 = newValues[1].toString();
-        return (prevValue.equals(newValue) && prevValue1.equals(newValue1));
-    }
 
 }
 

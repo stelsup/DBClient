@@ -13,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -52,22 +54,25 @@ public class MainWindow extends GUIController {
     @FXML
     private Button btnPageRight;
     @FXML
-    private ImageView searchImg;
+    private Button searchBtn;
 
     private Stage thisStage;
+    private PageArea currentPage;
     private ArrayList<ObjectItemInfo> objects;
     private ArrayList<CategoriesItemInfo> categories;
     private ArrayList<PaymentsItemInfo> payments;
 
     public void onShow() {
 
-        addButton.setGraphic(Utils.loadTollBarImage(1));
+        addButton.setGraphic(Utils.loadDOWTollBarImage(1));
         addButton.setGraphicTextGap(5.0);
-        deleteButton.setGraphic(Utils.loadTollBarImage(2));
+        deleteButton.setGraphic(Utils.loadDOWTollBarImage(2));
         deleteButton.setGraphicTextGap(5.0);
-        editButton.setGraphic(Utils.loadTollBarImage(3));
+        editButton.setGraphic(Utils.loadDOWTollBarImage(3));
         editButton.setGraphicTextGap(5.0);
-        searchImg.setImage(new Image("file://" + Utils.getImagesPath() + "search.png"));
+        btnPageLeft.setGraphic(Utils.loadUPTollBarImage(1));
+        btnPageRight.setGraphic(Utils.loadUPTollBarImage(2));
+        searchBtn.setGraphic(Utils.loadUPTollBarImage(3));
         tableviewPayments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableviewPayments.setEditable(false);
         areaPaymentDetails.setEditable(false);
@@ -75,6 +80,10 @@ public class MainWindow extends GUIController {
         deleteButton.setDisable(true);
         editButton.setDisable(true);
         searchField.setDisable(true);
+        searchBtn.setDisable(true);
+        btnPageLeft.setDisable(true);
+        btnPageRight.setDisable(true);
+        edtPageNum.setEditable(false);
 
         composeObjectsList();
 
@@ -97,6 +106,7 @@ public class MainWindow extends GUIController {
         deleteButton.setDisable(true);
         editButton.setDisable(true);
         searchField.setDisable(true);
+        searchBtn.setDisable(true);
 
         Controller.getInstance().setCurrentObjectName(currentObj);
         composeCategoriesList();
@@ -109,6 +119,7 @@ public class MainWindow extends GUIController {
         editButton.setDisable(true);
         addButton.setDisable(false);
         searchField.setDisable(false);
+        searchBtn.setDisable(false);
 
         String view = "";
         String table = "";
@@ -125,7 +136,9 @@ public class MainWindow extends GUIController {
         String[] friendlyTable = Controller.getInstance().getFriendlyColNames(table);
         Controller.getInstance().setFriendlyTableNames(friendlyTable);
 
-        composePaymentsTable();
+        currentPage = new PageArea();
+        composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
+
     }
 
     public void onPaymentSelected()
@@ -144,6 +157,7 @@ public class MainWindow extends GUIController {
             System.out.println(builder);
             areaPaymentDetails.setPrefRowCount(5);
             areaPaymentDetails.setText(builder.toString());
+            areaPaymentDetails.setFont(Font.font("Bookman Old Style"));
 
         }
     }
@@ -158,6 +172,7 @@ public class MainWindow extends GUIController {
 
         if (objects == null){
             Label nullObject = new Label("Объекты не найдены");
+            nullObject.setFont(Font.font("Bookman Old Style",14.0));
             vboxObjects.getChildren().add(nullObject);
         }
 
@@ -168,7 +183,9 @@ public class MainWindow extends GUIController {
             strDetails.setPadding(new Insets(5.0));
             strDetails.setSpacing(5.0);
             Label type = new Label(object.getTypeView());
+            type.setFont(Font.font("Bookman Old Style"));
             Label adress = new Label(object.getAdressView());
+            adress.setFont(Font.font("Bookman Old Style"));
             strDetails.getChildren().addAll(type, adress);
 
             image = Utils.loadObjImage(object.getType());
@@ -199,6 +216,7 @@ public class MainWindow extends GUIController {
 
         if (categories == null){
             Label nullCat = new Label("Категории не найдены");
+            nullCat.setFont(Font.font("Bookman Old Style",14.0));
             vboxObjects.getChildren().add(nullCat);
         }
 
@@ -214,6 +232,7 @@ public class MainWindow extends GUIController {
             picture.setFitHeight(40);
 
             Button bt = new Button(cat.getName());
+            bt.setFont(Font.font("Bookman Old Style", FontWeight.SEMI_BOLD,14.0));
             bt.setUserData(cat);
             bt.setPrefSize(toolBarCategory.getPrefWidth(),80.0);
             bt.setGraphic(picture);
@@ -230,21 +249,20 @@ public class MainWindow extends GUIController {
 
         toolBarCategory.getItems().addAll(result);
 
-        // обнулить страницу!
-       // Controller.getInstance().resetPage();
     }
 
-    public void composePaymentsTable()
+    public boolean composePaymentsTable(int offset, int limit)
     {
-        payments = Controller.getInstance().getPayments();
+        payments = Controller.getInstance().getPayments(offset, limit);
         ObservableList<PaymentsItemInfo> paymentsList;
 
         tableviewPayments.getColumns().clear();
+        updateNavigateBar();
 
-        if (payments == null) return;
+        if (payments == null) return false;
 
         paymentsList = FXCollections.observableArrayList(payments);
-        String[] colNames = Controller.getInstance().getFriendlyViewNames(); //!!!
+        String[] colNames = Controller.getInstance().getFriendlyViewNames();
         for(int colIdx = 0; colIdx < colNames.length; colIdx++ ) {
         String columnName = colNames[colIdx];
             TableColumn<PaymentsItemInfo, String> column = new TableColumn<>(columnName);
@@ -257,6 +275,7 @@ public class MainWindow extends GUIController {
 
         tableviewPayments.setItems(paymentsList);
 
+        return true;
     }
 
     public void addPayment() throws IOException {
@@ -270,7 +289,7 @@ public class MainWindow extends GUIController {
         if(addPayment != null) {
             if(Controller.getInstance().comparePayments(addPayment)){
                 Controller.getInstance().addPayment(addPayment);
-                composePaymentsTable();
+                composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());   /////!!!!!!
             }else {
                 ButtonType result = Utils.MessageBox( "Предупреждение", "Добавление невозможно!","Запись с такими данными уже существует.",
                         Alert.AlertType.WARNING, null);
@@ -288,7 +307,7 @@ public class MainWindow extends GUIController {
                 Alert.AlertType.CONFIRMATION, null);
         if(result == ButtonType.OK) {
             Controller.getInstance().deleteCurrentPayment();
-            composePaymentsTable();
+            composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());  ////!!!!!
         }
         deleteButton.setDisable(true);
         editButton.setDisable(true);
@@ -307,10 +326,10 @@ public class MainWindow extends GUIController {
         if(addPayment != null){
             if(Controller.getInstance().compareEditPaymentPKValues(prevPaymentValues, addPayment)){
                 Controller.getInstance().editCurrentPayment(addPayment);
-                composePaymentsTable();
+                composePaymentsTable(currentPage.getOffset(), currentPage.getLimit()); /////!!!!
             }else if(Controller.getInstance().comparePayments(addPayment)){
                 Controller.getInstance().editCurrentPayment(addPayment);
-                composePaymentsTable();
+                composePaymentsTable(currentPage.getOffset(), currentPage.getLimit()); ///!!!!!
             }else{
                 ButtonType result = Utils.MessageBox( "Предупреждение", "Изменение невозможно!","Запись с такими данными уже существует.",
                         Alert.AlertType.WARNING, null);
@@ -349,21 +368,31 @@ public class MainWindow extends GUIController {
     }
 
     public void updateNavigateBar() {
-        PageArea curPage = Controller.getInstance().getCurrentPageArea();
+        btnPageLeft.setDisable(currentPage.getOffset() == 0);
+        if (payments == null){
+            btnPageRight.setDisable(true);
+        }else {
+            btnPageRight.setDisable(payments.size() < 50);
+        }
 
-        edtPageNum.setText(String.valueOf(curPage.getUserPageNum()));
-        btnPageLeft.setDisable(curPage.getOffset() == 0);
+        edtPageNum.setText(String.valueOf(currentPage.getUserPageNum()));
+
     }
 
     public void onPageLeft() {
-        // ...
-
-        updateNavigateBar();
+        int numPage = Integer.parseInt(edtPageNum.getText());
+        numPage --;
+        this.currentPage.setPage(numPage);
+        composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
+        //updateNavigateBar();
     }
     public void onPageRight() {
-        // ...
 
-        updateNavigateBar();
+        int numPage = Integer.parseInt(edtPageNum.getText());
+        numPage ++;
+        this.currentPage.setPage(numPage);
+        composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
+        //updateNavigateBar();
     }
 
 

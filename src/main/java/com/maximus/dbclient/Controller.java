@@ -124,9 +124,9 @@ public class Controller {
         return result;
     }
 
-    public ArrayList<PaymentsItemInfo> getPayments() {
+    public ArrayList<PaymentsItemInfo> getPayments(int offset, int limit) {
         querySQL = BuilderSQL.templateSELECT("*", currentCategory ,
-                "obj_element = ?", "date_payment", 50);
+                "obj_element = ?", "date_payment", offset, limit);
         DBParam[] param = Utils.addDBParams(currentObjectName);
         DBResult res = DBController.getInstance().getFromDB(querySQL, param);
 
@@ -341,10 +341,5 @@ public class Controller {
         return resNames;
     }
 
-    public void resetPage() {
-        this.currentPageArea.setUserPageNum(1);
-        this.currentPageArea.setOffset(0);
-        this.currentPageArea.setLimit(50);
-    }
 
 }

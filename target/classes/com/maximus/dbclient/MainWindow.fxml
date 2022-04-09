@@ -13,9 +13,9 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="paneRoot" fx:id="generalAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="733.0" minWidth="1062.0" prefHeight="733.0" prefWidth="1062.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.maximus.dbclient.MainWindow">
    <children>
@@ -42,9 +42,9 @@
         <items>
           <Button mnemonicParsing="false" text="Button" />
             <Separator maxHeight="35.0" minHeight="10.0" orientation="VERTICAL" prefHeight="35.0" />
-            <Button fx:id="btnPageLeft" mnemonicParsing="false" onAction="#onPageLeft" text="&lt;" />
-            <Button fx:id="btnPageRight" mnemonicParsing="false" onAction="#onPageRight" text="|&gt;" />
+            <Button fx:id="btnPageLeft" mnemonicParsing="false" onAction="#onPageLeft" />
             <TextField fx:id="edtPageNum" prefHeight="25.0" prefWidth="37.0" />
+            <Button fx:id="btnPageRight" mnemonicParsing="false" onAction="#onPageRight" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
         </items>
       </ToolBar>
@@ -76,16 +76,25 @@
                                        <children>
                                           <ToolBar layoutX="114.0" prefHeight="35.0" prefWidth="644.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <items>
-                                              <Button fx:id="addButton" mnemonicParsing="false" onAction="#addPayment" prefHeight="25.0" prefWidth="100.0" text="Добавить" />
-                                                <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deletePayment" prefHeight="25.0" prefWidth="100.0" text="Удалить" />
-                                                <Button fx:id="editButton" mnemonicParsing="false" onAction="#editPayment" prefHeight="25.0" prefWidth="100.0" text="Изменить" />
+                                              <Button fx:id="addButton" mnemonicParsing="false" onAction="#addPayment" prefHeight="25.0" prefWidth="100.0" text="Добавить">
+                                                   <font>
+                                                      <Font name="Bookman Old Style" size="12.0" />
+                                                   </font></Button>
+                                                <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deletePayment" prefHeight="25.0" prefWidth="100.0" text="Удалить">
+                                                   <font>
+                                                      <Font name="Bookman Old Style" size="12.0" />
+                                                   </font></Button>
+                                                <Button fx:id="editButton" mnemonicParsing="false" onAction="#editPayment" prefHeight="25.0" prefWidth="100.0" text="Изменить">
+                                                   <font>
+                                                      <Font name="Bookman Old Style" size="12.0" />
+                                                   </font></Button>
                                                 <Label prefHeight="17.0" prefWidth="76.0" />
-                                                <TextField fx:id="searchField" onAction="#searchPayment" prefHeight="25.0" prefWidth="211.0" promptText="Поиск">
+                                                <TextField fx:id="searchField" onAction="#searchPayment" prefHeight="25.0" prefWidth="210.0" promptText="Поиск">
                                                    <rotationAxis>
                                                       <Point3D />
                                                    </rotationAxis>
                                                 </TextField>
-                                                <ImageView fx:id="searchImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                                                <Button fx:id="searchBtn" maxHeight="25.0" maxWidth="26.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#searchPayment" prefHeight="25.0" prefWidth="26.0" />
                                             </items>
                                           </ToolBar>
                                           <TextArea fx:id="areaPaymentDetails" layoutY="40.0" prefHeight="246.0" prefWidth="644.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0" />

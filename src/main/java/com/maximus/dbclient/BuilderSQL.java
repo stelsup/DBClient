@@ -12,6 +12,10 @@ public class BuilderSQL {
         return querySQL;
     }
 
+    public static String templateSELECT(String target, String tableNames, String condition, int offset, int limit) {
+        String querySQL = "SELECT " + target + " FROM " + tableNames + " WHERE " + condition + " OFFSET " + offset + " LIMIT " + limit;
+        return querySQL;
+    }
 
     public static String templateSELECT(String target, String tableNames, String condition, String orderBy) {
         String querySQL = "SELECT " + target + " FROM " + tableNames + " WHERE " + condition + " ORDER BY " + orderBy + " ASC ";
@@ -21,6 +25,13 @@ public class BuilderSQL {
     public static String templateSELECT(String target, String tableNames, String condition, String orderBy, int limit)
     {
         String querySQL = "SELECT " + target + " FROM " + tableNames + " WHERE " + condition + " ORDER BY " + orderBy + " ASC LIMIT " + limit;
+        return querySQL;
+    }
+
+    public static String templateSELECT(String target, String tableNames, String condition, String orderBy, int offset, int limit)
+    {
+        String querySQL = "SELECT " + target + " FROM " + tableNames + " WHERE " + condition + " ORDER BY " + orderBy + " ASC OFFSET " + offset +
+                " LIMIT " + limit;
         return querySQL;
     }
 

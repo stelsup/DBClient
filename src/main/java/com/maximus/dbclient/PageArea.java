@@ -5,33 +5,29 @@ public class PageArea {
     private int offset; // с
     private int limit; // до
 
-    public PageArea (int pageNum, int offset, int limit) {
-        this.userPageNum = pageNum; // "номер страницы"
-        this.offset = offset; // с
-        this.limit = limit; // до
+    public PageArea () {
+        this.userPageNum = 1; // "номер страницы"
+        this.offset = 0; // с
+        this.limit = 50; // до
+    }
+
+    public void setPage (int numPage) {
+        int i = 50;
+        this.userPageNum = numPage;
+        this.limit = numPage * i;
+        this.offset = limit - 50;
     }
 
     public int getUserPageNum() {
         return userPageNum;
     }
 
-    public void setUserPageNum(int userPageNum) {
-        this.userPageNum = userPageNum;
-    }
-
     public int getOffset() {
         return offset;
-    }
-
-    public void setOffset(int offset) {
-        this.offset = offset;
     }
 
     public int getLimit() {
         return limit;
     }
 
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
 }

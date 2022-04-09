@@ -67,6 +67,7 @@ public class Utils {
     }
 
     public static ButtonType MessageBox(String title, String text, String textDetails, Alert.AlertType type, ButtonType[] buttons) {
+        // todo задать стиль текста для всего диалога
         Alert alert = new Alert(type);
         Stage dialog = (Stage) alert.getDialogPane().getScene().getWindow();
         dialog.getIcons().add(new Image("file://" + getImagesPath() + "general_secur.png"));
@@ -152,7 +153,9 @@ public class Utils {
         }
     }
 
-    public static ImageView loadTollBarImage(int index){
+    // todo Объеденить все loadImage в один, с добавлением размеров
+
+    public static ImageView loadDOWTollBarImage(int index){
         Image image;
 
         switch(index){
@@ -175,6 +178,29 @@ public class Utils {
         ImageView picture = new ImageView(image);
         picture.setFitWidth(18.0);
         picture.setFitHeight(18.0);
+        return picture;
+    }
+
+    public static ImageView loadUPTollBarImage(int index) {
+        Image image;
+
+        switch(index){
+            case 1:
+                image = new Image("file://" + Utils.getImagesPath() + "arrow_left.png");
+                break;
+            case 2:
+                image = new Image("file://" + Utils.getImagesPath() + "arrow_right.png");
+                break;
+            case 3:
+                image = new Image("file://" + Utils.getImagesPath() + "search.png");
+                break;
+            default:
+                return null;
+
+        }
+        ImageView picture = new ImageView(image);
+        picture.setFitWidth(25.0);
+        picture.setFitHeight(25.0);
         return picture;
     }
 
@@ -207,7 +233,7 @@ public class Utils {
         String str = "";
         String[] dataStr = data.values().toArray(new String[0]);
         for(int i = 0; i < friendlyNames.length; i++) {
-            str += String.format("%-40s%-10s%n",friendlyNames[i], dataStr[i]);
+            str += String.format("%-40s%-10s%n",friendlyNames[i] + ": ", dataStr[i]);
         }
         result.append(str);
         return result;

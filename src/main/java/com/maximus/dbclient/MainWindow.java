@@ -55,12 +55,17 @@ public class MainWindow extends GUIController {
     private Button btnPageRight;
     @FXML
     private Button searchBtn;
+    @FXML
+    private Button refreshBtn;
+
 
     private Stage thisStage;
     private PageArea currentPage;
     private ArrayList<ObjectItemInfo> objects;
     private ArrayList<CategoriesItemInfo> categories;
     private ArrayList<PaymentsItemInfo> payments;
+
+
 
     public void onShow() {
 
@@ -73,6 +78,7 @@ public class MainWindow extends GUIController {
         btnPageLeft.setGraphic(Utils.loadUPTollBarImage(1));
         btnPageRight.setGraphic(Utils.loadUPTollBarImage(2));
         searchBtn.setGraphic(Utils.loadUPTollBarImage(3));
+        refreshBtn.setGraphic(Utils.loadUPTollBarImage(4));
         tableviewPayments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableviewPayments.setEditable(false);
         areaPaymentDetails.setEditable(false);
@@ -83,6 +89,7 @@ public class MainWindow extends GUIController {
         searchBtn.setDisable(true);
         btnPageLeft.setDisable(true);
         btnPageRight.setDisable(true);
+        refreshBtn.setDisable(true);
         edtPageNum.setEditable(false);
 
         composeObjectsList();
@@ -107,6 +114,7 @@ public class MainWindow extends GUIController {
         editButton.setDisable(true);
         searchField.setDisable(true);
         searchBtn.setDisable(true);
+        refreshBtn.setDisable(true);
 
         Controller.getInstance().setCurrentObjectName(currentObj);
         composeCategoriesList();
@@ -120,6 +128,7 @@ public class MainWindow extends GUIController {
         addButton.setDisable(false);
         searchField.setDisable(false);
         searchBtn.setDisable(false);
+        refreshBtn.setDisable(false);
 
         String view = "";
         String table = "";
@@ -157,7 +166,9 @@ public class MainWindow extends GUIController {
             System.out.println(builder);
             areaPaymentDetails.setPrefRowCount(5);
             areaPaymentDetails.setText(builder.toString());
-            areaPaymentDetails.setFont(Font.font("Bookman Old Style"));
+            //areaPaymentDetails.setFont(Font.font("Bookman Old Style"));
+            //areaPaymentDetails.setFont(Font.font("Courier New"));
+            areaPaymentDetails.setFont(Font.font("Consolas"));
 
         }
     }
@@ -384,17 +395,32 @@ public class MainWindow extends GUIController {
         numPage --;
         this.currentPage.setPage(numPage);
         composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
-        //updateNavigateBar();
+
     }
+
     public void onPageRight() {
 
         int numPage = Integer.parseInt(edtPageNum.getText());
         numPage ++;
         this.currentPage.setPage(numPage);
         composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
-        //updateNavigateBar();
+
     }
 
+    public void onRefresh() {
+        composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
+    }
 
+    public void onCloseProgram() {
+        ButtonType result = Utils.MessageBox( "Предупреждение", "Выход из программы","Вы действительно хотите выйти ?",
+                Alert.AlertType.CONFIRMATION, null);
+        if(result == ButtonType.OK){
+            super.closeWindow();
+        }
+    }
 
+    public void onAbout() throws IOException {
+        GUIWindow aboutWindow = showWindow("About.fxml",
+                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),450,500,"О программе ");
+    }
 }

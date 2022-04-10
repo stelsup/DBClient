@@ -12,7 +12,6 @@ import java.util.*;
 public class Controller {
     private static Controller single_instance = null;
     private String userName;
-    private PageArea currentPageArea;
     private String currentObjectName;
     private String currentCategory;
     private String generalCatTable;
@@ -40,7 +39,6 @@ public class Controller {
     }
     //------------------------------
     public void setUserName(String name) { this.userName = name; }
-    public PageArea getCurrentPageArea() { return this.currentPageArea; }
     public String getCurrentObjectName() {return this.currentObjectName;}
     public void setCurrentObjectName(String name) {this.currentObjectName = name;}
     public String getCurrentCategory() {return this.currentCategory;}

@@ -4,14 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dffe2a03-ae76-48d0-84e0-666e0f41142a" name="Changes" comment="new: friendly column names&#10;fix: exit&#10;feat: dynamic PK checking">
+    <list default="true" id="dffe2a03-ae76-48d0-84e0-666e0f41142a" name="Changes" comment="feat: add page navigation">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/AboutController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/About.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/BuilderSQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/BuilderSQL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/AddPaymentDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/AddPaymentDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/LoginDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/LoginDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/PageArea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/PageArea.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/LoginDialog.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/LoginDialog.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/MainWindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/MainWindow.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/MainWindow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/MainWindow.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/MainWindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/MainWindow.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/Utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/maximus/dbclient/Utils.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,7 +268,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649459083146</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="feat: add page navigation">
+      <created>1649542002346</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1649542002346</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -301,20 +314,26 @@
     <MESSAGE value="feat: search, completed" />
     <MESSAGE value="Redesigned: objects view, categories view, LoginDialog" />
     <MESSAGE value="new: friendly column names&#10;fix: exit&#10;feat: dynamic PK checking" />
-    <option name="LAST_COMMIT_MESSAGE" value="new: friendly column names&#10;fix: exit&#10;feat: dynamic PK checking" />
+    <MESSAGE value="feat: add page navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add page navigation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Controller.java</url>
-          <line>318</line>
+          <line>316</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Controller.java</url>
-          <line>193</line>
-          <option name="timeStamp" value="6" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/maximus/dbclient/LoginDialog.java</url>
+          <line>105</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/maximus/dbclient/LoginDialog.java</url>
+          <line>98</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

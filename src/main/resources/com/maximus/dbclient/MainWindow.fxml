@@ -21,31 +21,34 @@
    <children>
       <MenuBar fx:id="menuBar" layoutY="2.0" minHeight="25.0" minWidth="1062.0" prefHeight="25.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu fx:id="menuFile" mnemonicParsing="false" text="Файл">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="subMenuFileClose" mnemonicParsing="false" onAction="#onCloseProgram" text="Выйти из приложения" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu fx:id="menuEdit" mnemonicParsing="false" text="Редактирование">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" text="Добавить платеж" />
+                  <MenuItem mnemonicParsing="false" text="Удалить платеж" />
+                  <MenuItem mnemonicParsing="false" text="Изменить платеж" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu fx:id="menuHelp" mnemonicParsing="false" text="Справка">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="subMenuAboutAbout" mnemonicParsing="false" onAction="#onAbout" text="О программе " />
             </items>
           </Menu>
         </menus>
       </MenuBar>
-      <ToolBar fx:id="toolBar" layoutX="1.0" layoutY="27.0" maxHeight="35.0" minHeight="35.0" minWidth="1062.0" prefHeight="35.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
+      <ToolBar fx:id="toolBar" layoutX="1.0" layoutY="27.0" maxHeight="38.0" minHeight="35.0" minWidth="1062.0" prefHeight="38.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
         <items>
           <Button mnemonicParsing="false" text="Button" />
             <Separator maxHeight="35.0" minHeight="10.0" orientation="VERTICAL" prefHeight="35.0" />
-            <Button fx:id="btnPageLeft" mnemonicParsing="false" onAction="#onPageLeft" />
+            <Button fx:id="btnPageLeft" maxHeight="28.0" minHeight="28.0" mnemonicParsing="false" onAction="#onPageLeft" prefHeight="28.0" />
             <TextField fx:id="edtPageNum" prefHeight="25.0" prefWidth="37.0" />
-            <Button fx:id="btnPageRight" mnemonicParsing="false" onAction="#onPageRight" />
+            <Button fx:id="btnPageRight" maxHeight="28.0" minHeight="28.0" mnemonicParsing="false" onAction="#onPageRight" prefHeight="28.0" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <Button fx:id="refreshBtn" maxHeight="28.0" minHeight="28.0" mnemonicParsing="false" onAction="#onRefresh" prefHeight="28.0" />
         </items>
       </ToolBar>
       <SplitPane dividerPositions="0.21937639198218262" layoutX="1.0" layoutY="62.0" prefHeight="538.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="62.0">

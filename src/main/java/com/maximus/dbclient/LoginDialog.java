@@ -8,7 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.security.MessageDigest;
 
 
 public class LoginDialog extends GUIController{
@@ -53,7 +55,17 @@ public class LoginDialog extends GUIController{
     private void btnOKClick(ActionEvent event) {
 
         strCredentials[0] = txtName.getText();
-        strCredentials[1] = txtPass.getText();
+        //strCredentials[1] = txtPass.getText();
+        String stringHash = "";
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(txtPass.getText().getBytes());
+            stringHash = new String(messageDigest.digest());
+        } catch (NoSuchAlgorithmException ex) {
+            //
+        }
+        strCredentials[1] = stringHash;
+
 
         if (checkCredentials()) {
             btnResult = ButtonType.OK;

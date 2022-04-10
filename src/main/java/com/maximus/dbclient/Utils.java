@@ -74,6 +74,7 @@ public class Utils {
         alert.setTitle(title);
         alert.setHeaderText(text);
         alert.setContentText(textDetails);
+
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
                 alert.close();
@@ -193,6 +194,9 @@ public class Utils {
                 break;
             case 3:
                 image = new Image("file://" + Utils.getImagesPath() + "search.png");
+                break;
+            case 4:
+                image = new Image("file://" + Utils.getImagesPath() + "refresh.png");
                 break;
             default:
                 return null;

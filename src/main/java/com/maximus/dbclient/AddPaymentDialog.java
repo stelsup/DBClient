@@ -24,6 +24,8 @@ public class AddPaymentDialog  extends GUIController {
     @FXML
     private Button addCancel;
 
+    private final int iMaxStringFieldLen = 30;
+
     private String objectName;
     private String[] columnNames;
     private String[] friendlyColumnNames;
@@ -208,7 +210,13 @@ public class AddPaymentDialog  extends GUIController {
                     }
                 }else {
                     String str = texf.getText();
-                    data[i] = str;
+                    if(str.length() > iMaxStringFieldLen) {
+                        textFormCheckAddData(i);
+                        data[i] = null;
+                        return;
+                    } else {
+                        data[i] = str;
+                    }
                 }
             }else if(dataFields[i] instanceof DatePicker) {
                 DatePicker datPick = (DatePicker) dataFields[i];
@@ -242,7 +250,7 @@ public class AddPaymentDialog  extends GUIController {
 
         for(int i = 0; i < addData.length; i++){
             if(addData[i] == null){
-                ButtonType result = Utils.MessageBox( "Внимание", "Некоторые поля не заполнены!","Заполните поле " + friendlyColumnNames[i],
+                ButtonType result = Utils.MessageBox( "Внимание", "Некоторые поля не заполнены!","Заполните поле: " + friendlyColumnNames[i],
                         Alert.AlertType.WARNING, null);
                 return false;
             }
@@ -252,8 +260,14 @@ public class AddPaymentDialog  extends GUIController {
 
     public void numFormCheckAddData (int indexField) {
 
-        ButtonType result = Utils.MessageBox( "Внимание", "Переполнение значения!","Некорректное значение в поле " + friendlyColumnNames[indexField],
+        ButtonType result = Utils.MessageBox( "Внимание", "Переполнение значения!","Некорректное значение в поле: " + friendlyColumnNames[indexField],
                 Alert.AlertType.WARNING, null);
 
+    }
+
+    public void textFormCheckAddData (int indexField) {
+        ButtonType result = Utils.MessageBox( "Внимание", "Переполнение значения!","Введите значение не более "
+                        + String.valueOf(iMaxStringFieldLen) + " символов в поле: " + friendlyColumnNames[indexField],
+                Alert.AlertType.WARNING, null);
     }
 }

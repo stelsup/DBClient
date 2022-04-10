@@ -18,8 +18,8 @@
          </font></Label>
       <!---TextField fx:id="txtName" floatText="Имя" layoutX="104.0" layoutY="64.0" prefHeight="30.0" prefWidth="142.0" /-->
       <!---TextField fx:id="txtPass" floatText="Пароль" layoutX="104.0" layoutY="107.0" /-->
-      <TextField fx:id="txtName" layoutX="91.0" layoutY="68.0" prefHeight="30.0" prefWidth="170.0" />
-      <PasswordField fx:id="txtPass" layoutX="91.0" layoutY="125.0" prefHeight="30.0" prefWidth="170.0" />
+      <TextField fx:id="txtName" layoutX="91.0" layoutY="68.0" onAction="#btnOKClick" prefHeight="30.0" prefWidth="170.0" />
+      <PasswordField fx:id="txtPass" layoutX="91.0" layoutY="125.0" onAction="#btnOKClick" prefHeight="30.0" prefWidth="170.0" />
 
       <Button fx:id="btnOK" layoutX="91.0" layoutY="196.0" mnemonicParsing="false" onAction="#btnOKClick" prefHeight="30.0" prefWidth="67.0" text="Ок">
          <font>

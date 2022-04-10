@@ -232,6 +232,13 @@ public class Controller {
 
     }
 
+    public void addUser(Object[] data) {
+        querySQL = BuilderSQL.templateINSERT("public.payer", data.length);
+        DBParam[] param = Utils.addDBParams(data);
+        boolean res = DBController.getInstance().setToDB(querySQL,param);
+        // ToDo: add checks
+    }
+
     public void  deleteCurrentPayment(){
 
         if(this.currentPayment == null)

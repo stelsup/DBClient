@@ -1,5 +1,6 @@
 package com.maximus.dbclient.DB;
 import com.maximus.dbclient.Utils;
+import javafx.scene.control.Alert;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -36,9 +37,13 @@ public class DBController {
     private boolean loadProperties(){
         FileInputStream fileIn;
         propConnection = new Properties();
+        String path = Utils.getEtcPath()+ propsFileName;
+        //dbg
+        Utils.MessageBox( "Ошибка", "Ошибка","Конфигурационный файл 'connection.properties' загружается из '" + path + "'.....",
+                Alert.AlertType.WARNING, null);
+        //dbg
 
         try{
-            String path = Utils.getEtcPath()+ propsFileName;
             fileIn = new FileInputStream(path);
             propConnection.load(fileIn);
 
@@ -51,6 +56,8 @@ public class DBController {
             }
         }catch(IOException ex) {
             System.out.println("Config file 'connection.properties' not loaded properly!");
+            Utils.MessageBox( "Ошибка", "Ошибка","Конфигурационный файл 'connection.properties' не загружен из '" + path + "'!",
+                    Alert.AlertType.WARNING, null);
             ex.printStackTrace();
         }
         return false;

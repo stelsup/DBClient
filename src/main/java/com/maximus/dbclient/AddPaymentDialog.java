@@ -50,6 +50,7 @@ public class AddPaymentDialog  extends GUIController {
         TextField firstField = new TextField();
         firstField.setText(objectName);
         firstField.setEditable(false);
+        firstField.setDisable(true); // New!
 
 
         ColumnConstraints col1 = new ColumnConstraints(200,200,200);

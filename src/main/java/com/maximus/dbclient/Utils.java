@@ -18,6 +18,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -67,7 +69,6 @@ public class Utils {
     }
 
     public static ButtonType MessageBox(String title, String text, String textDetails, Alert.AlertType type, ButtonType[] buttons) {
-        // todo задать стиль текста для всего диалога
         Alert alert = new Alert(type);
         Stage dialog = (Stage) alert.getDialogPane().getScene().getWindow();
         dialog.getIcons().add(new Image("file://" + getImagesPath() + "general_secur.png"));
@@ -247,6 +248,17 @@ public class Utils {
         return s.indexOf('.') != -1;
     }
 
+    public static String passToHash(String rawPass) {
+        String stringHash = "";
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(rawPass.getBytes());
+            stringHash = new String(messageDigest.digest());
+        } catch (NoSuchAlgorithmException ex) {
+            //
+        }
+        return stringHash;
+    }
 
 }
 

@@ -7,10 +7,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.security.MessageDigest;
+
+import static com.maximus.dbclient.Utils.showWindow;
 
 
 public class LoginDialog extends GUIController{
@@ -29,12 +35,18 @@ public class LoginDialog extends GUIController{
     private ImageView imgUser;
     @FXML
     private ImageView imgPass;
+    @FXML
+    private Hyperlink lnkRegister;
 
     public ButtonType btnResult = ButtonType.CANCEL;
     public String[] strCredentials  = new String[2];
     private String userName;
 
     public void onShow() {
+        Stage thisStage = ((Stage) super.scene.getWindow());
+        //((Stage) super.scene.getWindow()).initStyle(StageStyle.UNIFIED);
+        thisStage.setMaxHeight(270);
+        thisStage.setMaxWidth(350);
 
        Image user = new Image("file://" + Utils.getImagesPath() + "user_pluse.png");
        Image pass = new Image("file://" + Utils.getImagesPath() + "pass_green.png");
@@ -56,16 +68,7 @@ public class LoginDialog extends GUIController{
 
         strCredentials[0] = txtName.getText();
         //strCredentials[1] = txtPass.getText();
-        String stringHash = "";
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-            messageDigest.update(txtPass.getText().getBytes());
-            stringHash = new String(messageDigest.digest());
-        } catch (NoSuchAlgorithmException ex) {
-            //
-        }
-        strCredentials[1] = stringHash;
-
+        strCredentials[1] = Utils.passToHash(txtPass.getText());
 
         if (checkCredentials()) {
             btnResult = ButtonType.OK;
@@ -80,10 +83,25 @@ public class LoginDialog extends GUIController{
         }
 
     }
+
     @FXML
     private void btnCancelCLick(ActionEvent event) {
         btnResult = ButtonType.CANCEL;
         this.closeWindow();
+    }
+
+    @FXML
+    private void lnkRegisterClick() throws IOException {
+        GUIWindow registrationWindow = showWindow("RegistrationDialog.fxml",
+                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),430,500,"Регистрация");
+        RegistrationDialog regDialog = (RegistrationDialog)registrationWindow.getController();
+
+
+        Object[] regData = regDialog.getAddData();
+        if(regData != null)
+        {
+            Controller.getInstance().addUser(regData);
+        }
     }
 
     public ButtonType getBtnResult() {

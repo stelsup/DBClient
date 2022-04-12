@@ -62,7 +62,4 @@ public class BuilderSQL {
         return querySQL;
     }
 
-
-
-
 }

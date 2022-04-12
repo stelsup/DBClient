@@ -1,23 +1,18 @@
 package com.maximus.dbclient;
 
 import com.maximus.dbclient.DB.DBParam;
+import com.maximus.dbclient.GUICore.GUIController;
+import com.maximus.dbclient.GUICore.GUIParam;
+import com.maximus.dbclient.GUICore.GUIWindow;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URI;
-import java.nio.file.*;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
@@ -26,13 +21,17 @@ import java.util.Map;
 public class Utils {
 
     public static String getEtcPath() {
-        String path = Utils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        return path + "../../etc/";
+        //String path = Utils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String path = System.getProperty("user.dir");
+        return path + "/../etc/";
+        //return "/../etc/";
     }
 
     public static String getImagesPath(){
-        String path = Utils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        return path + "../../images/";
+//        String path = Utils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String path = System.getProperty("user.dir");
+        return "file:" + path + "/../images/";
+        //return "/../images/";
     }
 
     public static String clearDBData(String input) {
@@ -40,19 +39,19 @@ public class Utils {
         return input == null ? "" : input.trim();
     }
 
-    public static GUIWindow showWindow(String fxmlName, GUIParam guiParam, int minHeight, int minWidth, String title) throws IOException
+    public static GUIWindow showWindow(String fxmlName, GUIParam guiParam, String title) throws IOException
     {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(ApplicationMain.class.getResource(fxmlName));
         stage.setTitle(title);
 
-        stage.getIcons().add(new Image("file://" + getImagesPath() + "general_secur.png"));
-        Scene scene = new Scene(fxmlLoader.load()/*, 320, 240*/);
+        stage.getIcons().add(new Image(getImagesPath() + "general_secur.png"));
+        Scene scene = new Scene(fxmlLoader.load());
         stage.initModality(guiParam.modality);
         stage.initOwner(guiParam.ownerParent);
 
-        stage.setMinHeight(minHeight);
-        stage.setMinWidth(minWidth);
+        stage.setMinHeight(guiParam.minHeight);
+        stage.setMinWidth(guiParam.minWidth);
         stage.setScene(scene);
 
         GUIController c = fxmlLoader.getController();
@@ -71,7 +70,7 @@ public class Utils {
     public static ButtonType MessageBox(String title, String text, String textDetails, Alert.AlertType type, ButtonType[] buttons) {
         Alert alert = new Alert(type);
         Stage dialog = (Stage) alert.getDialogPane().getScene().getWindow();
-        dialog.getIcons().add(new Image("file://" + getImagesPath() + "general_secur.png"));
+        dialog.getIcons().add(new Image(getImagesPath() + "general_secur.png"));
         alert.setTitle(title);
         alert.setHeaderText(text);
         alert.setContentText(textDetails);
@@ -106,107 +105,102 @@ public class Utils {
         return query;
     }
 
-    public static Image loadObjImage(String name){
+    public static ImageView loadObjImage(String name, double width, double height){
+        Image image;
+
         switch(name){
             case "Квартира":
-                return new Image("file://" + Utils.getImagesPath() + "house.png");
-
+                image = new Image(Utils.getImagesPath() + "house.png");
+                break;
             case "Дом":
-                return new Image("file://" + Utils.getImagesPath() + "cottege.png");
-
+                image = new Image(Utils.getImagesPath() + "cottege.png");
+                break;
             case "Участок":
-                return new Image("file://" + Utils.getImagesPath() + "zabor.png");
-
+                image = new Image(Utils.getImagesPath() + "zabor.png");
+                break;
             case "Транспорт":
-                return new Image("file://" + Utils.getImagesPath() + "car.png");
-
+                image = new Image(Utils.getImagesPath() + "car.png");
+                break;
             default:
-                return new Image("file://" + Utils.getImagesPath() + "easy_home.png");
+                image = new Image(Utils.getImagesPath() + "easy_home.png");
 
         }
+        ImageView picture = new ImageView(image);
+        picture.setFitWidth(width);
+        picture.setFitHeight(height);
+        return  picture;
     }
 
-    public static Image loadCatImage(String name){
+    public static ImageView loadCatImage(String name, double width, double height){
+        Image image;
 
         switch (name){
             case "Налог" :
-                return new Image("file://" + Utils.getImagesPath() + "nalog.png");
-
+                image = new Image(Utils.getImagesPath() + "nalog.png");
+                break;
             case "Электричество":
-                return new Image("file://" + Utils.getImagesPath() + "energy_yellow.png");
-
+                image = new Image(Utils.getImagesPath() + "energy_yellow.png");
+                break;
             case "ТКО":
-                return new Image("file://" + Utils.getImagesPath() + "tko.png");
-
+                image = new Image(Utils.getImagesPath() + "tko.png");
+                break;
             case "ХВС":
-                return new Image("file://" + Utils.getImagesPath() + "cold_water.png");
-
+                image = new Image(Utils.getImagesPath() + "cold_water.png");
+                break;
             case "Газ":
-                return new Image("file://" + Utils.getImagesPath() + "gas.png");
-
+                image = new Image(Utils.getImagesPath() + "gas.png");
+                break;
             case "Кооператив":
-                return new Image("file://" + Utils.getImagesPath() + "cooperative.png");
-
+                image = new Image(Utils.getImagesPath() + "cooperative.png");
+                break;
             case "Охрана", "Охрана2":
-                return new Image("file://" + Utils.getImagesPath() + "general_secur.png");
-
-            default:
-                return new Image("file://" + Utils.getImagesPath() + "inspection.png");
-        }
-    }
-
-    // todo Объеденить все loadImage в один, с добавлением размеров
-
-    public static ImageView loadDOWTollBarImage(int index){
-        Image image;
-
-        switch(index){
-            case 1:
-                image = new Image("file://" + Utils.getImagesPath() + "add.png");
-                break;
-            case 2:
-                image = new Image("file://" + Utils.getImagesPath() + "delete.png");
-                break;
-            case 3:
-                image = new Image("file://" + Utils.getImagesPath() + "edit.png");
-                break;
-            case 4:
-                image = new Image("file://" + Utils.getImagesPath() + "search.png");
+                image = new Image(Utils.getImagesPath() + "general_secur.png");
                 break;
             default:
-                return null;
-
+                image = new Image(Utils.getImagesPath() + "inspection.png");
         }
+
         ImageView picture = new ImageView(image);
-        picture.setFitWidth(18.0);
-        picture.setFitHeight(18.0);
+        picture.setFitWidth(40);
+        picture.setFitHeight(40);
+
         return picture;
     }
 
-    public static ImageView loadUPTollBarImage(int index) {
+    public static ImageView loadToolsImage(String name, double width, double height){
         Image image;
 
-        switch(index){
-            case 1:
-                image = new Image("file://" + Utils.getImagesPath() + "arrow_left.png");
+        switch(name){
+            case "add" :
+                image = new Image(Utils.getImagesPath() + "add.png");
                 break;
-            case 2:
-                image = new Image("file://" + Utils.getImagesPath() + "arrow_right.png");
+            case "delete" :
+                image = new Image(Utils.getImagesPath() + "delete.png");
                 break;
-            case 3:
-                image = new Image("file://" + Utils.getImagesPath() + "search.png");
+            case "edit" :
+                image = new Image(Utils.getImagesPath() + "edit.png");
                 break;
-            case 4:
-                image = new Image("file://" + Utils.getImagesPath() + "refresh.png");
+            case "search" :
+                image = new Image(Utils.getImagesPath() + "search.png");
+                break;
+            case "arrow_left":
+                image = new Image(Utils.getImagesPath() + "arrow_left.png");
+                break;
+            case "arrow_right":
+                image = new Image(Utils.getImagesPath() + "arrow_right.png");
+                break;
+            case "refresh":
+                image = new Image(Utils.getImagesPath() + "refresh.png");
                 break;
             default:
                 return null;
-
         }
+
         ImageView picture = new ImageView(image);
-        picture.setFitWidth(25.0);
-        picture.setFitHeight(25.0);
+        picture.setFitWidth(width);
+        picture.setFitHeight(height);
         return picture;
+
     }
 
     public static String trimSpaces(String input) {

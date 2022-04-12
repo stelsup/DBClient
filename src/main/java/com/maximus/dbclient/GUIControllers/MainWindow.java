@@ -1,16 +1,18 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.GUIControllers;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
+import com.maximus.dbclient.*;
+import com.maximus.dbclient.GUICore.GUIController;
+import com.maximus.dbclient.GUICore.GUIParam;
+import com.maximus.dbclient.GUICore.GUIWindow;
+import com.maximus.dbclient.ItemInfo.CategoriesItemInfo;
+import com.maximus.dbclient.ItemInfo.ObjectItemInfo;
+import com.maximus.dbclient.ItemInfo.PaymentsItemInfo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -18,11 +20,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static com.maximus.dbclient.Utils.showWindow;
@@ -69,16 +68,16 @@ public class MainWindow extends GUIController {
 
     public void onShow() {
 
-        addButton.setGraphic(Utils.loadDOWTollBarImage(1));
+        addButton.setGraphic(Utils.loadToolsImage("add",18.0, 18.0));
         addButton.setGraphicTextGap(5.0);
-        deleteButton.setGraphic(Utils.loadDOWTollBarImage(2));
+        deleteButton.setGraphic(Utils.loadToolsImage("delete",18.0, 18.0));
         deleteButton.setGraphicTextGap(5.0);
-        editButton.setGraphic(Utils.loadDOWTollBarImage(3));
+        editButton.setGraphic(Utils.loadToolsImage("edit",18.0, 18.0));
         editButton.setGraphicTextGap(5.0);
-        btnPageLeft.setGraphic(Utils.loadUPTollBarImage(1));
-        btnPageRight.setGraphic(Utils.loadUPTollBarImage(2));
-        searchBtn.setGraphic(Utils.loadUPTollBarImage(3));
-        refreshBtn.setGraphic(Utils.loadUPTollBarImage(4));
+        btnPageLeft.setGraphic(Utils.loadToolsImage("arrow_left",25.0, 25.0));
+        btnPageRight.setGraphic(Utils.loadToolsImage("arrow_right",25.0, 25.0));
+        searchBtn.setGraphic(Utils.loadToolsImage("search",25.0, 25.0));
+        refreshBtn.setGraphic(Utils.loadToolsImage("refresh",25.0, 25.0));
         tableviewPayments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableviewPayments.setEditable(false);
         areaPaymentDetails.setEditable(false);
@@ -166,8 +165,6 @@ public class MainWindow extends GUIController {
             System.out.println(builder);
             areaPaymentDetails.setPrefRowCount(5);
             areaPaymentDetails.setText(builder.toString());
-            //areaPaymentDetails.setFont(Font.font("Bookman Old Style"));
-            //areaPaymentDetails.setFont(Font.font("Courier New"));
             areaPaymentDetails.setFont(Font.font("Consolas"));
 
         }
@@ -176,9 +173,7 @@ public class MainWindow extends GUIController {
     public void composeObjectsList()
     {
         objects = Controller.getInstance().getObjects();
-        ArrayList<TitledPane> result = new ArrayList<TitledPane>();
-        ImageView picture;
-        Image image;
+        ArrayList<TitledPane> result = new ArrayList<>();
         VBox strDetails;
 
         if (objects == null){
@@ -199,14 +194,9 @@ public class MainWindow extends GUIController {
             adress.setFont(Font.font("Bookman Old Style"));
             strDetails.getChildren().addAll(type, adress);
 
-            image = Utils.loadObjImage(object.getType());
-            picture = new ImageView(image);
-            picture.setFitWidth(25);
-            picture.setFitHeight(25);
-
             TitledPane tp = new TitledPane();
             tp.setText(object.getName());
-            tp.setGraphic(picture);
+            tp.setGraphic(Utils.loadObjImage(object.getType(), 25.0 ,25.0));
             tp.setContent(strDetails);
             tp.setCollapsible(true);
             tp.setAnimated(true);
@@ -232,21 +222,14 @@ public class MainWindow extends GUIController {
         }
 
         ArrayList<Button> result = new ArrayList<Button>();
-        ImageView picture;
-        Image image;
 
         for(CategoriesItemInfo cat : categories){
-
-            image = Utils.loadCatImage(cat.getName());
-            picture = new ImageView(image);
-            picture.setFitWidth(40);
-            picture.setFitHeight(40);
 
             Button bt = new Button(cat.getName());
             bt.setFont(Font.font("Bookman Old Style", FontWeight.SEMI_BOLD,14.0));
             bt.setUserData(cat);
             bt.setPrefSize(toolBarCategory.getPrefWidth(),80.0);
-            bt.setGraphic(picture);
+            bt.setGraphic(Utils.loadCatImage(cat.getName(),40.0,40.0));
             bt.setContentDisplay(ContentDisplay.RIGHT);
             bt.setTextAlignment(TextAlignment.CENTER);
             bt.setAlignment(Pos.CENTER_RIGHT);
@@ -293,14 +276,14 @@ public class MainWindow extends GUIController {
 
 
         GUIWindow addPaymentWindow = showWindow("AddPaymentDialog.fxml",
-                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),700,500,"Добавление платежа");
+                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT, 700,500),"Добавление платежа");
 
         AddPaymentDialog paymentDialog = (AddPaymentDialog)addPaymentWindow.getController();
         Object[] addPayment = paymentDialog.getAddData();
         if(addPayment != null) {
             if(Controller.getInstance().comparePayments(addPayment)){
                 Controller.getInstance().addPayment(addPayment);
-                composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());   /////!!!!!!
+                composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
             }else {
                 ButtonType result = Utils.MessageBox( "Предупреждение", "Добавление невозможно!","Запись с такими данными уже существует.",
                         Alert.AlertType.WARNING, null);
@@ -318,7 +301,7 @@ public class MainWindow extends GUIController {
                 Alert.AlertType.CONFIRMATION, null);
         if(result == ButtonType.OK) {
             Controller.getInstance().deleteCurrentPayment();
-            composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());  ////!!!!!
+            composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
         }
         deleteButton.setDisable(true);
         editButton.setDisable(true);
@@ -331,16 +314,16 @@ public class MainWindow extends GUIController {
 
 
         GUIWindow addPaymentWindow = showWindow("AddPaymentDialog.fxml",
-                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),700,500,"Редактирование платежа");
+                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT,700,500),"Редактирование платежа");
         AddPaymentDialog paymentDialog = (AddPaymentDialog)addPaymentWindow.getController();
         Object[] addPayment = paymentDialog.getAddData();
         if(addPayment != null){
             if(Controller.getInstance().compareEditPaymentPKValues(prevPaymentValues, addPayment)){
                 Controller.getInstance().editCurrentPayment(addPayment);
-                composePaymentsTable(currentPage.getOffset(), currentPage.getLimit()); /////!!!!
+                composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
             }else if(Controller.getInstance().comparePayments(addPayment)){
                 Controller.getInstance().editCurrentPayment(addPayment);
-                composePaymentsTable(currentPage.getOffset(), currentPage.getLimit()); ///!!!!!
+                composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
             }else{
                 ButtonType result = Utils.MessageBox( "Предупреждение", "Изменение невозможно!","Запись с такими данными уже существует.",
                         Alert.AlertType.WARNING, null);
@@ -421,6 +404,6 @@ public class MainWindow extends GUIController {
 
     public void onAbout() throws IOException {
         GUIWindow aboutWindow = showWindow("About.fxml",
-                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),450,500,"О программе ");
+                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT,450,500),"О программе ");
     }
 }

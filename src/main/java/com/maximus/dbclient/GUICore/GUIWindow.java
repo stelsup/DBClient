@@ -1,9 +1,8 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.GUICore;
 
 import javafx.fxml.FXMLLoader;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+
 
 public class GUIWindow {
     private Stage stage;

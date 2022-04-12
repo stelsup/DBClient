@@ -1,7 +1,10 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.GUIControllers;
 
-import com.maximus.dbclient.DB.DBController;
-import javafx.application.Platform;
+import com.maximus.dbclient.Controller;
+import com.maximus.dbclient.GUICore.GUIController;
+import com.maximus.dbclient.GUICore.GUIParam;
+import com.maximus.dbclient.GUICore.GUIWindow;
+import com.maximus.dbclient.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -9,17 +12,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.security.MessageDigest;
+
 
 import static com.maximus.dbclient.Utils.showWindow;
 
 
-public class LoginDialog extends GUIController{
+public class LoginDialog extends GUIController {
     //debug
     public boolean DEBUG = true;
     //debug
@@ -44,12 +44,11 @@ public class LoginDialog extends GUIController{
 
     public void onShow() {
         Stage thisStage = ((Stage) super.scene.getWindow());
-        //((Stage) super.scene.getWindow()).initStyle(StageStyle.UNIFIED);
         thisStage.setMaxHeight(270);
         thisStage.setMaxWidth(350);
 
-       Image user = new Image("file://" + Utils.getImagesPath() + "user_pluse.png");
-       Image pass = new Image("file://" + Utils.getImagesPath() + "pass_green.png");
+       Image user = new Image(Utils.getImagesPath() + "user_pluse.png");
+       Image pass = new Image(Utils.getImagesPath() + "pass_green.png");
 
        imgUser.setImage(user);
        imgPass.setImage(pass);
@@ -67,7 +66,6 @@ public class LoginDialog extends GUIController{
     private void btnOKClick(ActionEvent event) {
 
         strCredentials[0] = txtName.getText();
-        //strCredentials[1] = txtPass.getText();
         strCredentials[1] = Utils.passToHash(txtPass.getText());
 
         if (checkCredentials()) {
@@ -93,9 +91,8 @@ public class LoginDialog extends GUIController{
     @FXML
     private void lnkRegisterClick() throws IOException {
         GUIWindow registrationWindow = showWindow("RegistrationDialog.fxml",
-                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),430,500,"Регистрация");
+                new GUIParam(Modality.APPLICATION_MODAL, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT,430,500),"Регистрация");
         RegistrationDialog regDialog = (RegistrationDialog)registrationWindow.getController();
-
 
         Object[] regData = regDialog.getAddData();
         if(regData != null)
@@ -122,6 +119,7 @@ public class LoginDialog extends GUIController{
     private boolean checkName(String[] payers) {
 
         String userName = Utils.trimSpaces(strCredentials[0]);
+        System.out.println("Trimmed username: " + userName);
         String[] users = Arrays.copyOf(payers,payers.length);
 
         for(int i = 0; i < users.length; i++) {

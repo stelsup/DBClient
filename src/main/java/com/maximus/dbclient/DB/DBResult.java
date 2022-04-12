@@ -8,10 +8,11 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class DBResult {
-    private List<Map<String, String>> results = new ArrayList<Map<String, String>>();
+
+    private List<Map<String, String>> results = new ArrayList<>();
     private int numColumns;// кол-во столбцов
     private String[] columnTypes;
-    private int lastOffset;  // возможно не нужное поле на этом уровне реализации
+
 
     public DBResult(ResultSet rs) {
         try {
@@ -31,9 +32,8 @@ public class DBResult {
                     }
                     results.add(row);
                 }
-                lastOffset = results.size();
+                rs.close();
             }
-            rs.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -41,10 +41,6 @@ public class DBResult {
 
     public int getCountColumns () {
         return numColumns;
-    }
-
-    public int getLastOffset () {
-        return lastOffset;
     }
 
     public int getCountRows () {
@@ -66,8 +62,7 @@ public class DBResult {
     }
 
     public Object[] getValues (int row ) {
-        Object[] objArray = results.get(row).values().toArray();
-        return objArray;
+        return results.get(row).values().toArray();
     }
 
     public Object[] getValues (String columnName) {

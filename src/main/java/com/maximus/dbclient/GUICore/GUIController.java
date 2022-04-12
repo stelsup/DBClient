@@ -1,4 +1,4 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.GUICore;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;

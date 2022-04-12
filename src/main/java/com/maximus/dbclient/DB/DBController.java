@@ -34,14 +34,15 @@ public class DBController {
         connect();
     }
 
+    public enum execType {
+        GET,
+        SEND
+    }
+
     private boolean loadProperties(){
         FileInputStream fileIn;
         propConnection = new Properties();
         String path = Utils.getEtcPath()+ propsFileName;
-        //dbg
-        Utils.MessageBox( "Ошибка", "Ошибка","Конфигурационный файл 'connection.properties' загружается из '" + path + "'.....",
-                Alert.AlertType.WARNING, null);
-        //dbg
 
         try{
             fileIn = new FileInputStream(path);
@@ -73,24 +74,21 @@ public class DBController {
             System.out.println("Connected to DB.");
             return true;
         } catch (SQLException e) {
-            System.out.println("Connection to DB failed: " + e.toString());
+            System.out.println("Connection to DB failed: " + e);
             e.printStackTrace();
         }
         return false;
     }
 
-    public DBResult getFromDB (String querySQL, DBParam[] params)
-    {
+    public DBResult getFromDB (String querySQL, DBParam[] params) {
         DBResult res = null;
         DBQuery qry = new DBQuery(connection, querySQL);
         if (params != null)
             qry.setParams(params);
-        if(qry.exec(execType.GET))
-        {
+        if(qry.exec(execType.GET)) {
             res = qry.getResult();
         }
-        else
-        {
+        else {
             System.out.println(qry.getLastError());
         }
         return res;
@@ -100,13 +98,11 @@ public class DBController {
         DBQuery qry = new DBQuery(connection, querySQL);
         if (params != null)
             qry.setParams(params);
-        if(qry.exec(execType.SEND))
-        {
+        if(qry.exec(execType.SEND)) {
             System.out.println("Send to DB confirm!");
             return true;
         }
-        else
-        {
+        else {
             System.out.println(qry.getLastError());
         }
         return false;
@@ -118,16 +114,10 @@ public class DBController {
                 connection.close();
                 System.out.println("Disconnected to DB.");
             }catch (SQLException e){
-                System.out.println("Disconnection to DB failed: " + e.toString());
+                System.out.println("Disconnection to DB failed: " + e);
                 e.printStackTrace();
             }
         }
-    }
-
-
-    public enum execType {
-        GET,
-        SEND
     }
 
 }

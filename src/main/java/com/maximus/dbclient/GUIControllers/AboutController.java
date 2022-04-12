@@ -1,5 +1,7 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.GUIControllers;
 
+import com.maximus.dbclient.GUICore.GUIController;
+import com.maximus.dbclient.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,7 +27,7 @@ public class AboutController extends GUIController {
     public void onShow() {
         thisStage = (Stage) super.scene.getWindow();
         thisStage.initStyle(StageStyle.UNDECORATED);
-        generalImage.setImage(new Image("file://" + Utils.getImagesPath() + "general_secyr96.png"));
+        generalImage.setImage(new Image(Utils.getImagesPath() + "general_secyr96.png"));
         nameLabel.setFont(Font.font("Bookman Old Style", FontWeight.BOLD, 17.0));
     }
 

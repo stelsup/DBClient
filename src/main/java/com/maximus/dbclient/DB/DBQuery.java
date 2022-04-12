@@ -5,11 +5,12 @@ import java.sql.*;
 
 public class DBQuery {
 
+    private final Connection connection;
+    private final String querySQL;
     private DBResult result;
     private String lastError;
-    private Connection connection;
     private DBParam[] params;
-    private String querySQL;
+
 
     public DBQuery(Connection con, String querySQL) {
         this.connection = con;
@@ -28,24 +29,32 @@ public class DBQuery {
         return lastError;
     }
 
-    public boolean exec(DBController.execType type) {
-        PreparedStatement st = null;
+    public boolean exec (DBController.execType type) {
+        PreparedStatement st ;
         try {
             st = connection.prepareStatement(querySQL);
 
             if (params != null) {
                 for (int i = 0; i < params.length; i++){
-                    if(params[i].getType() == DBValueType.DB_CHARACTER)
-                        st.setString(i+1, params[i].toString());
-                    else if(params[i].getType() == DBValueType.DB_INT)
-                        st.setInt(i+1, params[i].toInt());
-                    else if(params[i].getType() == DBValueType.DB_DOUBLE)
-                        st.setDouble(i+1, params[i].toDouble());
-                    else if(params[i].getType() == DBValueType.DB_BOOLEAN)
-                        st.setBoolean(i+1, params[i].toBoolean());
-                    else if(params[i].getType() == DBValueType.DB_DATE)
-                        st.setDate(i+1, Date.valueOf(params[i].toDate()));
 
+                    switch(params[i].getType()){
+
+                        case DB_CHARACTER :
+                            st.setString(i+1, params[i].toString());
+                            break;
+                        case DB_INT :
+                            st.setInt(i+1, params[i].toInt());
+                            break;
+                        case DB_DOUBLE :
+                            st.setDouble(i+1, params[i].toDouble());
+                            break;
+                        case DB_BOOLEAN :
+                            st.setBoolean(i+1, params[i].toBoolean());
+                            break;
+                        case DB_DATE :
+                            st.setDate(i+1, Date.valueOf(params[i].toDate()));
+
+                    }
                 }
             }
 
@@ -60,10 +69,10 @@ public class DBQuery {
                 case SEND -> st.executeUpdate();
             }
             st.close();
-
             return true;
+
         }catch (SQLException ex ) {
-            lastError = "SQL query exception: " + ex.toString();
+            lastError = "SQL query exception: " + ex;
             System.out.println(lastError);
             ex.printStackTrace();
         }

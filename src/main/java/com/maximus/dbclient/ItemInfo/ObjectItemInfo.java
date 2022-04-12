@@ -1,15 +1,11 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.ItemInfo;
 
-/*
-Описание "объекта платежа" (дом/гараж)
- */
+
 public class ObjectItemInfo implements GroupItemInfo{
     private String name = "Объект платежа";
     private String type = "Тип";
     private String typeView = "Тип объекта: ";
     private String adressView = "Адрес: ";
-    private boolean visible = true;
-    private boolean enabled = true;
 
     public ObjectItemInfo(String name, String type, String adress){
         this.name = name;
@@ -31,18 +27,4 @@ public class ObjectItemInfo implements GroupItemInfo{
         return this.name;
     }
 
-    @Override
-    public String getSQLQuery() {
-        return null;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
-
-    @Override
-    public boolean isVisible() {
-        return this.visible;
-    }
 }

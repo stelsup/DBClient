@@ -1,5 +1,8 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.GUIControllers;
 
+import com.maximus.dbclient.Controller;
+import com.maximus.dbclient.GUICore.GUIController;
+import com.maximus.dbclient.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,8 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.util.converter.IntegerStringConverter;
-
 import java.time.LocalDate;
 import java.util.function.UnaryOperator;
 
@@ -161,7 +162,6 @@ public class AddPaymentDialog  extends GUIController {
                 dataFields[index] = new Spinner<String>(confirm);
                 Spinner<String> spinS = (Spinner<String>)dataFields[index];
                 spinS.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
-                //spinS.getValueFactory().setValue(changeData[index]);
                 break;
             case "smallint" :
                 dataFields[index] = new Spinner<Integer>(1,12,1);
@@ -239,10 +239,6 @@ public class AddPaymentDialog  extends GUIController {
     public static void setEditMode(boolean value){
         editMode = value;
     }
-
-
-
-
 
     public Object[] getAddData () {return this.addData;}
 

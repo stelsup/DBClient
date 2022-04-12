@@ -1,4 +1,4 @@
-package com.maximus.dbclient;
+package com.maximus.dbclient.ItemInfo;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -29,8 +29,7 @@ public class PaymentsItemInfo implements GroupItemInfo{
     private StringProperty str20;
 
     public PaymentsItemInfo (Map<String, String> row) {
-        //this.columnNames = row.keySet().toArray(new String[0]);
-        //this.values = row.values().toArray(new String[0]);
+
         String[] columnNames = row.keySet().toArray(new String[0]);
         String[] strValuesArray = row.values().toArray(new String[0]);
         for(int idx = 0; idx < strValuesArray.length; idx++) {
@@ -81,53 +80,10 @@ public class PaymentsItemInfo implements GroupItemInfo{
         return new SimpleStringProperty("");
     }
 
-//    public String getString(int idx) {
-//        if(idx == 0) return str1.getValue();
-//        if(idx == 1) return str2;
-//        if(idx == 2) return str3;
-//        if(idx == 3) return str4;
-//        if(idx == 4) return str5;
-//        if(idx == 5) return str6;
-//        if(idx == 6) return str7;
-//        if(idx == 7) return str8;
-//        if(idx == 8) return str9;
-//        if(idx == 9) return str10;
-//        if(idx == 10) return str11;
-//        if(idx == 11) return str12;
-//        if(idx == 12) return str13;
-//        if(idx == 13) return str14;
-//        if(idx == 14) return str15;
-//        if(idx == 15) return str16;
-//        if(idx == 16) return str17;
-//        if(idx == 17) return str18;
-//        if(idx == 18) return str19;
-//        if(idx == 19) return str20;
-//        return new SimpleStringProperty("");
-//    }
-
-
-//    @Override
-//    public String toString() {
-//
-//    }
 
     @Override
     public String getName() {
         return null;
     }
 
-    @Override
-    public String getSQLQuery() {
-        return null;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
-    @Override
-    public boolean isVisible() {
-        return false;
-    }
 }

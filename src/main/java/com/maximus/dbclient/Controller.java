@@ -1,11 +1,9 @@
 package com.maximus.dbclient;
 
 import com.maximus.dbclient.DB.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
-
+import com.maximus.dbclient.ItemInfo.CategoriesItemInfo;
+import com.maximus.dbclient.ItemInfo.ObjectItemInfo;
+import com.maximus.dbclient.ItemInfo.PaymentsItemInfo;
 
 import java.util.*;
 
@@ -31,8 +29,7 @@ public class Controller {
         ;//
     }
 
-    public static Controller getInstance()
-    {
+    public static Controller getInstance() {
         if (single_instance == null)
             single_instance = new Controller();
         return single_instance;
@@ -66,8 +63,7 @@ public class Controller {
         querySQL = BuilderSQL.templateSELECT("fullname", "public.payer", "fullname");
         DBResult result = DBController.getInstance().getFromDB(querySQL, null);
         Object[] values = result.getValues("fullname");
-        String[] payers = Arrays.copyOf(values, values.length, String[].class);
-        return payers;
+        return Arrays.copyOf(values, values.length, String[].class);
     }
 
     public String getPassword(String payer) {
@@ -76,8 +72,7 @@ public class Controller {
                 "fullname = ? ","password_payer");
         DBParam[] param = Utils.addDBParams(payer);
         DBResult result = DBController.getInstance().getFromDB(querySQL, param);
-        String password = String.valueOf(result.getValue(0,"password_payer"));
-        return password;
+        return String.valueOf(result.getValue(0,"password_payer"));
     }
 
     public ArrayList<ObjectItemInfo> getObjects() {
@@ -88,7 +83,7 @@ public class Controller {
 
         if (res == null) return null;
 
-        ArrayList<ObjectItemInfo> result = new ArrayList<ObjectItemInfo>();
+        ArrayList<ObjectItemInfo> result = new ArrayList<>();
         Object[] objsName = res.getValues("objects_nameid");
         Object[] objsType = res.getValues("objects_type");
         Object[] objsAdress = res.getValues("objects_adress");
@@ -132,8 +127,8 @@ public class Controller {
 
         ArrayList<PaymentsItemInfo> resultRows = new ArrayList<>();
 
-        this.countColumns = res.getCountColumns();
         Map<String, String> row = res.getRow(0);
+        this.countColumns = res.getCountColumns();
         this.columnNames = row.keySet().toArray(new String[0]);
         this.columnTypes = res.getColumnTypes();
 
@@ -141,13 +136,12 @@ public class Controller {
             resultRows.add( new PaymentsItemInfo(res.getRow(i)));
         }
 
-
         return resultRows;
 
     }
 
     public ArrayList<PaymentsItemInfo> searchPayment(String searchStr) {
-        String strCondition = "";
+        String strCondition = "obj_element = '" + currentObjectName + "' AND (";
         for(int colIdx = 0; colIdx < columnNames.length; colIdx++) {
             String colName = columnNames[colIdx];
 
@@ -166,14 +160,14 @@ public class Controller {
                     break;
                 default:
                     strCondition += "LOWER(" + colName + ") LIKE LOWER('%" + searchStr + "%') OR ";
-                   break;
             }
         }
         // откусим OR от конца
         strCondition = strCondition.substring(0, strCondition.length()-3);
+        strCondition += ")";
 
         querySQL = BuilderSQL.templateSELECT("*", currentCategory,
-                strCondition, 50);
+                 strCondition, 50);
 
         DBResult res = DBController.getInstance().getFromDB(querySQL, null);
 
@@ -219,6 +213,7 @@ public class Controller {
         DBResult res = DBController.getInstance().getFromDB(querySQL, param);
         Object[] obj1  = res.getValues("column_name");
         Object[] obj2  = res.getValues("data_type");
+
         this.genTableColNames = Arrays.copyOf(obj1, obj1.length, String[].class);
         this.genTableColTypes = Arrays.copyOf(obj2, obj2.length, String[].class);
 
@@ -236,7 +231,7 @@ public class Controller {
         querySQL = BuilderSQL.templateINSERT("public.payer", data.length);
         DBParam[] param = Utils.addDBParams(data);
         boolean res = DBController.getInstance().setToDB(querySQL,param);
-        // ToDo: add checks
+
     }
 
     public void  deleteCurrentPayment(){
@@ -279,15 +274,16 @@ public class Controller {
         ArrayList<Object> checkObj = new ArrayList<>();
         String condition1 ="";
 
-        for(int i = 0; i < PKColumns.length; i++){
-            for(int k = 0; k < genTableColNames.length; k++){
-                if(PKColumns[i].equals(genTableColNames[k])){
+        for (String pkColumn : PKColumns) {
+            for (int k = 0; k < genTableColNames.length; k++) {
+                if (pkColumn.equals(genTableColNames[k])) {
                     condition1 += genTableColNames[k] + " = ? AND ";
                     checkObj.add(obj[k]);
                 }
             }
         }
         condition1 = condition1.substring(0, condition1.length() -4 );
+
         querySQL = BuilderSQL.templateSELECT("*",
                 generalCatTable, condition1, 50);
         DBParam[] param = Utils.addDBParams(checkObj.toArray());
@@ -300,9 +296,9 @@ public class Controller {
         String[] PKColumns = Controller.getInstance().getPKColumns();
         ArrayList<Boolean> compares = new ArrayList<>();
 
-        for(int i = 0; i < PKColumns.length; i++){
-            for(int k = 0; k < genTableColNames.length; k++){
-                if(PKColumns[i].equals(genTableColNames[k])){
+        for (String pkColumn : PKColumns) {
+            for (int k = 0; k < genTableColNames.length; k++) {
+                if (pkColumn.equals(genTableColNames[k])) {
                     String prevValue = prevValues[k].toString();
                     String newValue = newValues[k].toString();
                     compares.add(prevValue.equals(newValue));
@@ -316,8 +312,6 @@ public class Controller {
 
         return true;
     }
-
-
 
     public String[] getPKColumns() {
         String condition = "table_name = '" + generalCatTable + "' AND constraint_name = '" + generalCatTable + "_pkey'";
@@ -345,6 +339,4 @@ public class Controller {
         resNames = Arrays.copyOfRange(resFull, 1, resFull.length -1);
         return resNames;
     }
-
-
 }

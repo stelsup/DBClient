@@ -1,14 +1,15 @@
 package com.maximus.dbclient;
 
 import com.maximus.dbclient.DB.DBController;
-import com.maximus.dbclient.DB.DBResult;
+import com.maximus.dbclient.GUIControllers.LoginDialog;
+import com.maximus.dbclient.GUICore.GUIParam;
+import com.maximus.dbclient.GUICore.GUIWindow;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import static com.maximus.dbclient.Utils.showWindow;
 
@@ -27,22 +28,16 @@ public class ApplicationMain extends javafx.application.Application {
         dbController = DBController.getInstance();
         controller = Controller.getInstance();
 
-
         GUIWindow wndLoginDialog = showWindow("LoginDialog.fxml",
-                    new GUIParam(Modality.NONE, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT),280,350,"Авторизация пользователя");
+                    new GUIParam(Modality.NONE, null, GUIParam.ShowType.SHOWTYPE_SHOWWAIT,280,350),"Авторизация пользователя");
 
         LoginDialog loginDialog = (LoginDialog)wndLoginDialog.getController();
         if(loginDialog.getBtnResult() == ButtonType.CANCEL)
             return;
 
         GUIWindow wndMain = showWindow("MainWindow.fxml",
-                    new GUIParam(Modality.NONE, null, GUIParam.ShowType.SHOWTYPE_SHOWNORMAL),750,1062,"Система платежей [ "
+                    new GUIParam(Modality.NONE, null, GUIParam.ShowType.SHOWTYPE_SHOWNORMAL,750,1062),"Система платежей [ "
                         + Controller.getInstance().getUserName() + " ]");
-
-        MainWindow mainWindow = (MainWindow)wndMain.getController();
-
-
-
     }
 
     @Override
@@ -53,6 +48,7 @@ public class ApplicationMain extends javafx.application.Application {
     }
 
     public static void main(String[] args) {
+    //public static void startGUI(String[] args) {
 
        launch();
     }

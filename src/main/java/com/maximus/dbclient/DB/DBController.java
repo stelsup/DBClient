@@ -76,11 +76,14 @@ public class DBController {
         } catch (SQLException e) {
             System.out.println("Connection to DB failed: " + e);
             e.printStackTrace();
+            Utils.MessageBox( "Ошибка", "Нет соединения","Отсутствует подключение к базе данных: " + e,
+                    Alert.AlertType.WARNING, null);
         }
         return false;
     }
 
     public DBResult getFromDB (String querySQL, DBParam[] params) {
+        checkConnection();
         DBResult res = null;
         DBQuery qry = new DBQuery(connection, querySQL);
         if (params != null)
@@ -95,6 +98,7 @@ public class DBController {
     }
 
     public boolean setToDB (String querySQL, DBParam[] params) {
+        checkConnection();
         DBQuery qry = new DBQuery(connection, querySQL);
         if (params != null)
             qry.setParams(params);
@@ -106,6 +110,16 @@ public class DBController {
             System.out.println(qry.getLastError());
         }
         return false;
+    }
+
+    public void checkConnection() {
+        try {
+            if(connection == null || !connection.isValid(40)){
+                this.connect();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void disconnect() {

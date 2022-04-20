@@ -7,8 +7,6 @@ import com.maximus.dbclient.GUICore.GUIWindow;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.File;
 import java.io.IOException;
 
 import static com.maximus.dbclient.Utils.showWindow;

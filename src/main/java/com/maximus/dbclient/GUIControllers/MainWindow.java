@@ -56,7 +56,12 @@ public class MainWindow extends GUIController {
     private Button searchBtn;
     @FXML
     private Button refreshBtn;
-
+    @FXML
+    private MenuItem subMenuEditAdd;
+    @FXML
+    private MenuItem subMenuEditDelete;
+    @FXML
+    private MenuItem subMenuEditEdit;
 
     private Stage thisStage;
     private PageArea currentPage;
@@ -82,8 +87,11 @@ public class MainWindow extends GUIController {
         tableviewPayments.setEditable(false);
         areaPaymentDetails.setEditable(false);
         addButton.setDisable(true);
+        subMenuEditAdd.setDisable(true);
         deleteButton.setDisable(true);
+        subMenuEditDelete.setDisable(true);
         editButton.setDisable(true);
+        subMenuEditEdit.setDisable(true);
         searchField.setDisable(true);
         searchBtn.setDisable(true);
         btnPageLeft.setDisable(true);
@@ -109,8 +117,11 @@ public class MainWindow extends GUIController {
     public void onObjectSelected(String currentObj)
     {
         addButton.setDisable(true);
+        subMenuEditAdd.setDisable(true);
         deleteButton.setDisable(true);
+        subMenuEditDelete.setDisable(true);
         editButton.setDisable(true);
+        subMenuEditEdit.setDisable(true);
         searchField.setDisable(true);
         searchBtn.setDisable(true);
         refreshBtn.setDisable(true);
@@ -123,8 +134,11 @@ public class MainWindow extends GUIController {
     public void onCategorySelected(String currentCat)
     {
         deleteButton.setDisable(true);
+        subMenuEditDelete.setDisable(true);
         editButton.setDisable(true);
+        subMenuEditEdit.setDisable(true);
         addButton.setDisable(false);
+        subMenuEditAdd.setDisable(false);
         searchField.setDisable(false);
         searchBtn.setDisable(false);
         refreshBtn.setDisable(false);
@@ -152,7 +166,9 @@ public class MainWindow extends GUIController {
     public void onPaymentSelected()
     {
         editButton.setDisable(false);
+        subMenuEditEdit.setDisable(false);
         deleteButton.setDisable(false);
+        subMenuEditDelete.setDisable(false);
 
         ObservableList selectedItems = tableviewPayments.getSelectionModel().getSelectedItems();
         if(selectedItems.size() > 0) {

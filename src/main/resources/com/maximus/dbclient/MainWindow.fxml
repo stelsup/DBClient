@@ -27,9 +27,9 @@
           </Menu>
           <Menu fx:id="menuEdit" mnemonicParsing="false" text="Редактирование">
             <items>
-              <MenuItem mnemonicParsing="false" text="Добавить платеж" />
-                  <MenuItem mnemonicParsing="false" text="Удалить платеж" />
-                  <MenuItem mnemonicParsing="false" text="Изменить платеж" />
+              <MenuItem fx:id="subMenuEditAdd" mnemonicParsing="false" onAction="#addPayment" text="Добавить платеж" />
+                  <MenuItem fx:id="subMenuEditDelete" mnemonicParsing="false" onAction="#deletePayment" text="Удалить платеж" />
+                  <MenuItem fx:id="subMenuEditEdit" mnemonicParsing="false" onAction="#editPayment" text="Изменить платеж" />
             </items>
           </Menu>
           <Menu fx:id="menuHelp" mnemonicParsing="false" text="Справка">

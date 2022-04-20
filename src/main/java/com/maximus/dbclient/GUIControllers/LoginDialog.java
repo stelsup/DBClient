@@ -95,9 +95,12 @@ public class LoginDialog extends GUIController {
         RegistrationDialog regDialog = (RegistrationDialog)registrationWindow.getController();
 
         Object[] regData = regDialog.getAddData();
-        if(regData != null)
-        {
+        if (regData == null) return;
+        if(!checkName(Controller.getInstance().getPayersList(), String.valueOf(regData[0]))) {
             Controller.getInstance().addUser(regData);
+        } else {
+            Utils.MessageBox( "Ошибка", "Регистрация невозможна!","Пользователь с такими инициалами уже существует!",
+                    Alert.AlertType.WARNING, null);
         }
     }
 
@@ -108,7 +111,7 @@ public class LoginDialog extends GUIController {
 
     private boolean checkCredentials() {
 
-        if (!checkName(Controller.getInstance().getPayersList())){
+        if (!checkName(Controller.getInstance().getPayersList(), strCredentials[0])){
             return false;
         }
         return checkPass(Controller.getInstance().getPassword(userName));
@@ -116,10 +119,9 @@ public class LoginDialog extends GUIController {
     }
 
 
-    private boolean checkName(String[] payers) {
+    private boolean checkName(String[] payers, String name) {
 
-        String userName = Utils.trimSpaces(strCredentials[0]);
-        System.out.println("Trimmed username: " + userName);
+        String userName = Utils.trimSpaces(name);
         String[] users = Arrays.copyOf(payers,payers.length);
 
         for(int i = 0; i < users.length; i++) {

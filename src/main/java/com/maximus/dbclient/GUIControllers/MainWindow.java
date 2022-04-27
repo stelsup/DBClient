@@ -301,6 +301,7 @@ public class MainWindow extends GUIController {
                 Controller.getInstance().addPayment(addPayment);
                 composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
             }else {
+                DiagnosticMessage.logging("Add payment failed: payment already exists", null, this.getClass(), DiagnosticMessage.LoggerType.WARN);
                 ButtonType result = Utils.MessageBox( "Предупреждение", "Добавление невозможно!","Запись с такими данными уже существует.",
                         Alert.AlertType.WARNING, null);
             }
@@ -341,6 +342,7 @@ public class MainWindow extends GUIController {
                 Controller.getInstance().editCurrentPayment(addPayment);
                 composePaymentsTable(currentPage.getOffset(), currentPage.getLimit());
             }else{
+                DiagnosticMessage.logging("Edit payment failed: payment already exists", null, this.getClass(), DiagnosticMessage.LoggerType.WARN);
                 ButtonType result = Utils.MessageBox( "Предупреждение", "Изменение невозможно!","Запись с такими данными уже существует.",
                         Alert.AlertType.WARNING, null);
             }

@@ -1,7 +1,7 @@
 package com.maximus.dbclient.DB;
+import com.maximus.dbclient.DiagnosticMessage;
 import com.maximus.dbclient.Utils;
 import javafx.scene.control.Alert;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -10,9 +10,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 
+
 public class DBController {
     private static DBController single_instance = null;
-
     private final String propsFileName = "connection.properties";
     private final String propsHostName = "hostname";
     private final String propsPort = "port";
@@ -56,10 +56,9 @@ public class DBController {
                 return true;
             }
         }catch(IOException ex) {
-            System.out.println("Config file 'connection.properties' not loaded properly!");
+            DiagnosticMessage.logging("Config file 'connection.properties' not loaded properly!", ex, this.getClass(), DiagnosticMessage.LoggerType.ERROR);
             Utils.MessageBox( "Ошибка", "Ошибка","Конфигурационный файл 'connection.properties' не загружен из '" + path + "'!",
                     Alert.AlertType.WARNING, null);
-            ex.printStackTrace();
         }
         return false;
     }
@@ -71,11 +70,12 @@ public class DBController {
         try {
             connection = DriverManager.getConnection(url, propConnection.getProperty(propsUserName),
                                                          propConnection.getProperty(propsPassword));
-            System.out.println("Connected to DB.");
+
+            DiagnosticMessage.logging("Connected to DB.", null, this.getClass(), DiagnosticMessage.LoggerType.INFO);
             return true;
         } catch (SQLException e) {
-            System.out.println("Connection to DB failed: " + e);
-            e.printStackTrace();
+            DiagnosticMessage.logging("Connection to DB failed: ", e, this.getClass(), DiagnosticMessage.LoggerType.ERROR);
+
             Utils.MessageBox( "Ошибка", "Нет соединения","Отсутствует подключение к базе данных: " + e,
                     Alert.AlertType.WARNING, null);
         }
@@ -103,7 +103,7 @@ public class DBController {
         if (params != null)
             qry.setParams(params);
         if(qry.exec(execType.SEND)) {
-            System.out.println("Send to DB confirm!");
+            DiagnosticMessage.logging("Send to DB confirm!", null, this.getClass(), DiagnosticMessage.LoggerType.INFO);
             return true;
         }
         else {
@@ -114,11 +114,11 @@ public class DBController {
 
     public void checkConnection() {
         try {
-            if(connection == null || !connection.isValid(40)){
+            if(connection == null || !connection.isValid(240)){
                 this.connect();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            DiagnosticMessage.logging("CheckConnection exception ", e, this.getClass(), DiagnosticMessage.LoggerType.ERROR);
         }
     }
 
@@ -126,10 +126,9 @@ public class DBController {
         if(connection != null){
             try{
                 connection.close();
-                System.out.println("Disconnected to DB.");
+                DiagnosticMessage.logging("Disconnected to DB.", null, this.getClass(), DiagnosticMessage.LoggerType.INFO);
             }catch (SQLException e){
-                System.out.println("Disconnection to DB failed: " + e);
-                e.printStackTrace();
+                DiagnosticMessage.logging("Disconnection to DB failed: ", e, this.getClass(), DiagnosticMessage.LoggerType.ERROR);
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.maximus.dbclient.GUIControllers;
 
 import com.maximus.dbclient.Controller;
+import com.maximus.dbclient.DB.DBController;
+import com.maximus.dbclient.DiagnosticMessage;
 import com.maximus.dbclient.GUICore.GUIController;
 import com.maximus.dbclient.GUICore.GUIParam;
 import com.maximus.dbclient.GUICore.GUIWindow;
@@ -20,9 +22,7 @@ import static com.maximus.dbclient.Utils.showWindow;
 
 
 public class LoginDialog extends GUIController {
-    //debug
-    public boolean DEBUG = true;
-    //debug
+
     @FXML
     private Button btnOK;
     @FXML
@@ -55,11 +55,6 @@ public class LoginDialog extends GUIController {
 
         txtName.setPromptText("Имя пользователя");
         txtPass.setPromptText("Пароль");
-
-        if(DEBUG) {
-            txtName.setText("Максимов Максим Николаевич");
-            txtPass.setText("c82dpl17");
-        }
     }
 
     @FXML
@@ -76,6 +71,7 @@ public class LoginDialog extends GUIController {
             ButtonType[] buttons = new ButtonType[2];
             buttons[0] = ButtonType.OK;
             buttons[1] = ButtonType.CANCEL;
+            DiagnosticMessage.logging("Incorrect user or password ", null, this.getClass(), DiagnosticMessage.LoggerType.WARN);
             Utils.MessageBox( "Ошибка", "Ошибка","Пользователь или пароль введены неверно!",
                     Alert.AlertType.WARNING, buttons);
         }
@@ -99,6 +95,7 @@ public class LoginDialog extends GUIController {
         if(!checkName(Controller.getInstance().getPayersList(), String.valueOf(regData[0]))) {
             Controller.getInstance().addUser(regData);
         } else {
+            DiagnosticMessage.logging("Registration failed: user already exist ", null, this.getClass(), DiagnosticMessage.LoggerType.WARN);
             Utils.MessageBox( "Ошибка", "Регистрация невозможна!","Пользователь с такими инициалами уже существует!",
                     Alert.AlertType.WARNING, null);
         }

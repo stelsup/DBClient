@@ -252,7 +252,7 @@ public class Controller {
         if(res){
             this.currentPayment = null;
         }else {
-            System.out.println("Delete from DB false");
+            DiagnosticMessage.logging("Delete from DB false ", null, this.getClass(), DiagnosticMessage.LoggerType.ERROR);
         }
     }
 

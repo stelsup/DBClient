@@ -1,5 +1,6 @@
 package com.maximus.dbclient;
 
+import com.maximus.dbclient.DB.DBController;
 import com.maximus.dbclient.DB.DBParam;
 import com.maximus.dbclient.GUICore.GUIController;
 import com.maximus.dbclient.GUICore.GUIParam;
@@ -11,7 +12,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -21,18 +21,21 @@ import java.util.Map;
 public class Utils {
 
     public static String getEtcPath() {
-        //String path = Utils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String path = System.getProperty("user.dir");
         return path + "/../etc/";
-        //return "/../etc/";
+
     }
 
     public static String getImagesPath(){
-//        String path = Utils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String path = System.getProperty("user.dir");
         return "file:" + path + "/../images/";
-        //return "/../images/";
     }
+
+//    public static void setLogPath() {
+//        System.setProperty("TalendJob.log","C:\\coucou2.log");
+//        LoggerContext ctx =(org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
+//        ctx.reconfigure();
+//    }
 
     public static String clearDBData(String input) {
 
@@ -249,10 +252,11 @@ public class Utils {
             messageDigest.update(rawPass.getBytes());
             stringHash = new String(messageDigest.digest());
         } catch (NoSuchAlgorithmException ex) {
-            //
+            DiagnosticMessage.logging("Hashing failed: ", ex, Utils.class, DiagnosticMessage.LoggerType.ERROR);
         }
         return stringHash;
     }
+
 
 }
 

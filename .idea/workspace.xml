@@ -10,18 +10,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dffe2a03-ae76-48d0-84e0-666e0f41142a" name="Changes" comment="chore: some fixes">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_16_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_core_2_16_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_slf4j_impl_2_14_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DiagnosticMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/DBClient_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/DBClient_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etc/addPayment.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/etc/connection.properties" beforeDir="false" afterPath="$PROJECT_DIR$/etc/connection.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etc/loadCategories.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/etc/loadInfoPayment.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/etc/loadObjects.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/etc/loadPayments.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DBClient.iml" beforeDir="false" afterPath="$PROJECT_DIR$/DBClient.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBParam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/GUIControllers/AddPaymentDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/GUIControllers/AddPaymentDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/GUIControllers/LoginDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/GUIControllers/LoginDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/GUIControllers/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/GUIControllers/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/MainWindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/maximus/dbclient/MainWindow.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/GUIControllers/RegistrationDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/GUIControllers/RegistrationDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maximus/dbclient/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,22 +95,25 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
+    <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="XML" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/javafx.web.jar" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.33022532" />
-    <property name="settings.editor.selected.configurable" value="Shelf.Project.Settings" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Jackson\Documents\Programs\DBClient\src\main\resources\com\maximus\dbclient" />
       <recent name="C:\Users\Jackson\Documents\Programs\DBClient\src\main\java\com\maximus\dbclient" />
+      <recent name="C:\Users\Jackson\Documents\Programs\DBClient\src\main\resources" />
       <recent name="C:\Users\Jackson\Documents\Programs\DBClient\src\main\resources\com\example\dbclient" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.maximus" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ApplicationMain">
+  <component name="RunManager" selected="Maven.DBClient [site]">
     <configuration name="ApplicationMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/jdk-18" />
       <option name="MAIN_CLASS_NAME" value="com.maximus.dbclient.ApplicationMain" />
@@ -125,12 +137,39 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DBClient [site]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="site" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.ApplicationMain" />
       <item itemvalue="JUnit.All in DBClient" />
+      <item itemvalue="Maven.DBClient [site]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Maven.DBClient [site]" />
         <item itemvalue="Application.ApplicationMain" />
         <item itemvalue="JUnit.All in DBClient" />
       </list>
@@ -320,7 +359,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649801178583</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="chore: some fixes">
+      <created>1650412984583</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1650412984583</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -367,20 +413,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="chore: some fixes" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBController.java</url>
-          <line>86</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/maximus/dbclient/DB/DBQuery.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="st" />

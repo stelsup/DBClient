@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="DBAppender" fileName="${sys:user.dir}/../logs/DBlog.log" immediateFlush="true" append="false">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+        <File name="GUIAppender" fileName="${sys:user.dir}/../logs/GUIlog.log" immediateFlush="true" append="false">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+        <File name="GeneralAppender" fileName="${sys:user.dir}/../logs/Generallog.log" immediateFlush="true" append="false">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="GeneralAppender"/>
+        </Root>
+        <Logger name="com.maximus.dbclient.DB" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="DBAppender" />
+        </Logger>
+        <Logger name="com.maximus.dbclient.GUIControllers" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="GUIAppender" />
+        </Logger>
+    </Loggers>
+</Configuration>

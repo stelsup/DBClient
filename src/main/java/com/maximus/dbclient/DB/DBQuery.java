@@ -1,5 +1,7 @@
 package com.maximus.dbclient.DB;
 
+import com.maximus.dbclient.DiagnosticMessage;
+
 import java.sql.*;
 
 
@@ -72,9 +74,8 @@ public class DBQuery {
             return true;
 
         }catch (SQLException ex ) {
-            lastError = "SQL query exception: " + ex;
-            System.out.println(lastError);
-            ex.printStackTrace();
+            lastError = "SQL query exception: ";
+            DiagnosticMessage.logging(lastError, ex, this.getClass(), DiagnosticMessage.LoggerType.ERROR);
         }
         return false;
     }

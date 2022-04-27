@@ -1,6 +1,7 @@
 package com.maximus.dbclient.GUIControllers;
 
 import com.maximus.dbclient.Controller;
+import com.maximus.dbclient.DiagnosticMessage;
 import com.maximus.dbclient.GUICore.GUIController;
 import com.maximus.dbclient.Utils;
 import javafx.collections.FXCollections;
@@ -204,9 +205,8 @@ public class AddPaymentDialog  extends GUIController {
                             data[i] = null;
                         }
                     } catch (NumberFormatException e) {
-                        numFormCheckAddData(i);
+                        numFormCheckAddData(i,e);
                         data[i] = null;
-                        e.printStackTrace();
                         return;
                     }
                 }else {
@@ -247,6 +247,7 @@ public class AddPaymentDialog  extends GUIController {
 
         for(int i = 0; i < addData.length; i++){
             if(addData[i] == null){
+                DiagnosticMessage.logging(friendlyColumnNames[i] + " field value is null ", null, this.getClass(), DiagnosticMessage.LoggerType.WARN);
                 ButtonType result = Utils.MessageBox( "Внимание", "Некоторые поля не заполнены!","Заполните поле: " + friendlyColumnNames[i],
                         Alert.AlertType.WARNING, null);
                 return false;
@@ -255,7 +256,9 @@ public class AddPaymentDialog  extends GUIController {
         return true;
     }
 
-    public void numFormCheckAddData (int indexField) {
+    public void numFormCheckAddData (int indexField, NumberFormatException ex) {
+
+        DiagnosticMessage.logging("Incorrect field value ", ex, this.getClass(), DiagnosticMessage.LoggerType.WARN);
 
         ButtonType result = Utils.MessageBox( "Внимание", "Переполнение значения!","Некорректное значение в поле: " + friendlyColumnNames[indexField],
                 Alert.AlertType.WARNING, null);
@@ -263,6 +266,7 @@ public class AddPaymentDialog  extends GUIController {
     }
 
     public void textFormCheckAddData (int indexField) {
+        DiagnosticMessage.logging(friendlyColumnNames[indexField] + " overflow value ", null, this.getClass(), DiagnosticMessage.LoggerType.WARN);
         ButtonType result = Utils.MessageBox( "Внимание", "Переполнение значения!","Введите значение не более "
                         + String.valueOf(iMaxStringFieldLen) + " символов в поле: " + friendlyColumnNames[indexField],
                 Alert.AlertType.WARNING, null);

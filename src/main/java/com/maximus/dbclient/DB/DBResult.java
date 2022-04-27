@@ -1,5 +1,6 @@
 package com.maximus.dbclient.DB;
 
+import com.maximus.dbclient.DiagnosticMessage;
 import com.maximus.dbclient.Utils;
 
 import java.sql.ResultSet;
@@ -35,7 +36,7 @@ public class DBResult {
                 rs.close();
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            DiagnosticMessage.logging("DBResult exception ", ex, this.getClass(), DiagnosticMessage.LoggerType.ERROR);
         }
     }
 

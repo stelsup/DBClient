@@ -9,6 +9,7 @@ module com.maximus.dbclient {
     //requires org.kordamp.bootstrapfx.core;
     //requires eu.hansolo.tilesfx;
     requires java.sql;
+    requires slf4j.api;
     //requires com.gluonhq.charm.glisten;
 
 
